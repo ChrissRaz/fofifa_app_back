@@ -1,0 +1,21 @@
+{
+  "name": "fofifa_project_back",
+  "version": "0.0.1",
+  "description": "ce projet est le backend du projet fofifa",
+  "main": "index.js",
+  "scripts": {
+    "test": "start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\u0016https://github.com/ChrissRaz/fofifa_app_back.git"
+  },
+  "author": "RAZANAMIHOATRA Jean Christian",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.5.8",
+    "mysql": "^2.17.1"
+  }
+}
