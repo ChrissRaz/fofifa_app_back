@@ -4,7 +4,7 @@ const graphqlHTTP = require("express-graphql");
 
 const server = express();
 
-const Scema = require("./Scemas/Scemas");
+const Scema = require("./scemas/schemas");
 
 
 server.use("/api", graphqlHTTP({

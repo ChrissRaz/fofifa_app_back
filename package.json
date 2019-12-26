@@ -4,11 +4,11 @@
   "description": "ce projet est le backend du projet fofifa",
   "main": "index.js",
   "scripts": {
-    "test": "start"
+    "test": "nodemon index"
   },
   "repository": {
     "type": "git",
-    "url": "\u0016https://github.com/ChrissRaz/fofifa_app_back.git"
+    "url": "https://github.com/ChrissRaz/fofifa_app_back.git"
   },
   "author": "RAZANAMIHOATRA Jean Christian",
   "license": "ISC",
