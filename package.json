@@ -4,7 +4,7 @@
   "description": "ce projet est le backend du projet fofifa",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon index"
+    "start": "nodemon index"
   },
   "repository": {
     "type": "git",
@@ -13,9 +13,16 @@
   "author": "RAZANAMIHOATRA Jean Christian",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
+    "gql-tag": "^1.0.1",
     "graphql": "^14.5.8",
-    "mysql": "^2.17.1"
+    "join-monster": "^2.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "load-json-file": "^6.2.0",
+    "mysql": "^2.17.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.3"
   }
 }
