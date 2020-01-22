@@ -6,9 +6,9 @@ module.exports =  {
         database: "fofifa"
     },
 
-    tables:{
-        user: "fofifapers",
-        descente: "descente",
-    }
+    // tables:{
+    //     user: "fofifapers",
+    //     descente: "descente",
+    // }
 };
 
