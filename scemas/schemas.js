@@ -10,7 +10,7 @@ var {
     GraphQLNonNull,
     GraphQLUnionType,
     GraphQLInputObjectType,
-} = require('graphql');
+} = require('graphql')xxx;
 
 
 
