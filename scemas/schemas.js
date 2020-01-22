@@ -14,8 +14,6 @@ var {
 
 
 
-
-
 // const mysql = require("mysql");
 
 const {mutation,descente,modularite} = require('../resolvers/mutation');
@@ -30,11 +28,23 @@ const { requestPromise } = require("../helpers/helpers");
 
 
 
-
+const ERRORTYPE = new GraphQLObjectType({
+    name: "ERRORTYPE",
+    fields: () => ({
+        error: {
+            type: GraphQLBoolean
+        },
+        description: {
+            type: GraphQLString
+        }
+    })
+}
+);
 
 const PERSONNETYPE = new GraphQLObjectType({
     name: "PERSONNETYPE",
     fields: () => ({
+        error: false,
         IdPersonne: { type: GraphQLID },
         nom: { type: GraphQLString },
         prenom: {type: GraphQLString},
@@ -171,7 +181,11 @@ const ROOTQUERY = new GraphQLObjectType({
 
             descentes:{
                 type: GraphQLList(DESCENTETYPE),
-                
+                args: {
+                    token: {
+                        type:GraphQLNonNull(GraphQLString)
+                    },
+                },
                 resolve (parent, args, context){
                     return query.descentes(parent,args);  
                 }
@@ -180,6 +194,10 @@ const ROOTQUERY = new GraphQLObjectType({
             descente:{
                 type: DESCENTETYPE,
                 args: {
+                    token: {
+                        type:GraphQLNonNull(GraphQLString)
+                    },
+
                     id: {
                         type: GraphQLID
                     }
@@ -206,6 +224,10 @@ const MUTATION = new GraphQLObjectType(
                 {
                     type: DESCENTETYPE,
                     args:{
+                        token: {
+                            type:GraphQLNonNull(GraphQLString)
+                        },
+
                         date: {
                             type:GraphQLNonNull(GraphQLString) 
                             
@@ -226,6 +248,10 @@ const MUTATION = new GraphQLObjectType(
                 {
                     type: LIEUTYPE,
                     args: {
+                        token: {
+                            type:GraphQLNonNull(GraphQLString)
+                        },
+
                         region:{
                             type:GraphQLNonNull(GraphQLString)
                         },
