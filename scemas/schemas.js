@@ -1,5 +1,5 @@
 var {
-    buildSchema ,
+    // buildSchema ,
     GraphQLObjectType,
     GraphQLString,
     GraphQLSchema,
@@ -10,153 +10,19 @@ var {
     GraphQLNonNull,
     GraphQLUnionType,
     GraphQLInputObjectType,
-} = require('graphql')xxx;
+} = require('graphql');
 
 
 
 // const mysql = require("mysql");
-
 const {mutation,descente,modularite} = require('../resolvers/mutation');
 
 
-
-// const { loadJsonFile } = require("../helpers/helpers");
-
 const query = require('../resolvers/query');
 
-const { requestPromise } = require("../helpers/helpers");
+const tps = require("./types");
+const inputs = require("./inputs");
 
-
-
-const ERRORTYPE = new GraphQLObjectType({
-    name: "ERRORTYPE",
-    fields: () => ({
-        error: {
-            type: GraphQLBoolean
-        },
-        description: {
-            type: GraphQLString
-        }
-    })
-}
-);
-
-const PERSONNETYPE = new GraphQLObjectType({
-    name: "PERSONNETYPE",
-    fields: () => ({
-        error: false,
-        IdPersonne: { type: GraphQLID },
-        nom: { type: GraphQLString },
-        prenom: {type: GraphQLString},
-        age: {type: GraphQLInt},
-    })
-}
-);
-
-const CHERCHEURTYPE = new GraphQLObjectType({
-    name: "CHERCHEURTYPE",
-    fields: () => ({
-        IdPersonne : { type: GraphQLID },
-
-    })
-}
-);
-
-const SAISISSEURTYPE = new GraphQLObjectType({
-    name: "SAISISSEURTYPE",
-    fields: () => ({
-        IdPersonne : { type: GraphQLID },
-
-    })
-}
-);
-
-const ENQUETEURTYPE = new GraphQLObjectType({
-    name: "ENQUETEURTYPE",
-    fields: () => ({
-        IdPersonne : { type: GraphQLID },
-
-    })
-}
-);
-
-var FOFIFAPERSTYPE = new GraphQLUnionType({
-    name: 'FOFIFAPERSTYPE',
-    types: [ CHERCHEURTYPE, SAISISSEURTYPE , ENQUETEURTYPE ],
-    resolveType(value) {
-      if (value instanceof CHERCHEURTYPE) {
-        return ;
-      }
-      if (value instanceof SAISISSEURTYPE) {
-        return ;
-      }
-      if (value instanceof ENQUETEURTYPE)
-      {
-        return ;
-      }
-    }
-  });
-
-
-const USERTYPE = new GraphQLObjectType({
-    name: "USERTYPE",
-    fields: () => ({
-        IdUser : { type: GraphQLID },
-        details: {type: FOFIFAPERSTYPE}
-
-    })
-}
-);
-
-const AUTHPAYLOADTYPE = new GraphQLObjectType({
-    name: "AUTHPAYLOADTYPE",
-    fields: () => ({
-        token : { 
-            type: GraphQLID, 
-        },
-        
-        user: {type: USERTYPE}
-        
-    })
-}
-);
-
-
-const DESCENTETYPE = new GraphQLObjectType({
-    name: "DESCENTETYPE",
-    fields: () => ({
-        IdDescente: { type: GraphQLID},
-        dateDescente : { type: GraphQLString },
-        description: {type: GraphQLString},
-        missions: {type: GraphQLList(MISSIONTYPE)}
-
-    })
-}
-);
-
-const MISSIONTYPE = new GraphQLObjectType({
-    name: "MISSIONTYPE",
-    fields: () => ({
-        IdMission: { type: GraphQLID},
-        commune: { type: GraphQLString},
-        fokotany: { type: GraphQLString},
-        village: { type: GraphQLString},
-        lieu: {type: LIEUTYPE},
-        
-    })
-}
-);
-
-const LIEUTYPE = new GraphQLObjectType({
-    name: "LIEUTYPE",
-    fields: () => ({
-        IdLieu: { type: GraphQLID},
-        region: { type: GraphQLString},
-        disctrict: {type: GraphQLString}
-
-    })
-}
-);
 
 
 //Types for request
@@ -165,11 +31,11 @@ const ROOTQUERY = new GraphQLObjectType({
     fields: () => (
         {
             login: {
-                type: AUTHPAYLOADTYPE,
+                type: tps.AUTHPAYLOADTYPE,
                 // type: GraphQLString,
                 args:{
-                    username: { type:  GraphQLNonNull(GraphQLString) },
-                    password: { type: GraphQLNonNull(GraphQLString) },
+                    username: { type:   GraphQLNonNull(GraphQLString) },
+                    password: { type:  GraphQLNonNull(GraphQLString) },
                     },
                 
                     resolve (parent,args,context)  {
@@ -180,10 +46,11 @@ const ROOTQUERY = new GraphQLObjectType({
             },
 
             descentes:{
-                type: GraphQLList(DESCENTETYPE),
+                type:  GraphQLList(tps.DESCENTETYPE),
+                // type: GraphQLString,
                 args: {
                     token: {
-                        type:GraphQLNonNull(GraphQLString)
+                        type:  GraphQLNonNull(GraphQLString)
                     },
                 },
                 resolve (parent, args, context){
@@ -192,10 +59,11 @@ const ROOTQUERY = new GraphQLObjectType({
             },
 
             descente:{
-                type: DESCENTETYPE,
+                type: tps.DESCENTETYPE,
+                // type: GraphQLString,
                 args: {
                     token: {
-                        type:GraphQLNonNull(GraphQLString)
+                        type:  GraphQLNonNull(GraphQLString)
                     },
 
                     id: {
@@ -220,21 +88,38 @@ const MUTATION = new GraphQLObjectType(
         fields: () => (
             {
 
+                signEqueteur: 
+                {
+                    type: tps.DESCENTETYPE,
+                    // type: GraphQLString,
+                    args:{
+                        info: {
+                            type:inputs.CHERCHEURINPUT
+                        }
+                    },
+
+                    resolve(parent,args,context)
+                    {
+                        mutation.user.addUser(parent,args,context);
+                    }
+                },
+
                 addDescente: 
                 {
-                    type: DESCENTETYPE,
+                    type: tps.DESCENTETYPE,
+                    // type: GraphQLString,
                     args:{
                         token: {
-                            type:GraphQLNonNull(GraphQLString)
+                            type:  GraphQLNonNull(GraphQLString)
                         },
 
                         date: {
-                            type:GraphQLNonNull(GraphQLString) 
+                            type:  GraphQLNonNull(GraphQLString) 
                             
                         },
 
                         description:{ 
-                            type: GraphQLNonNull(GraphQLString)
+                            type:  GraphQLNonNull(GraphQLString)
                         }
                     },
 
@@ -246,17 +131,18 @@ const MUTATION = new GraphQLObjectType(
                 },
                 addLieu:
                 {
-                    type: LIEUTYPE,
+                    type: tps.LIEUTYPE,
+                    // type: GraphQLString,
                     args: {
                         token: {
-                            type:GraphQLNonNull(GraphQLString)
+                            type:  GraphQLNonNull(GraphQLString)
                         },
 
                         region:{
-                            type:GraphQLNonNull(GraphQLString)
+                            type:  GraphQLNonNull(GraphQLString)
                         },
                         district:{
-                            type:GraphQLNonNull(GraphQLString)
+                            type:  GraphQLNonNull(GraphQLString)
                         }
                     },
                     resolve(parent,args,context)
