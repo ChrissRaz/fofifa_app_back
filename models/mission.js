@@ -2,45 +2,39 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('mission', {
-    idMission: {
+    IdMission: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true,
-      field: 'IdMission'
+      autoIncrement: true
     },
     commune: {
       type: DataTypes.STRING(75),
-      allowNull: false,
-      field: 'commune'
+      allowNull: false
     },
     fokotany: {
       type: DataTypes.STRING(75),
-      allowNull: false,
-      field: 'fokotany'
+      allowNull: false
     },
     village: {
       type: DataTypes.STRING(75),
-      allowNull: false,
-      field: 'village'
+      allowNull: false
     },
-    idDescente: {
+    IdDescente: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       references: {
         model: 'descente',
         key: 'IdDescente'
-      },
-      field: 'IdDescente'
+      }
     },
-    idMissionLieu: {
+    IdLieu: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       references: {
         model: 'lieu',
-        key: 'idMission'
-      },
-      field: 'idMission_LIEU'
+        key: 'IdLieu'
+      }
     }
   }, {
     tableName: 'mission'

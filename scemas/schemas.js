@@ -1,171 +1,31 @@
 var {
-    // buildSchema ,
-    GraphQLObjectType,
-    GraphQLString,
-    GraphQLSchema,
-    GraphQLID,
-    GraphQLInt,
-    GraphQLList,
-    GraphQLBoolean,
-    GraphQLNonNull,
-    GraphQLUnionType,
-    GraphQLInputObjectType,
+    buildSchema,
 } = require('graphql');
 
+// const { gql } = require('apollo-server-express');
+const {gql} = require('../helpers/helpers');
 
 
-// const mysql = require("mysql");
-const {mutation,descente,modularite} = require('../resolvers/mutation');
+// const gql  = require('graphql-tag');
 
-
-const query = require('../resolvers/query');
-
-const tps = require("./types");
+const types = require("./types");
 const inputs = require("./inputs");
 
 
-
-//Types for request
-const ROOTQUERY = new GraphQLObjectType({
-    name: "ROOTQUERY",
-    fields: () => (
-        {
-            login: {
-                type: tps.AUTHPAYLOADTYPE,
-                // type: GraphQLString,
-                args:{
-                    username: { type:   GraphQLNonNull(GraphQLString) },
-                    password: { type:  GraphQLNonNull(GraphQLString) },
-                    },
-                
-                    resolve (parent,args,context)  {
-
-                    return query.login(parent,args, context);
-                }
-                                    
-            },
-
-            descentes:{
-                type:  GraphQLList(tps.DESCENTETYPE),
-                // type: GraphQLString,
-                args: {
-                    token: {
-                        type:  GraphQLNonNull(GraphQLString)
-                    },
-                },
-                resolve (parent, args, context){
-                    return query.descentes(parent,args);  
-                }
-            },
-
-            descente:{
-                type: tps.DESCENTETYPE,
-                // type: GraphQLString,
-                args: {
-                    token: {
-                        type:  GraphQLNonNull(GraphQLString)
-                    },
-
-                    id: {
-                        type: GraphQLID
-                    }
-                },             
-                resolve (parent, args, context){
-
-                    return query.descente(parent,args,context);  
-                }
-            },
-
-            
-        })
-}
-);
-
-
-const MUTATION = new GraphQLObjectType(
-    {
-        name: "MUTATION",
-        fields: () => (
-            {
-
-                signEqueteur: 
-                {
-                    type: tps.DESCENTETYPE,
-                    // type: GraphQLString,
-                    args:{
-                        info: {
-                            type:inputs.CHERCHEURINPUT
-                        }
-                    },
-
-                    resolve(parent,args,context)
-                    {
-                        mutation.user.addUser(parent,args,context);
-                    }
-                },
-
-                addDescente: 
-                {
-                    type: tps.DESCENTETYPE,
-                    // type: GraphQLString,
-                    args:{
-                        token: {
-                            type:  GraphQLNonNull(GraphQLString)
-                        },
-
-                        date: {
-                            type:  GraphQLNonNull(GraphQLString) 
-                            
-                        },
-
-                        description:{ 
-                            type:  GraphQLNonNull(GraphQLString)
-                        }
-                    },
-
-                    resolve(parent,args,context)
-                    {
-                        return descente.addDescente(parent,args,context);
-                    
-                    }
-                },
-                addLieu:
-                {
-                    type: tps.LIEUTYPE,
-                    // type: GraphQLString,
-                    args: {
-                        token: {
-                            type:  GraphQLNonNull(GraphQLString)
-                        },
-
-                        region:{
-                            type:  GraphQLNonNull(GraphQLString)
-                        },
-                        district:{
-                            type:  GraphQLNonNull(GraphQLString)
-                        }
-                    },
-                    resolve(parent,args,context)
-                    {
-                        return modularite.addLieu(parent,args,context);
-                    
-                    }
-                }
-
-                
-            }
-        )
-
+module.exports.schema = buildSchema(
+  types+inputs+
+  gql` 
+    type Query {
+        login(username: String!, password: String!): AUTHPAYLOAD,
+      }
+      
+    type Mutation{
+        newUser(group: GROUP): USER,
+        addLieu(region: String!, district:String!) : LIEU
+        addDescente( dateDescente: String!, description: String!): DESCENTE,
+        addMission(commune: String, fokotany: String, village: String, IdDescente: ID, IdLieu: ID): MISSION
     }
-);
-
-// var schema = buildSchema(`
-//   type Query {
-//     hello: String
-//   }
-// `);
-
-module.exports.schema = new GraphQLSchema({
-  query: ROOTQUERY,
-  mutation: MUTATION,
-});
+  `
+ )
+  
+;

@@ -2,32 +2,27 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('personne', {
-    idPersonne: {
+    IdPersonne: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true,
-      field: 'IdPersonne'
+      autoIncrement: true
     },
     age: {
       type: DataTypes.STRING(3),
-      allowNull: false,
-      field: 'age'
+      allowNull: false
     },
     sexe: {
       type: DataTypes.INTEGER(1),
-      allowNull: false,
-      field: 'sexe'
+      allowNull: false
     },
     nom: {
       type: DataTypes.STRING(100),
-      allowNull: false,
-      field: 'nom'
+      allowNull: false
     },
     prenom: {
       type: DataTypes.STRING(150),
-      allowNull: false,
-      field: 'prenom'
+      allowNull: false
     }
   }, {
     tableName: 'personne'

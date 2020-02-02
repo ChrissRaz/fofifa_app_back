@@ -1,154 +1,74 @@
-var {
-    // buildSchema ,
-    GraphQLObjectType,
-    GraphQLString,
-    GraphQLSchema,
-    GraphQLID,
-    GraphQLInt,
-    GraphQLList,
-    GraphQLBoolean,
-    GraphQLNonNull,
-    GraphQLUnionType,
-} = require('graphql');
+const {gql} = require('../helpers/helpers');
 
 
 
-module.exports = {
+module.exports  =  gql`
 
-     ERRORTYPE : new GraphQLObjectType({
-        name: "ERRORTYPE",
-        fields: () => ({
-            error: {
-                type: GraphQLBoolean,
-                
-            },
-            description: {
-                type: GraphQLString
-            }
-        })
+    enum GROUP{
+        CHERCHEUR
+        ENQUETEUR
+        SAISISSEUR
     }
-    ),
-    
-     PERSONNETYPE : new GraphQLObjectType({
-        name: "PERSONNETYPE",
-        fields: () => ({
-            error: { type: GraphQLBoolean},
-            IdPersonne: { type: GraphQLID },
-            nom: { type: GraphQLString },
-            prenom: {type: GraphQLString},
-            age: {type: GraphQLInt},
-        })
+
+    type PERSONNE{
+        IdPersonne: ID!,
+        nom: String!,
+        prenom: String!,
+        age: Int,
     }
-    ),
-    
-     CHERCHEURTYPE : new GraphQLObjectType({
-        name: "CHERCHEURTYPE",
-        fields: () => ({
-            IdPersonne : { type: GraphQLID },
-    
-        })
+
+    interface FOFIFAPERS{
+        IdPersonne: ID!,
+        # details_personne: PERSONNE!
     }
-    ),
-    
-     SAISISSEURTYPE : new GraphQLObjectType({
-        name: "SAISISSEURTYPE",
-        fields: () => ({
-            IdPersonne : { type: GraphQLID },
-    
-        })
+
+    type ENQUETEUR implements FOFIFAPERS{
+        IdPersonne: ID!,
+        # details_personne: PERSONNE!
+        # missions:[MISSION]
     }
-    ),
-    
-     ENQUETEURTYPE : new GraphQLObjectType({
-        name: "ENQUETEURTYPE",
-        fields: () => ({
-            IdPersonne : { type: GraphQLID },
-    
-        })
+
+    type  SAISISSEUR implements  FOFIFAPERS{
+        IdPersonne: ID!,
+        # details_personne: PERSONNE!
     }
-    ),
-    
-    FOFIFAPERSTYPE : new GraphQLUnionType({
-        name: 'FOFIFAPERSTYPE',
-        types: [ this.HERCHEURTYPE, this.SAISISSEURTYPE , this.ENQUETEURTYPE ],
-        resolveType(value) {
-          if (value instanceof this.CHERCHEURTYPE) {
-            return ;
-          }
-          if (value instanceof this.SAISISSEURTYPE) {
-            return ;
-          }
-          if (value instanceof this.ENQUETEURTYPE)
-          {
-            return ;
-          }
-        }
-      }),
-    
-    
-     USERTYPE : new GraphQLObjectType({
-        name: "USERTYPE",
-        fields: () => ({
-            IdUser : { type: GraphQLID },
-            details: {type: this.FOFIFAPERSTYPE}
-    
-        })
+
+    type  CHERCHEUR implements  FOFIFAPERS{
+        IdPersonne: ID!,
+        # details_personne: PERSONNE!
+
     }
-    ),
-    
-     AUTHPAYLOADTYPE : new GraphQLObjectType({
-        name: "AUTHPAYLOADTYPE",
-        fields: () => ({
-            token : { 
-                type: GraphQLID, 
-            },
-            expirationTime:{
-                type: GraphQLInt
-            },    
-            user: {
-                type: this.USERTYPE
-            },
-    
-        })
+
+    union USER = ENQUETEUR | SAISISSEUR | CHERCHEUR
+
+    type AUTHPAYLOAD{
+        token : String!,
+        expirationTime:Int!,
+        user: USER,
     }
-    ),
-    
-    
-     DESCENTETYPE : new GraphQLObjectType({
-        name: "DESCENTETYPE",
-        fields: () => ({
-            IdDescente: { type: GraphQLID},
-            dateDescente : { type: GraphQLString },
-            description: {type: GraphQLString},
-            
-            // missions: {type: GraphQLList(this.MISSIONTYPE)}
-    
-        })
-    }),
-    
-     MISSIONTYPE : new GraphQLObjectType({
-        name: "MISSIONTYPE",
-        fields: () => ({
-            IdMission: { type: GraphQLID},
-            commune: { type: GraphQLString},
-            fokotany: { type: GraphQLString},
-            village: { type: GraphQLString},
-            lieu: {type: this.LIEUTYPE},
-            
-        })
+
+    type LIEU{
+        IdLieu: ID!,
+        region: String!,
+        district:String!
+        # missions:[MISSION]
     }
-    ),
-    
-     LIEUTYPE : new GraphQLObjectType({
-        name: "LIEUTYPE",
-        fields: () => ({
-            IdLieu: { type: GraphQLID},
-            region: { type: GraphQLString},
-            disctrict: {type: GraphQLString}
-    
-        })
+
+    type MISSION{
+        IdMission: ID!,
+        commune: String,
+        fokotany: String,
+        village: String,
+        # descente: DESCENTE,
+        # lieu: LIEU
     }
-    )
-    
-};
+
+    type DESCENTE{
+        IdDescente: ID!,
+        dateDescente: String!,
+        description: String!,
+        # missions: [MISSION]
+    }
+
+`;
 

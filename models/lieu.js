@@ -2,22 +2,19 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('lieu', {
-    idLieu: {
+    IdLieu: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true,
-      field: 'idLieu'
+      autoIncrement: true
     },
     region: {
       type: DataTypes.STRING(75),
-      allowNull: false,
-      field: 'Region'
+      allowNull: false
     },
     district: {
       type: DataTypes.STRING(75),
-      allowNull: false,
-      field: 'district'
+      allowNull: false
     }
   }, {
     tableName: 'lieu'

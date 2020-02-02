@@ -2,22 +2,19 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('descente', {
-    idDescente: {
+    IdDescente: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true,
-      field: 'IdDescente'
+      autoIncrement: true
     },
     dateDescente: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
-      field: 'dateDescente'
+      allowNull: false
     },
     description: {
       type: DataTypes.STRING(50),
-      allowNull: false,
-      field: 'description'
+      allowNull: false
     }
   }, {
     tableName: 'descente'

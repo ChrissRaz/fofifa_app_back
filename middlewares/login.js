@@ -1,5 +1,12 @@
-module.exports = ()=>{
-    let is_connected = true;
+module.exports =  (req, res, next) => {
+    let auth = {
+        conneced: true,
+        group: 1,
+        test:" fqkmfdjkqjd"
+    };
 
-    return is_connected;
+    
+    req.auth = auth;
+    
+    next();
 };

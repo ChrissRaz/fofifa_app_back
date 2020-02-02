@@ -26,7 +26,13 @@ let loadJsonFile = async (filepah)=>{
     return res;
 };
 
+function gql(schema)
+{
+    return schema;
+}
+
 module.exports = {
     requestPromise : requestPromise,
-    loadJsonFile: loadJsonFile
+    loadJsonFile: loadJsonFile,
+    gql: gql
 };

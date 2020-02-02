@@ -22,7 +22,8 @@ module.exports = {
     enqueteur: enqueteur(db,DataTypes),
     saisisseur: saisisseur(db,DataTypes),
     lieu: lieu(db,DataTypes),
-    descente: descente(db,DataTypes)
+    descente: descente(db,DataTypes),
+    mission: mission(db,DataTypes)
     
 };
 
