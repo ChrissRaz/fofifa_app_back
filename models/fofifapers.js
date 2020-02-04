@@ -19,6 +19,10 @@ module.exports = function(sequelize, DataTypes) {
     password: {
       type: DataTypes.STRING(255),
       allowNull: false
+    },
+    salt: {
+      type: DataTypes.STRING(255),
+      allowNull: false
     }
   }, {
     tableName: 'fofifapers'

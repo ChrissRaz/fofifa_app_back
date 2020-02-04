@@ -1,23 +1,31 @@
-const { requestPromise } = require("../helpers/helpers");
 const db_connect = require("../helpers/db");
-const {crypt_salt,sing_scret_key} = require("../config/constants");
+const {sing_scret_key} = require("../config/constants");
 
 const seq = require('sequelize');
 
 const model = require("../models/models");
 
+const joinMonster = require('join-monster');
+
+let bcrypt = require('bcryptjs');
+let jwt = require("jsonwebtoken");
+
+
+
 
 
 module.exports = {
-    
 
     login: async (_, args, context) => {
         
 
-        // let res = {
-        //     token: -1,
-        //     user: null
-        // };
+        let res = {
+            token: null,
+            user: null,
+            expiration: 3600
+        };
+
+        let group = null;
     
         // let usr = await context.database.query('SELECT * FROM fofifapers WHERE username = :un ',{ 
 
@@ -28,59 +36,75 @@ module.exports = {
         //     }
         // );
 
-        // console.log(usr);
+        let usr = await model.fofifapers.findOne({
+            where: {username:  args.username}
+        });
+
+        console.log(usr);
     
-        // if (!usr)
-        // {
-        //     return res;
-        // }
+        if (!usr)
+        {
+            throw new Error("User not found");
+        }
+        else
+        {
+            if (model.chercheur.findOne({where: {IdPersonne:  usr.IdPersonne}}))
+            {
+                group = "CHERCHEUR";
+            }
+            else if (model.enqueteur.findOne({where: {IdPersonne:  usr.IdPersonne}}))
+            {
+                group = "ENQUETEUR";
+            }
+            else if (model.saisisseur.findOne({where: {IdPersonne:  usr.IdPersonne}}))
+            {
+                group = "SAISISSEUR";
+            }
+        }
     
-        // const valid = await bcrypt.compare(args.password, usr.password);
+        const valid = await bcrypt.compare(args.password, usr.password);
     
+        if (!valid)
+        {
+            throw new Error("Password Invalid");
+        }
+
+        else
+        {
+            res.user= usr;
+            res.token = jwt.sign({userId: usr.IdPersonne,usenrame: usr.username,group:group},sing_scret_key);
     
-        // if (!valid)
-        // {
-        //     res.token=0;
-        //     return res;
-        // }
-        // else
-        // {
-        //     res.user= usr;
-        //     res.token = jwt.sign({userId: usr.IdPersonne,usenrame: usr.username});
-    
-        //     return res;
-        // }
-        console.log(args.username);
-        
-        return {
-            token: "args.username",
-            expirationTime: 3600,
-        
-        };
+            return res;
+        }
         
 
     },
-    
-    logout: (parent, args, context) => {
 
+    descentes: async (_, context,resolveInfo) => {
+        return model.descente.findAll();
     },
-    descentes: (parent, args, context) => {
+
+    
+    // logout: (parent, args, context) => {
+
+    // },
+    // descentes: (parent, args, context) => {
        
-    },
-    descente: (parent, args, context) => {
+    // },
+    // descente: (parent, args, context) => {
         
+    // },
+    lieux: (_,context,resolveInfo) => {
+        return model.lieu.findAll();
     },
-    lieux: (parent, args, context) => {
+    // lieu: (parent, args, context) => {
         
+    // },
+    missions: (_,context,resolveInfo) => {
+        return model.mission.findAll();
     },
-    lieu: (parent, args, context) => {
+    // mission: (parent, args, context) => {
         
-    },
-    missions: (parent, args, context) => {
-        
-    },
-    mission: (parent, args, context) => {
-        
-    },
+    // },
 
 };

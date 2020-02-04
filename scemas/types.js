@@ -1,4 +1,5 @@
 const {gql} = require('../helpers/helpers');
+// const {gql} = require('apollo-server-express');
 
 
 
@@ -42,16 +43,16 @@ module.exports  =  gql`
     union USER = ENQUETEUR | SAISISSEUR | CHERCHEUR
 
     type AUTHPAYLOAD{
-        token : String!,
-        expirationTime:Int!,
-        user: USER,
+        token: String!,
+        expiration:Int!,
+        # user: USER,
     }
 
     type LIEU{
         IdLieu: ID!,
         region: String!,
         district:String!
-        # missions:[MISSION]
+        missions:[MISSION]
     }
 
     type MISSION{
@@ -59,15 +60,15 @@ module.exports  =  gql`
         commune: String,
         fokotany: String,
         village: String,
-        # descente: DESCENTE,
-        # lieu: LIEU
+        descente: DESCENTE,
+        lieu: LIEU
     }
 
     type DESCENTE{
         IdDescente: ID!,
-        dateDescente: String!,
-        description: String!,
-        # missions: [MISSION]
+        dateDescente: String,
+        description: String,
+        missions: [MISSION]
     }
 
 `;

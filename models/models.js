@@ -23,7 +23,8 @@ module.exports = {
     saisisseur: saisisseur(db,DataTypes),
     lieu: lieu(db,DataTypes),
     descente: descente(db,DataTypes),
-    mission: mission(db,DataTypes)
+    mission: mission(db,DataTypes),
+    personne: personne(db,DataTypes)
     
 };
 

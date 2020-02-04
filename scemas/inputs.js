@@ -1,18 +1,21 @@
 // const { gql } = require('apollo-server-express');
 
-// const {gql} = require('graphql-tag');
+
 
 const {gql} = require('../helpers/helpers');
+// const {gql} = require('apollo-server-express');
+
 
 // import {gql} from ';
 
 
 
-module.exports  =  gql`
+module.exports  = gql`
     input userInfo
     {
         nom: String!,
         prenom: String!,
+        sexe: Boolean!,
         age: Int,
     },
     input loginInfo
