@@ -13,11 +13,5 @@ module.exports= {
         }
     },
 
-    CHERCHEUR: {
-
-        details_personne: (_,args,context) =>{
-            return model.personne.findByPk(_.IdPersonne);
-        }
-    },
 
 };
