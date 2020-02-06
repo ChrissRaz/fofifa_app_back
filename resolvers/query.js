@@ -1,5 +1,5 @@
 const db_connect = require("../helpers/db");
-const {sing_scret_key} = require("../config/constants");
+const {sing_scret_key,expiration_login} = require("../config/constants");
 
 const seq = require('sequelize');
 
@@ -18,93 +18,98 @@ module.exports = {
 
     login: async (_, args, context) => {
         
-
         let res = {
             token: null,
-            user: null,
-            expiration: 3600
+            group: null,
+            expiration: expiration_login
         };
 
         let group = null;
-    
-        // let usr = await context.database.query('SELECT * FROM fofifapers WHERE username = :un ',{ 
-
-        //         replacements: { un: args.username }, 
-        //         type: seq.QueryTypes.SELECT , 
-        //         model: context.model.fofifapers, 
-        //         plain: true,
-        //     }
-        // );
+        
 
         let usr = await model.fofifapers.findOne({
             where: {username:  args.username}
         });
 
-        console.log(usr);
+        let usr_copy = usr;
     
         if (!usr)
         {
-            throw new Error("User not found");
+            throw new Error("User not exist");
         }
         else
         {
-            if (model.chercheur.findOne({where: {IdPersonne:  usr.IdPersonne}}))
+            let idUser = usr_copy.IdPersonne;
+            usr=await model.chercheur.findByPk(idUser);
+            
+            if (usr)
             {
                 group = "CHERCHEUR";
             }
-            else if (model.enqueteur.findOne({where: {IdPersonne:  usr.IdPersonne}}))
+            else
             {
-                group = "ENQUETEUR";
-            }
-            else if (model.saisisseur.findOne({where: {IdPersonne:  usr.IdPersonne}}))
-            {
-                group = "SAISISSEUR";
+                usr=await model.enqueteur.findByPk(idUser);
+
+                if (usr)
+                {
+                    group = "ENQUETEUR";
+                }
+                else
+                {
+                    usr=await model.saisisseur.findByPk(idUser);
+
+                    if(user)
+                    {
+                        group = "SAISISSEUR";
+                    }
+                    else
+                    {
+                        throw new Error("User not exist");
+                    }
+                }
             }
         }
     
-        const valid = await bcrypt.compare(args.password, usr.password);
+        const valid = await bcrypt.compare(args.password, usr_copy.password);
     
         if (!valid)
         {
             throw new Error("Password Invalid");
         }
-
         else
         {
-            res.user= usr;
-            res.token = jwt.sign({userId: usr.IdPersonne,usenrame: usr.username,group:group},sing_scret_key);
-    
+            res.group=group;
+            
+            res.token = jwt.sign({userId: usr_copy.IdPersonne,usenrame: usr_copy.username,group:group},sing_scret_key);
+
+
+            
+            res = {...res,user: usr};
+            // console.log(res);
+            
             return res;
         }
         
-
     },
 
-    descentes: async (_, context,resolveInfo) => {
+    descentes: async (_, args, context) => {
         return model.descente.findAll();
     },
 
-    
-    // logout: (parent, args, context) => {
-
-    // },
-    // descentes: (parent, args, context) => {
-       
-    // },
-    // descente: (parent, args, context) => {
-        
-    // },
-    lieux: (_,context,resolveInfo) => {
+    descente: async (_, args, context) => {
+        return model.descente.findByPk(args.IdDescente);
+    },
+    lieux: (_, args, context) => {
         return model.lieu.findAll();
     },
-    // lieu: (parent, args, context) => {
-        
-    // },
-    missions: (_,context,resolveInfo) => {
+    lieu: (_, args, context) => {
+        return model.lieu.findByPk(args.IdLieu);
+    },
+    missions: (_,args, context) => {
         return model.mission.findAll();
     },
-    // mission: (parent, args, context) => {
-        
-    // },
+    mission: (_,args, context) => {
+        return model.mission.findByPk(args.IdMission);
+    },
 
 };

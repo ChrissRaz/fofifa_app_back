@@ -11,7 +11,6 @@ const model = require("../models/models");
 module.exports= {
     
     newUser: async (_,args,context) => {
-        console.log(_);
        
         let addedBase = await model.personne.create({nom:args.userInfo.nom,prenom:args.userInfo.prenom,sexe:args.userInfo.sexe,age:args.userInfo.age});
 
@@ -42,23 +41,34 @@ module.exports= {
     // DeleteUser: async (parent,args, context) => {
 
     // },
+    affectEnqueteurToMission: async (_,args, context) => {
+        added = await model.charger.create({IdPersonne:args.IdEnqueteur, IdMission: args.IdMission});
+        return  true;
+    },
+    
 
     addDescente: async (_,args,context) =>{
         let added = await model.descente.create({description:args.description,dateDescente:args.dateDescente});
         return added;
     },
     updateDescente: async (_,args,context) =>{
-        let updated = await model.descente.update({description:args.description,dateDescente:args.dateDescente}, {
+         await model.descente.update({description:args.description,dateDescente:args.dateDescente}, {
             where: {
               IdDescente: args.IdDescente
             }
           });
 
-        return args;
+        return model.descente.findByPk(args.IdDescente);
     },
-    // DeleteDescente: async (parent, args, context) =>{
-        
-    // },
+    deleteDescente: async (_,args,context) =>{
+        model.descente.destroy({
+            where: {
+              IdDescente: args.IdDescente
+            }
+          });
+
+        return true;
+    },
 
     addLieu: async (_,args,context) =>{
             
@@ -68,15 +78,51 @@ module.exports= {
         return added;
     },
     updateLieu: async (_,args, context) =>{
+        await model.lieu.update({region:args.region,district:args.district}, {
+            where: {
+              IdLieu: args.IdLieu
+            }
+          });
+
+        return model.lieu.findByPk(args.IdLieu);
         
     },
-    // DeleteLieu: async (parent, args, context) =>{
-    // },
+    deleteLieu: async (_,args, context) =>{
+        model.lieu.destroy({
+            where: {
+              IdLieu: args.IdLieu
+            }
+          });
+
+        return true;
+    },
+
+
     addMission : async (_,args,context) => {
         let added = await model.mission.create({commune: args.commune, fokotany: args.fokotany, village: args.village, 
             IdDescente: args.IdDescente, IdLieu: args.IdLieu});
         return added;
     },
+    updateMission: async (_,args,context) =>{
+        await model.mission.update({commune: args.commune, fokotany: args.fokotany, village: args.village, 
+            IdDescente: args.IdDescente, IdLieu: args.IdLieu}, {
+            where: {
+              IdMission: args.IdMission
+            }
+          });
+        return model.mission.findByPk(args.IdMission);
+        
+    },
+    deleteMission: async (_,args, context) =>{
+        model.mission.destroy({
+            where: {
+              IdMission: args.IdMission
+            }
+          });
+
+        return true;
+    },
+
 };
 
 

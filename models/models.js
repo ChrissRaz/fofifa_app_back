@@ -11,6 +11,7 @@ let saisisseur = require("./saisisseur");
 
 
 
+
 const {DataTypes} = require('sequelize');
 const db = require("../helpers/db");
 
@@ -24,8 +25,8 @@ module.exports = {
     lieu: lieu(db,DataTypes),
     descente: descente(db,DataTypes),
     mission: mission(db,DataTypes),
-    personne: personne(db,DataTypes)
-    
+    personne: personne(db,DataTypes),
+    charger: charger(db,DataTypes)    
 };
 
 

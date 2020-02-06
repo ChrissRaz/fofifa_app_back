@@ -1,5 +1,5 @@
 let jwt = require("jsonwebtoken");
-const {crypt_salt} = require("../config/constants");
+const {sing_scret_key} = require("../config/constants");
 
 module.exports =  (req, res, next) => {
     // let auth = {
@@ -30,7 +30,7 @@ module.exports =  (req, res, next) => {
     // }
 
     // try {
-    //     decodedToken = jwt.verify(token,crypt_salt);
+    //     decodedToken = jwt.verify(token,sing_scret_key);
     // } catch (error) {
         
     // }
@@ -47,5 +47,6 @@ module.exports =  (req, res, next) => {
 
     // req.auth = auth;
     
+    req.test="blablablabla";
     next();
 };

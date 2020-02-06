@@ -18,34 +18,34 @@ module.exports  =  gql`
         age: Int,
     }
 
-    interface FOFIFAPERS{
+    interface USER{
         IdPersonne: ID!,
-        # details_personne: PERSONNE!
+        details_personne: PERSONNE!
     }
 
-    type ENQUETEUR implements FOFIFAPERS{
+    type ENQUETEUR implements USER{
         IdPersonne: ID!,
-        # details_personne: PERSONNE!
-        # missions:[MISSION]
+        details_personne: PERSONNE!
+        missions:[MISSION]
     }
 
-    type  SAISISSEUR implements  FOFIFAPERS{
+    type  SAISISSEUR implements  USER{
         IdPersonne: ID!,
-        # details_personne: PERSONNE!
+        details_personne: PERSONNE!
     }
 
-    type  CHERCHEUR implements  FOFIFAPERS{
+    type  CHERCHEUR implements  USER{
         IdPersonne: ID!,
-        # details_personne: PERSONNE!
+        details_personne: PERSONNE!
 
     }
 
-    union USER = ENQUETEUR | SAISISSEUR | CHERCHEUR
+    # union USER = ENQUETEUR | SAISISSEUR | CHERCHEUR
 
     type AUTHPAYLOAD{
         token: String!,
-        expiration:Int!,
-        # user: USER,
+        expiration: Int!,
+        user: USER,
     }
 
     type LIEU{
