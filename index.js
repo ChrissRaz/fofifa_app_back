@@ -12,10 +12,11 @@ const loggingMiddleware = require('./middlewares/login');
 
 const graphqlTools = require('graphql-tools');
 
+var cors = require('cors');
+
 const app = express();
 
-
-
+app.use(cors());
 app.use(loggingMiddleware);
 
 
