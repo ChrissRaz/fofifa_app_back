@@ -92,7 +92,94 @@ module.exports = {
         
     },
 
+    users: async (_, args, context) => {
+
+        let chercheurs = await model.chercheur.findAll();
+        let enqueteur = await model.enqueteur.findAll();
+        let saisisseur = await model.saisisseur.findAll();        
+
+        let res = [];
+
+        chercheurs.forEach(el => {
+            res.push({
+                IdPersonne: el.IdPersonne,group: "CHERCHEUR"
+            });
+        });
+
+        enqueteur.forEach(el => {
+            res.push({
+                IdPersonne: el.IdPersonne,group: "ENQUETEUR"
+            });
+        });
+
+        saisisseur.forEach(el => {
+            res.push({
+                IdPersonne: el.IdPersonne,group: "SAISISSEUR"
+            });
+        });
+        
+        return res;
+    },
+
+    user: async (_, args, context) => {
+
+        let res = null;
+
+        if (args.group=="CHERCHEUR")
+        {
+            let user = await model.chercheur.findByPk(args.IdUser);
+
+            if (user)
+            {
+                res = {
+                    group: args.group,
+                    IdPersonne: user.IdPersonne
+                };
+            }
+            else
+            {
+                throw Error("Utilisateur non existant");
+            }
+        }
+        else if (args.group=="ENQUETEUR")
+        {
+            let user = await model.enqueteur.findByPk(args.IdUser);
+            if (user)
+            {
+                res = {
+                    group: args.group,
+                    IdPersonne: user.IdPersonne
+                };
+            }
+            else
+            {
+                throw Error("Utilisateur non existant");
+            }
+        }
+        else if (args.group=="SAISISSEUR")
+        {
+            let user = await model.saisisseur.findByPk(args.IdUser);
+            if (user)
+            {
+                res = {
+                    group: args.group,
+                    IdPersonne: user.IdPersonne
+                };
+            }
+            else
+            {
+                throw Error("Utilisateur non existant");
+            }
+        }
+        
+        console.log(res);
+        
+        return res;
+    },
+
     descentes: async (_, args, context) => {
+        console.log(args);
+        
         return model.descente.findAll();
     },
 

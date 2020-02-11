@@ -2,6 +2,7 @@ let jwt = require("jsonwebtoken");
 const {sing_scret_key} = require("../config/constants");
 
 module.exports =  (req, res, next) => {
+    
     // let auth = {
     //     connected: true,
     //     userInfo: null

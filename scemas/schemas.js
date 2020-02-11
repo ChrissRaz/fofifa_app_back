@@ -10,18 +10,22 @@ const base = gql`
 
     type Query {
         login(username: String!, password: String!): AUTHPAYLOAD,
+        users:[USER],
+        user(group: GROUP!, IdUser: ID!):USER,
+
         descentes:[DESCENTE],
         descente(IdDescente: ID):DESCENTE,
         lieux:[LIEU],
         lieu(IdLieu: ID): LIEU,
         missions:[MISSION],
-        mission(IdMission: ID):MISSION
+        mission(IdMission: ID):MISSION,
+        
     }
       
     type Mutation{
-        newUser(group: GROUP!,userInfo: userInfo, loginInfo: loginInfo): USER,
+        newUser(group: GROUP!,userInfo: userInfo!, loginInfo: loginInfo): USER,
         affectEnqueteurToMission(IdMission: ID!, IdEnqueteur: ID): Boolean
-        # updateUser(group: GROUP!,userInfo: userInfo, loginInfo: loginInfo): USER,
+        # updateUser(IdUser: ID!, group: GROUP,userInfo: userInfo, loginInfo: loginInfo): USER,
         # delete user
 
 
