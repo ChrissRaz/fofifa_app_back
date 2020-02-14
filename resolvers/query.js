@@ -12,8 +12,6 @@ let jwt = require("jsonwebtoken");
 
 
 
-
-
 module.exports = {
 
     login: async (_, args, context) => {
@@ -177,6 +175,16 @@ module.exports = {
         return res;
     },
 
+    availableEnqueteurForDescente: async (_, args, context) => {
+
+        let res = await context.database.query("SELECT * FROM mission AS ms INNER JOIN descente as des ON ms.IdDescente=des.IdDescente INNER JOIN charger ch ON ch.IdMission=ms.IdMission RIGHT JOIN enqueteur AS enq ON enq.IdPersonne=ch.IdPersonne WHERE des.IdDescente=:idd AND ch.IdMission=NULL ",{
+            replacements: { idd: args.IdDescente}, type: seq.QueryTypes.SELECT
+        });
+
+        return res;
+    },
+
+
     descentes: async (_, args, context) => {
         console.log(args);
         
@@ -186,15 +194,29 @@ module.exports = {
     descente: async (_, args, context) => {
         return model.descente.findByPk(args.IdDescente);
     },
+
     lieux: (_, args, context) => {
         return model.lieu.findAll();
     },
+
     lieu: (_, args, context) => {
         return model.lieu.findByPk(args.IdLieu);
     },
-    missions: (_,args, context) => {
-        return model.mission.findAll();
+
+    missions: async (_,args, context) => {
+
+        let filter = {};
+
+        if (args.IdDescente)
+        {
+            filter.IdDescente = args.IdDescente;
+        }
+
+        return await model.mission.findAll({
+            where:  filter
+        });
     },
+
     mission: (_,args, context) => {
         return model.mission.findByPk(args.IdMission);
     },

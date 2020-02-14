@@ -4,21 +4,27 @@ const seq = require('sequelize');
 
 module.exports= {
     DESCENTE: {
-        missions: (_,context,resolveInfo)=>{
-           return model.mission.findAll({ where: { IdDescente: _.IdDescente} });
+        missions: async (_,args,context)=>{
+           return await model.mission.findAll({ where: { IdDescente: _.IdDescente} });
         }
     },
     MISSION: {
-        lieu: (_,context,resolveInfo)=>{
-           return model.lieu.findOne({ where: { IdLieu: _.IdLieu} });
+        lieu: async (_,args,context)=>{
+           return await model.lieu.findOne({ where: { IdLieu: _.IdLieu} });
         },
-        descente: (_,context,resolveInfo)=>{
-            return model.descente.findOne({ where: { IdDescente: _.IdDescente} });
-        }
+        descente: async (_,context,resolveInfo)=>{
+            return await model.descente.findOne({ where: { IdDescente: _.IdDescente} });
+        },
+        equipe: async (_,args,context)=>{
+            let res = await context.database.query("SELECT * FROM mission INNER JOIN charger ON charger.IdMission=mission.IdMission INNER JOIN enqueteur ON enqueteur.IdPersonne=charger.IdPersonne WHERE mission.IdMission=:idm",{
+                replacements: { idm: _.IdMission }, type: seq.QueryTypes.SELECT
+            });
+            return res;
+        },
     },
     LIEU: {
-        missions: (_,context,resolveInfo)=>{
-            return model.mission.findAll({ where: { IdLieu: _.IdLieu} });
+        missions: async (_,args,context)=>{
+            return await model.mission.findAll({ where: { IdLieu: _.IdLieu} });
         },
         
     },

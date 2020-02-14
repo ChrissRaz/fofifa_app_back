@@ -61,7 +61,8 @@ module.exports  =  gql`
         fokotany: String,
         village: String,
         descente: DESCENTE,
-        lieu: LIEU
+        lieu: LIEU,
+        equipe: [ENQUETEUR]
     }
 
     type DESCENTE{

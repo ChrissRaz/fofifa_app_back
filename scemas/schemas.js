@@ -12,12 +12,13 @@ const base = gql`
         login(username: String!, password: String!): AUTHPAYLOAD,
         users:[USER],
         user(group: GROUP!, IdUser: ID!):USER,
+        availableEnqueteurForDescente(IdDescente: ID):[ENQUETEUR]
 
         descentes:[DESCENTE],
         descente(IdDescente: ID):DESCENTE,
         lieux:[LIEU],
         lieu(IdLieu: ID): LIEU,
-        missions:[MISSION],
+        missions(IdDescente: ID):[MISSION],
         mission(IdMission: ID):MISSION,
         
     }
