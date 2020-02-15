@@ -1,5 +1,7 @@
 const db_connect = require("../helpers/db");
 const {sing_scret_key,expiration_login} = require("../config/constants");
+const msg = require("../config/messages");
+
 
 const seq = require('sequelize');
 
@@ -92,6 +94,16 @@ module.exports = {
 
     users: async (_, args, context) => {
 
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        if (context.req.auth.userInfo.group!="CHERCHEUR")
+        {
+            throw  new Error(msg.notAllowedApi);
+        }
+
         let chercheurs = await model.chercheur.findAll();
         let enqueteur = await model.enqueteur.findAll();
         let saisisseur = await model.saisisseur.findAll();        
@@ -177,6 +189,16 @@ module.exports = {
 
     availableEnqueteurForDescente: async (_, args, context) => {
 
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        if (context.req.auth.userInfo.group!="CHERCHEUR")
+        {
+            throw  new Error(msg.notAllowedApi);
+        }
+
         let res = await context.database.query("SELECT * FROM mission AS ms INNER JOIN descente as des ON ms.IdDescente=des.IdDescente INNER JOIN charger ch ON ch.IdMission=ms.IdMission RIGHT JOIN enqueteur AS enq ON enq.IdPersonne=ch.IdPersonne WHERE des.IdDescente=:idd AND ch.IdMission=NULL ",{
             replacements: { idd: args.IdDescente}, type: seq.QueryTypes.SELECT
         });
@@ -186,24 +208,58 @@ module.exports = {
 
 
     descentes: async (_, args, context) => {
-        console.log(args);
-        
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        console.log(context.req.auth);
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
         return model.descente.findAll();
     },
 
     descente: async (_, args, context) => {
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
         return model.descente.findByPk(args.IdDescente);
     },
 
     lieux: (_, args, context) => {
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
         return model.lieu.findAll();
     },
 
     lieu: (_, args, context) => {
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
         return model.lieu.findByPk(args.IdLieu);
     },
 
     missions: async (_,args, context) => {
+
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        if (context.req.auth.userInfo.group!="CHERCHEUR" && context.req.auth.userInfo.group!="ENQUETEUR")
+        {
+            throw  new Error(msg.notAllowedApi);
+        }
 
         let filter = {};
 
@@ -218,6 +274,16 @@ module.exports = {
     },
 
     mission: (_,args, context) => {
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        if (context.req.auth.userInfo.group!="CHERCHEUR" && context.req.auth.userInfo.group!="ENQUETEUR")
+        {
+            throw  new Error(msg.notAllowedApi);
+        }
+
         return model.mission.findByPk(args.IdMission);
     },
 

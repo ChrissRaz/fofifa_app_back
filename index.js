@@ -1,4 +1,4 @@
-const express= require("express");
+const express = require("express");
 const graphqlHTTP = require("express-graphql");
 
 const db = require("./helpers/db");
@@ -17,23 +17,28 @@ var cors = require('cors');
 const app = express();
 
 app.use(cors());
-app.use(loggingMiddleware);
 
 
-app.use("/api", graphqlHTTP({
-   schema: graphqlTools.makeExecutableSchema({
+let schema = graphqlTools.makeExecutableSchema({
     typeDefs,
     resolvers
-   }),
-   graphiql: true,
-   context: {
-     database: db,
-     model:model,
-    },
-    // rootValue: resolvers,  
-}));
+});
+
+app.use(loggingMiddleware);
+
+app.use("/api", graphqlHTTP((request, response, graphQLParams) =>
+
+    ({
+        schema: schema,
+        graphiql: true,
+        context: {
+            req: request,
+            database: db,
+            model: model,
+        }
+    })));
 
 
-app.listen(1200,()=>{
+app.listen(1200, () => {
     console.log("🚀 server started on port 1200, the api is available at http://127.0.0.1:1200/api");
 });

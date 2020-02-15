@@ -1,6 +1,8 @@
 let jwt = require("jsonwebtoken");
 let bcrypt = require('bcryptjs');
 const {crypt_salt,sing_scret_key} = require("../config/constants");
+const msg = require("../config/messages");
+
 
 
 const db_connect = require("../helpers/db");
@@ -12,6 +14,16 @@ module.exports= {
     
     newUser: async (_,args,context) => {
        
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        if (context.req.auth.userInfo.group!="CHERCHEUR")
+        {
+            throw  new Error(msg.notAllowedApi);
+        }
+
         let addedBase = await model.personne.create({nom:args.userInfo.nom,prenom:args.userInfo.prenom,sexe:args.userInfo.sexe,age:args.userInfo.age});
 
         let salt = bcrypt.genSaltSync();
@@ -42,16 +54,44 @@ module.exports= {
 
     // },
     affectEnqueteurToMission: async (_,args, context) => {
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        if (context.req.auth.userInfo.group!="CHERCHEUR")
+        {
+            throw  new Error(msg.notAllowedApi);
+        }
+
         added = await model.charger.create({IdPersonne:args.IdEnqueteur, IdMission: args.IdMission});
         return  true;
     },
     
 
     addDescente: async (_,args,context) =>{
-        let added = await model.descente.create({description:args.description,dateDescente:args.dateDescente});
-        return added;
+      if (!context.req.auth.connected)
+      {
+          throw  new Error(msg.notConnectedUser);
+      }
+
+      if (context.req.auth.userInfo.group!="CHERCHEUR")
+      {
+          throw  new Error(msg.notAllowedApi);
+      }
+      let added = await model.descente.create({description:args.description,dateDescente:args.dateDescente});
+      return added;
     },
     updateDescente: async (_,args,context) =>{
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        if (context.req.auth.userInfo.group!="CHERCHEUR")
+        {
+            throw  new Error(msg.notAllowedApi);
+        }
          await model.descente.update({description:args.description,dateDescente:args.dateDescente}, {
             where: {
               IdDescente: args.IdDescente
@@ -61,6 +101,17 @@ module.exports= {
         return model.descente.findByPk(args.IdDescente);
     },
     deleteDescente: async (_,args,context) =>{
+
+      if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        if (context.req.auth.userInfo.group!="CHERCHEUR")
+        {
+            throw  new Error(msg.notAllowedApi);
+        }
+
         model.descente.destroy({
             where: {
               IdDescente: args.IdDescente
@@ -78,6 +129,16 @@ module.exports= {
         return added;
     },
     updateLieu: async (_,args, context) =>{
+
+      if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        if (context.req.auth.userInfo.group!="CHERCHEUR")
+        {
+            throw  new Error(msg.notAllowedApi);
+        }
         await model.lieu.update({region:args.region,district:args.district}, {
             where: {
               IdLieu: args.IdLieu
@@ -88,6 +149,16 @@ module.exports= {
         
     },
     deleteLieu: async (_,args, context) =>{
+
+      if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        if (context.req.auth.userInfo.group!="CHERCHEUR")
+        {
+            throw  new Error(msg.notAllowedApi);
+        }
         model.lieu.destroy({
             where: {
               IdLieu: args.IdLieu
@@ -99,11 +170,29 @@ module.exports= {
 
 
     addMission : async (_,args,context) => {
+      if (!context.req.auth.connected)
+      {
+          throw  new Error(msg.notConnectedUser);
+      }
+
+      if (context.req.auth.userInfo.group!="CHERCHEUR")
+      {
+          throw  new Error(msg.notAllowedApi);
+      }
         let added = await model.mission.create({commune: args.commune, fokotany: args.fokotany, village: args.village, 
             IdDescente: args.IdDescente, IdLieu: args.IdLieu});
         return added;
     },
     updateMission: async (_,args,context) =>{
+      if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        if (context.req.auth.userInfo.group!="CHERCHEUR")
+        {
+            throw  new Error(msg.notAllowedApi);
+        }
         await model.mission.update({commune: args.commune, fokotany: args.fokotany, village: args.village, 
             IdDescente: args.IdDescente, IdLieu: args.IdLieu}, {
             where: {
@@ -114,6 +203,15 @@ module.exports= {
         
     },
     deleteMission: async (_,args, context) =>{
+      if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        if (context.req.auth.userInfo.group!="CHERCHEUR")
+        {
+            throw  new Error(msg.notAllowedApi);
+        }
         model.mission.destroy({
             where: {
               IdMission: args.IdMission
