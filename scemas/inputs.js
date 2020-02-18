@@ -1,15 +1,6 @@
-// const { gql } = require('apollo-server-express');
-
-
-
 const {gql} = require('../helpers/helpers');
-// const {gql} = require('apollo-server-express');
 
-
-// import {gql} from ';
     
-
-
 module.exports  = gql`
     input userInfo
     {

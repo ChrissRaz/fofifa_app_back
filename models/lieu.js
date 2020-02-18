@@ -8,13 +8,17 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    region: {
-      type: DataTypes.STRING(75),
+    descriLieu: {
+      type: DataTypes.STRING(100),
       allowNull: false
     },
-    district: {
-      type: DataTypes.STRING(75),
-      allowNull: false
+    IdRegion: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+      references: {
+        model: 'lieu',
+        key: 'IdLieu'
+      }
     }
   }, {
     tableName: 'lieu'

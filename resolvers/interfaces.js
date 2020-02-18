@@ -5,7 +5,7 @@ const model = require("../models/models");
 module.exports= {
     USER: {
         __resolveType (obj){
-            return obj.group;
+            return obj.groupe;
         },
 
         details_personne: (_,args,context) =>{

@@ -20,24 +20,39 @@ module.exports  =  gql`
 
     interface USER{
         IdPersonne: ID!,
+        actif: Int!,
+        username: String!,
+        password: String!,
+        salt: String!,
         details_personne: PERSONNE!
     }
 
     type ENQUETEUR implements USER{
         IdPersonne: ID!,
-        details_personne: PERSONNE!
+        details_personne: PERSONNE!,
+        actif: Int!,
+        username: String!,
+        password: String!,
+        salt: String!,
         missions:[MISSION]
     }
 
     type  SAISISSEUR implements  USER{
         IdPersonne: ID!,
-        details_personne: PERSONNE!
+        details_personne: PERSONNE!,
+        actif: Int!,
+        username: String!,
+        password: String!,
+        salt: String!,
     }
 
     type  CHERCHEUR implements  USER{
         IdPersonne: ID!,
-        details_personne: PERSONNE!
-
+        details_personne: PERSONNE!,
+        actif: Int!,
+        username: String!,
+        password: String!,
+        salt: String!,
     }
 
     # union USER = ENQUETEUR | SAISISSEUR | CHERCHEUR
@@ -48,12 +63,26 @@ module.exports  =  gql`
         user: USER,
     }
 
-    type LIEU{
-        IdLieu: ID!,
-        region: String!,
-        district:String!
+    # type LIEU{
+    #     IdLieu: ID!,
+    #     region: String!,
+    #     district:String!
+    #     missions:[MISSION]
+    # }
+
+
+    type DISTRICT{
+        IdDistrict: ID!,
+        district: String!,
+        region: DISTRICT,
         missions:[MISSION]
     }
+
+    type REGION{
+        IdRegion: ID!,
+        region: String!,
+        districts:  [DISTRICT],
+    }    
 
     type MISSION{
         IdMission: ID!,
@@ -61,7 +90,7 @@ module.exports  =  gql`
         fokotany: String,
         village: String,
         descente: DESCENTE,
-        lieu: LIEU,
+        lieu: DISTRICT,
         equipe: [ENQUETEUR]
     }
 

@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       references: {
         model: 'mission',
-        key: 'IdMision'
+        key: 'IdMission'
       }
     },
     IdPersonne: {

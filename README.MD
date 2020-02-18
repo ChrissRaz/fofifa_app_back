@@ -13,7 +13,7 @@ missions:[MISSION]
 
 # mutations: 
 
-newUser(group: GROUP,userInfo: userInfo, loginInfo: loginInfo): USER,
+newUser(groupe: GROUP,userInfo: userInfo, loginInfo: loginInfo): USER,
 
 addLieu(region: String!, district:String!) : LIEU,
 updateLieu(IdLieu: ID,region: String!, district:String!) : LIEU,

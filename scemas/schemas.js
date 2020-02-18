@@ -1,6 +1,3 @@
-// const { gql } = require('apollo-server-express');
-
-// const {mergeTypes}= require('merge-graphql-schemas');
 const {gql} = require('../helpers/helpers');
 const types = require("./types");
 const inputs = require("./inputs");
@@ -10,36 +7,44 @@ const base = gql`
 
     type Query {
         login(username: String!, password: String!): AUTHPAYLOAD,
+        checkConnexion: USER,
         users:[USER],
-        user(group: GROUP!, IdUser: ID!):USER,
-        availableEnqueteurForDescente(IdDescente: ID):[ENQUETEUR]
-
+        user(groupe: GROUP!, IdUser: ID!):USER,
+        availableEnqueteurForDescente(IdDescente: ID):[ENQUETEUR],
         descentes:[DESCENTE],
         descente(IdDescente: ID):DESCENTE,
-        lieux:[LIEU],
-        lieu(IdLieu: ID): LIEU,
+
+        regions:[REGION],
+        region(IdRegion: ID): REGION,
+
         missions(IdDescente: ID):[MISSION],
         mission(IdMission: ID):MISSION,
         
     }
       
     type Mutation{
-        newUser(group: GROUP!,userInfo: userInfo!, loginInfo: loginInfo): USER,
+        newUser(groupe: GROUP!,userInfo: userInfo!, loginInfo: loginInfo): USER,
+        deleteUser(groupe: GROUP!, IdUser: ID!): Boolean,
         affectEnqueteurToMission(IdMission: ID!, IdEnqueteur: ID): Boolean
-        # updateUser(IdUser: ID!, group: GROUP,userInfo: userInfo, loginInfo: loginInfo): USER,
-        # delete user
+        # updateUser(IdUser: ID!, groupe: GROUP,userInfo: userInfo, loginInfo: loginInfo): USER,
+        
 
 
-        addLieu(region: String!, district:String!) : LIEU,
-        updateLieu(IdLieu: ID!,region: String!, district:String!) : LIEU,
+        addRegion(region: String!) : REGION,
+        updateRegion(IdRegion: ID!, region: String!) : REGION,
+        deleteRegion(IdRegion: ID!): Boolean,
+
+        addDistrict(IdRegion: ID!, district: String!): DISTRICT,
+        updateDistrict(IdDistrict: ID!, district: String!): DISTRICT,
+        deleteDistrict(IdDistrict: ID!): Boolean,
+
         deleteDescente(IdDescente: ID):Boolean,
-
         addDescente( dateDescente: String!, description: String!): DESCENTE,
         updateDescente(IdDescente: ID! ,dateDescente: String, description: String): DESCENTE,
-        deleteLieu(IdLieu: ID): Boolean,
+        
 
-        addMission(commune: String!, fokotany: String!, village: String!, IdDescente: ID!, IdLieu: ID!): MISSION,
-        updateMission(IdMission:ID! ,commune: String!, fokotany: String!, village: String!, IdDescente: ID!, IdLieu: ID!): MISSION
+        addMission(commune: String!, fokotany: String!, village: String!, IdDescente: ID!, IdDistrict: ID!): MISSION,
+        updateMission(IdMission:ID! ,commune: String!, fokotany: String!, village: String!, IdDescente: ID!, IdDistrict: ID!): MISSION
         deleteMission:Boolean,
     }
 `;

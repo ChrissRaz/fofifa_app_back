@@ -12,6 +12,9 @@ const joinMonster = require('join-monster');
 let bcrypt = require('bcryptjs');
 let jwt = require("jsonwebtoken");
 
+const Sequelize = require('sequelize');
+
+const Op = Sequelize.Op;
 
 
 module.exports = {
@@ -20,11 +23,11 @@ module.exports = {
         
         let res = {
             token: null,
-            group: null,
+            groupe: null,
             expiration: expiration_login
         };
 
-        let group = null;
+        let groupe = null;
         
 
         let usr = await model.fofifapers.findOne({
@@ -35,7 +38,7 @@ module.exports = {
     
         if (!usr)
         {
-            throw new Error("User not exist");
+            throw new Error(msg.userNotExist);
         }
         else
         {
@@ -44,7 +47,7 @@ module.exports = {
             
             if (usr)
             {
-                group = "CHERCHEUR";
+                groupe = "CHERCHEUR";
             }
             else
             {
@@ -52,7 +55,7 @@ module.exports = {
 
                 if (usr)
                 {
-                    group = "ENQUETEUR";
+                    groupe = "ENQUETEUR";
                 }
                 else
                 {
@@ -60,7 +63,7 @@ module.exports = {
 
                     if(user)
                     {
-                        group = "SAISISSEUR";
+                        groupe = "SAISISSEUR";
                     }
                     else
                     {
@@ -74,23 +77,45 @@ module.exports = {
     
         if (!valid)
         {
-            throw new Error("Password Invalid");
+            throw new Error(msg.passwordInvalid);
         }
         else
         {
-            res.group=group;
+            res.groupe=groupe;
             
-            res.token = jwt.sign({userId: usr_copy.IdPersonne,usenrame: usr_copy.username,group:group},sing_scret_key);
-
-
+            res.token = jwt.sign({userId: usr_copy.IdPersonne,usenrame: usr_copy.username,groupe:groupe},sing_scret_key,{
+                expiresIn: expiration_login
+            });
             
             res = {...res,user: usr};
-            // console.log(res);
             
             return res;
         }
         
     },
+
+    checkConnexion: async (_, args, context) => {
+    
+        let auth = context.req.auth;
+
+        if (!auth.connected)
+        {
+            return null;
+        }
+
+        let res = await context.database.query("SELECT *, \""+auth.userInfo.groupe+"\" AS groupe FROM "+auth.userInfo.groupe+" as us INNER JOIN FOFIFAPERS as ffp ON ffp.IdPersonne=us.IdPersonne WHERE us.IdPersonne = :idp",{
+            replacements: { idp: auth.userInfo.userId}, type: seq.QueryTypes.SELECT
+        });
+
+        if (res.length==0)
+        {
+            throw Error(msg.userNotExist);
+        }
+        
+        return res[0];
+    
+    },
+    
 
     users: async (_, args, context) => {
 
@@ -99,92 +124,40 @@ module.exports = {
             throw  new Error(msg.notConnectedUser);
         }
 
-        if (context.req.auth.userInfo.group!="CHERCHEUR")
+        if (context.req.auth.userInfo.groupe!="CHERCHEUR")
         {
             throw  new Error(msg.notAllowedApi);
         }
 
-        let chercheurs = await model.chercheur.findAll();
-        let enqueteur = await model.enqueteur.findAll();
-        let saisisseur = await model.saisisseur.findAll();        
-
-        let res = [];
-
-        chercheurs.forEach(el => {
-            res.push({
-                IdPersonne: el.IdPersonne,group: "CHERCHEUR"
-            });
+        let chercheurs  = await context.database.query("SELECT *, 'CHERCHEUR' AS groupe FROM CHERCHEUR as us INNER JOIN FOFIFAPERS as ffp ON ffp.IdPersonne=us.IdPersonne",{
+            type: seq.QueryTypes.SELECT
         });
 
-        enqueteur.forEach(el => {
-            res.push({
-                IdPersonne: el.IdPersonne,group: "ENQUETEUR"
-            });
+        let enqueteur =  await context.database.query("SELECT *, 'ENQUETEUR' AS groupe FROM ENQUETEUR as us INNER JOIN FOFIFAPERS as ffp ON ffp.IdPersonne=us.IdPersonne",{
+            type: seq.QueryTypes.SELECT
         });
+        let saisisseur = await context.database.query("SELECT *, 'SAISISSEUR' AS groupe FROM SAISISSEUR as us INNER JOIN FOFIFAPERS as ffp ON ffp.IdPersonne=us.IdPersonne",{
+            type: seq.QueryTypes.SELECT
+        });       
 
-        saisisseur.forEach(el => {
-            res.push({
-                IdPersonne: el.IdPersonne,group: "SAISISSEUR"
-            });
-        });
+        let res = [...chercheurs,...enqueteur,...saisisseur];
+
         
         return res;
     },
 
     user: async (_, args, context) => {
 
-        let res = null;
+        let res = await context.database.query("SELECT *, \""+args.groupe+"\" AS groupe FROM "+args.groupe+" as us INNER JOIN FOFIFAPERS as ffp ON ffp.IdPersonne=us.IdPersonne WHERE us.IdPersonne = :idp",{
+            replacements: { idp: args.IdUser}, type: seq.QueryTypes.SELECT
+        });
 
-        if (args.group=="CHERCHEUR")
+        if (res.length==0)
         {
-            let user = await model.chercheur.findByPk(args.IdUser);
-
-            if (user)
-            {
-                res = {
-                    group: args.group,
-                    IdPersonne: user.IdPersonne
-                };
-            }
-            else
-            {
-                throw Error("Utilisateur non existant");
-            }
-        }
-        else if (args.group=="ENQUETEUR")
-        {
-            let user = await model.enqueteur.findByPk(args.IdUser);
-            if (user)
-            {
-                res = {
-                    group: args.group,
-                    IdPersonne: user.IdPersonne
-                };
-            }
-            else
-            {
-                throw Error("Utilisateur non existant");
-            }
-        }
-        else if (args.group=="SAISISSEUR")
-        {
-            let user = await model.saisisseur.findByPk(args.IdUser);
-            if (user)
-            {
-                res = {
-                    group: args.group,
-                    IdPersonne: user.IdPersonne
-                };
-            }
-            else
-            {
-                throw Error("Utilisateur non existant");
-            }
+            throw Error(msg.userNotExist);
         }
         
-        console.log(res);
-        
-        return res;
+        return res[0];
     },
 
     availableEnqueteurForDescente: async (_, args, context) => {
@@ -194,7 +167,7 @@ module.exports = {
             throw  new Error(msg.notConnectedUser);
         }
 
-        if (context.req.auth.userInfo.group!="CHERCHEUR")
+        if (context.req.auth.userInfo.groupe!="CHERCHEUR")
         {
             throw  new Error(msg.notAllowedApi);
         }
@@ -206,20 +179,21 @@ module.exports = {
         return res;
     },
 
-
     descentes: async (_, args, context) => {
         if (!context.req.auth.connected)
         {
             throw  new Error(msg.notConnectedUser);
         }
 
-        console.log(context.req.auth);
+        
         if (!context.req.auth.connected)
         {
             throw  new Error(msg.notConnectedUser);
         }
-
-        return model.descente.findAll();
+        
+        let res = await model.descente.findAll();
+        
+        return res;
     },
 
     descente: async (_, args, context) => {
@@ -227,26 +201,48 @@ module.exports = {
         {
             throw  new Error(msg.notConnectedUser);
         }
-
-        return model.descente.findByPk(args.IdDescente);
+        let res = await model.descente.findByPk(args.IdDescente);
+  
+        return res;
     },
 
-    lieux: (_, args, context) => {
+    regions: async (_, args, context) => {
         if (!context.req.auth.connected)
         {
             throw  new Error(msg.notConnectedUser);
         }
 
-        return model.lieu.findAll();
+        let res = await model.lieu.findAll({
+            raw: true,
+            where: {
+                IdRegion: {
+                    [Op.is]: null
+                  }
+            },
+            attributes: [ ['IdLieu', 'IdRegion'], ["descriLieu", "region"]] 
+        });
+
+        console.log(res);
+        
+        return res;
     },
 
-    lieu: (_, args, context) => {
+    region: async (_, args, context) => {
         if (!context.req.auth.connected)
         {
             throw  new Error(msg.notConnectedUser);
         }
 
-        return model.lieu.findByPk(args.IdLieu);
+        return await model.lieu.findOne({
+            raw: true,
+            where:{
+                IdLieu: args.IdRegion,
+                IdRegion: {
+                    [Op.is]: null
+                },
+            },
+            attributes: [ ['IdLieu', 'IdRegion'], ["descriLieu", "region"]] 
+        });
     },
 
     missions: async (_,args, context) => {
@@ -256,7 +252,7 @@ module.exports = {
             throw  new Error(msg.notConnectedUser);
         }
 
-        if (context.req.auth.userInfo.group!="CHERCHEUR" && context.req.auth.userInfo.group!="ENQUETEUR")
+        if (context.req.auth.userInfo.groupe!="CHERCHEUR" && context.req.auth.userInfo.groupe!="ENQUETEUR")
         {
             throw  new Error(msg.notAllowedApi);
         }
@@ -279,7 +275,7 @@ module.exports = {
             throw  new Error(msg.notConnectedUser);
         }
 
-        if (context.req.auth.userInfo.group!="CHERCHEUR" && context.req.auth.userInfo.group!="ENQUETEUR")
+        if (context.req.auth.userInfo.groupe!="CHERCHEUR" && context.req.auth.userInfo.groupe!="ENQUETEUR")
         {
             throw  new Error(msg.notAllowedApi);
         }

@@ -13,16 +13,20 @@ module.exports = function(sequelize, DataTypes) {
     },
     username: {
       type: DataTypes.STRING(25),
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
     password: {
       type: DataTypes.STRING(255),
       allowNull: false
     },
     salt: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(100),
       allowNull: false
+    },
+    actif: {
+      type: DataTypes.INTEGER(4),
+      allowNull: false,
+      defaultValue: '1'
     }
   }, {
     tableName: 'fofifapers'
