@@ -98,12 +98,14 @@ module.exports = {
     
         let auth = context.req.auth;
 
+        console.log(auth);
+        
         if (!auth.connected)
         {
             return null;
         }
 
-        let res = await context.database.query("SELECT *, \""+auth.userInfo.groupe+"\" AS groupe FROM "+auth.userInfo.groupe+" as us INNER JOIN FOFIFAPERS as ffp ON ffp.IdPersonne=us.IdPersonne WHERE us.IdPersonne = :idp",{
+        let res = await context.database.query("SELECT *, \""+auth.userInfo.groupe+"\" AS groupe FROM "+auth.userInfo.groupe.toLowerCase()+" as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne WHERE us.IdPersonne = :idp",{
             replacements: { idp: auth.userInfo.userId}, type: seq.QueryTypes.SELECT
         });
 
@@ -129,14 +131,14 @@ module.exports = {
             throw  new Error(msg.notAllowedApi);
         }
 
-        let chercheurs  = await context.database.query("SELECT *, 'CHERCHEUR' AS groupe FROM CHERCHEUR as us INNER JOIN FOFIFAPERS as ffp ON ffp.IdPersonne=us.IdPersonne",{
+        let chercheurs  = await context.database.query("SELECT *, 'chercheur' AS groupe FROM chercheur as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne",{
             type: seq.QueryTypes.SELECT
         });
 
-        let enqueteur =  await context.database.query("SELECT *, 'ENQUETEUR' AS groupe FROM ENQUETEUR as us INNER JOIN FOFIFAPERS as ffp ON ffp.IdPersonne=us.IdPersonne",{
+        let enqueteur =  await context.database.query("SELECT *, 'enqueteur' AS groupe FROM enqueteur as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne",{
             type: seq.QueryTypes.SELECT
         });
-        let saisisseur = await context.database.query("SELECT *, 'SAISISSEUR' AS groupe FROM SAISISSEUR as us INNER JOIN FOFIFAPERS as ffp ON ffp.IdPersonne=us.IdPersonne",{
+        let saisisseur = await context.database.query("SELECT *, 'saisisseur' AS groupe FROM saisisseur as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne",{
             type: seq.QueryTypes.SELECT
         });       
 
@@ -148,7 +150,7 @@ module.exports = {
 
     user: async (_, args, context) => {
 
-        let res = await context.database.query("SELECT *, \""+args.groupe+"\" AS groupe FROM "+args.groupe+" as us INNER JOIN FOFIFAPERS as ffp ON ffp.IdPersonne=us.IdPersonne WHERE us.IdPersonne = :idp",{
+        let res = await context.database.query("SELECT *, \""+args.groupe.toLowerCase()+"\" AS groupe FROM "+args.groupe.toLowerCase()+" as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne WHERE us.IdPersonne = :idp",{
             replacements: { idp: args.IdUser}, type: seq.QueryTypes.SELECT
         });
 

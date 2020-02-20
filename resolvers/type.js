@@ -72,13 +72,15 @@ module.exports= {
             //         groupe:_.groupe,
             //         IdPersonne: usr.IdPersonne
             //     };
-            // }
+            // }            
 
-            usr = await context.database.query("SELECT *, \""+_.groupe+"\" AS groupe FROM "+_.groupe+" as us INNER JOIN FOFIFAPERS as ffp ON ffp.IdPersonne=us.IdPersonne WHERE us.IdPersonne = :idp",{
+            usr = await context.database.query("SELECT *, \""+_.groupe+"\" AS groupe FROM "+_.groupe.toLowerCase()+" as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne WHERE us.IdPersonne = :idp",{
                 replacements: { idp: _.user.IdPersonne}, type: seq.QueryTypes.SELECT
             });
 
+            
             return {
+                groupe: _.groupe,
                 ...usr[0]
             };     
         },
