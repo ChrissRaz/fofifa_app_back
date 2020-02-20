@@ -16,15 +16,16 @@ module.exports= {
     
     newUser: async (_,args,context) => {
        
-        if (!context.req.auth.connected)
-        {
-            throw  new Error(msg.notConnectedUser);
-        }
+        //à décommenter en prod
+        // if (!context.req.auth.connected)
+        // {
+        //     throw  new Error(msg.notConnectedUser);
+        // }
 
-        if (context.req.auth.userInfo.groupe!="CHERCHEUR")
-        {
-            throw  new Error(msg.notAllowedApi);
-        }
+        // if (context.req.auth.userInfo.groupe!="CHERCHEUR")
+        // {
+        //     throw  new Error(msg.notAllowedApi);
+        // }
 
         let addedBase = await model.personne.create({nom:args.userInfo.nom,prenom:args.userInfo.prenom,sexe:args.userInfo.sexe,age:args.userInfo.age});
 
