@@ -131,19 +131,18 @@ module.exports = {
             throw  new Error(msg.notAllowedApi);
         }
 
-        let chercheurs  = await context.database.query("SELECT *, 'chercheur' AS groupe FROM chercheur as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne",{
+        let chercheurs  = await context.database.query("SELECT *, 'CHERCHEUR' AS groupe FROM chercheur as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne",{
             type: seq.QueryTypes.SELECT
         });
 
-        let enqueteur =  await context.database.query("SELECT *, 'enqueteur' AS groupe FROM enqueteur as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne",{
+        let enqueteur =  await context.database.query("SELECT *, 'ENQUETEUR' AS groupe FROM enqueteur as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne",{
             type: seq.QueryTypes.SELECT
         });
-        let saisisseur = await context.database.query("SELECT *, 'saisisseur' AS groupe FROM saisisseur as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne",{
+        let saisisseur = await context.database.query("SELECT *, 'SAISISSEUR' AS groupe FROM saisisseur as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne",{
             type: seq.QueryTypes.SELECT
         });       
 
         let res = [...chercheurs,...enqueteur,...saisisseur];
-
         
         return res;
     },
