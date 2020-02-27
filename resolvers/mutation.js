@@ -56,12 +56,91 @@ module.exports= {
         };   
     },
 
-    // UpdateUserInfo: async (parent,args, context) => {
+    updateUser: async (_,args,context) => {
+      if (!context.req.auth.connected){
+          throw  new Error(msg.notConnectedUser);
+      }
 
-    // },
+      if (context.req.auth.userInfo.groupe!="CHERCHEUR"){
+          throw  new Error(msg.notAllowedApi);
+      }
+
+      if (args.userInfo){
+
+        await model.personne.update(args.userInfo, {
+          where: {
+            IdPersonne: args.IdUser
+          }
+        });
+
+      }
+
+      if (args.loginInfo){
+
+        let salt = bcrypt.genSaltSync();
+
+        args.loginInfo.password = bcrypt.hashSync(args.loginInfo.password,salt);
+
+        await model.fofifapers.update({...args.loginInfo, salt: salt}, {
+          where: {
+            IdPersonne: args.IdUser
+          }
+        });
+
+        if(args.groupe=="CHERCHEUR"){
+
+        }
+        else if (args.groupe=="SAISISSEUR"){
+
+        }
+        else{
+
+        }
+      }
+
+      let res = await context.database.query("SELECT *, \""+args.groupe+"\" AS groupe FROM "+args.groupe.toLowerCase()+" as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne WHERE us.IdPersonne = :idp",{
+        replacements: { idp: args.IdUser}, type: Sequelize.QueryTypes.SELECT
+      });
+
+      if (res.length==0)
+      {
+          throw Error(msg.userNotExist);
+      }
+      
+      return res[0];
+
+    },
 
     deleteUser: async (_,args, context) => {
-      //Vérifier que c'est un utilisateur
+     
+      if (args.groupe=="ENQUETEUR"){
+
+        let is_ocuped = model.charger.findAll({
+          limit: 1,
+          raw: true,
+          where: {
+            IdPersonne: args.IdUser
+          }
+        });
+
+        if(is_ocuped.length>0){
+
+          model.personne.update({actif: 0},{
+            where: {
+              IdPersonne: args.IdUser
+            }
+          });
+    
+          return false;
+        }
+
+      }
+
+      else if(args.groupe=="SAISISSEUR"){
+
+      }else{
+
+      }
 
       model.personne.destroy({
         where: {

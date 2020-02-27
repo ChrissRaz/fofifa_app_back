@@ -1,10 +1,11 @@
 let jwt = require("jsonwebtoken");
-const {sing_scret_key} = require("../config/constants");
+const {sing_scret_key,expiration_login} = require("../config/constants");
 
 module.exports =  (req, res, next) => {
     
     let auth = {
         connected: true,
+        token: null,
         userInfo: null
     }; 
 
@@ -51,10 +52,28 @@ module.exports =  (req, res, next) => {
         next();
         return;
     }
+
+    console.log(token);
+    
+    delete decodedToken.iat;
+    delete decodedToken.exp;
+
+    console.log(decodedToken);
+    
+
+    // let t = jwt.sign(token,sing_scret_key,{
+    //     expiresIn: expiration_login
+    // });
+
+    // console.log(t);
+    
+
+    
     
     auth.connected=true;
     auth.userInfo = decodedToken;
-
+    auth.token = token;
+    
     req.auth =auth;
     next();
 };

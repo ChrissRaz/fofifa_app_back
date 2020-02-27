@@ -29,7 +29,7 @@ module.exports = {
 
         let groupe = null;
         
-
+        //récupération de l'info client correspondant
         let usr = await model.fofifapers.findOne({
             where: {username:  args.username}
         });
@@ -42,6 +42,7 @@ module.exports = {
         }
         else
         {
+            // vérification du groupe de la personne correspondante
             let idUser = usr_copy.IdPersonne;
             usr=await model.chercheur.findByPk(idUser);
             
@@ -83,7 +84,7 @@ module.exports = {
         {
             res.groupe=groupe;
             
-            res.token = jwt.sign({userId: usr_copy.IdPersonne,usenrame: usr_copy.username,groupe:groupe},sing_scret_key,{
+            res.token = jwt.sign({IdPersonne: usr_copy.IdPersonne,usenrame: usr_copy.username,groupe:groupe},sing_scret_key,{
                 expiresIn: expiration_login
             });
             
@@ -105,20 +106,12 @@ module.exports = {
             return null;
         }
 
-        let res = await context.database.query("SELECT *, \""+auth.userInfo.groupe+"\" AS groupe FROM "+auth.userInfo.groupe.toLowerCase()+" as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne WHERE us.IdPersonne = :idp",{
-            replacements: { idp: auth.userInfo.userId}, type: seq.QueryTypes.SELECT
-        });
-
-        if (res.length==0)
-        {
-            throw Error(msg.userNotExist);
-        }
-        
-        return res[0];
+        let res = {token: auth.token, groupe: auth.userInfo.groupe,expiration: expiration_login,user: auth.userInfo};
+            
+        return res;
     
     },
     
-
     users: async (_, args, context) => {
 
         if (!context.req.auth.connected)
@@ -149,7 +142,7 @@ module.exports = {
 
     user: async (_, args, context) => {
 
-        let res = await context.database.query("SELECT *, \""+args.groupe.toLowerCase()+"\" AS groupe FROM "+args.groupe.toLowerCase()+" as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne WHERE us.IdPersonne = :idp",{
+        let res = await context.database.query("SELECT *, \""+args.groupe+"\" AS groupe FROM "+args.groupe.toLowerCase()+" as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne WHERE us.IdPersonne = :idp",{
             replacements: { idp: args.IdUser}, type: seq.QueryTypes.SELECT
         });
 
