@@ -10,7 +10,7 @@ const base = gql`
         checkConnexion: AUTHPAYLOAD,
         users:[USER],
         user(groupe: GROUP!, IdUser: ID!):USER,
-        availableEnqueteurForDescente(IdDescente: ID):[ENQUETEUR],
+        availableEnqueteurForDescente(IdDescente: ID!, IdDistrict: ID!):[ENQUETEUR],
         descentes:[DESCENTE],
         descente(IdDescente: ID):DESCENTE,
 

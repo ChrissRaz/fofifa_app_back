@@ -125,7 +125,7 @@ module.exports= {
 
         if(is_ocuped.length>0){
 
-          model.personne.update({actif: 0},{
+          model.fofifapers.update({actif: 0},{
             where: {
               IdPersonne: args.IdUser
             }

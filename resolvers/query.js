@@ -166,8 +166,14 @@ module.exports = {
             throw  new Error(msg.notAllowedApi);
         }
 
-        let res = await context.database.query("SELECT * FROM enqueteur WHERE IdPersonne NOT IN (SELECT enq.IdPersonne FROM descente as des INNER JOIN mission as miss ON miss.IdDescente = des.IdDescente INNER JOIN charger as ch ON ch.IdMission = miss.IdMission INNER JOIN enqueteur as enq  ON enq.IdPersonne= ch.IdPersonne WHERE des.IdDescente = :idd)",{
-            replacements: { idd: args.IdDescente}, type: seq.QueryTypes.SELECT
+        let res = await context.database.query(`SELECT * FROM enqueteur WHERE IdPersonne NOT IN 
+        (SELECT enq.IdPersonne FROM descente as des 
+            INNER JOIN mission as miss ON miss.IdDescente = des.IdDescente 
+            INNER JOIN lieu as li ON li.IdLieu=miss.IdLieu
+            INNER JOIN charger as ch ON ch.IdMission = miss.IdMission 
+            INNER JOIN enqueteur as enq  ON enq.IdPersonne= ch.IdPersonne 
+            WHERE des.IdDescente = :idd AND li.IdLieu !=:idl )`,{
+            replacements: { idd: args.IdDescente, idl: args.IdDistrict}, type: seq.QueryTypes.SELECT
         });
 
         return res;

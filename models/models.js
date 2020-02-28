@@ -10,8 +10,6 @@ let personne = require("./personne");
 let saisisseur = require("./saisisseur");
 
 
-
-
 const {DataTypes} = require('sequelize');
 const db = require("../helpers/db");
 

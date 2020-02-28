@@ -46,33 +46,7 @@ module.exports= {
     AUTHPAYLOAD: {
         user: async (_,args,context)=>{
             
-            let usr = null;            
-            
-            // if (_.groupe=="CHERCHEUR")
-            // {
-            //     usr = await model.chercheur.findByPk( _.user.IdPersonne);
-
-            //     return {
-            //         groupe:_.groupe,
-            //         IdPersonne: usr.IdPersonne
-            //     };
-            // }
-            // else if  (_.groupe=="ENQUETEUR")
-            // {
-            //     usr = await model.enqueteur.findByPk( _.user.IdPersonne);
-            //     return {
-            //         groupe:_.groupe,
-            //         IdPersonne: usr.IdPersonne
-            //     };
-            // }
-            // else if  (_.groupe=="SAISISSEUR")
-            // {
-            //     usr = await model.saisisseur.findByPk( _.user.IdPersonne);
-            //     return {
-            //         groupe:_.groupe,
-            //         IdPersonne: usr.IdPersonne
-            //     };
-            // }            
+            let usr = null;       
 
             usr = await context.database.query("SELECT *, \""+_.groupe+"\" AS groupe FROM "+_.groupe.toLowerCase()+" as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne WHERE us.IdPersonne = :idp",{
                 replacements: { idp: _.user.IdPersonne}, type: seq.QueryTypes.SELECT
