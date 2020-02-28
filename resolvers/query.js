@@ -227,6 +227,20 @@ module.exports = {
         return res;
     },
 
+    regionsWithAvailableDistrictForDescente: async (_, args, context) => {
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        //à reviser SELECT * FROM lieu as dist INNER JOIN lieu as reg ON reg.IdLieu = dist.IdRegion LEFT JOIN mission as miss ON miss.IdLieu = dist.IdLieu LEFT JOIN descente as dst ON dst.IdDescente =miss.IdDescente WHERE miss.IdMission <=> NULL AND reg.IdRegion = 1
+        let res =  await context.database.query(``,{
+            replacements: { }, type: seq.QueryTypes.SELECT
+        }); 
+        
+        return res;
+    },
+
     region: async (_, args, context) => {
         if (!context.req.auth.connected)
         {
@@ -265,11 +279,12 @@ module.exports = {
         }
 
         return await model.mission.findAll({
-            where:  filter
+            where:  filter,
+            attributes: [ ['IdLieu', 'IdDistrict'], "commune","fokotany","village","IdDescente","IdMission", "IdLieu"] 
         });
     },
 
-    mission: (_,args, context) => {
+    mission: async (_,args, context) => {
         if (!context.req.auth.connected)
         {
             throw  new Error(msg.notConnectedUser);
@@ -280,7 +295,7 @@ module.exports = {
             throw  new Error(msg.notAllowedApi);
         }
 
-        return model.mission.findByPk(args.IdMission);
+        return await model.mission.findByPk(args.IdMission);
     },
 
 };

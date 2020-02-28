@@ -5,16 +5,23 @@ const seq = require('sequelize');
 module.exports= {
     DESCENTE: {
         missions: async (_,args,context)=>{
-           return await model.mission.findAll({ where: { IdDescente: _.IdDescente} });
+           return await model.mission.findAll({ 
+                raw:true,
+                where: { IdDescente: _.IdDescente} });
         }
     },
 
     MISSION: {
         lieu: async (_,args,context)=>{
-           return await model.lieu.findOne({ where: { IdLieu: _.IdLieu} });
+            let res= await model.lieu.findOne({
+                    raw:true,
+                    where: { IdLieu: _.IdLieu}, attributes: [["descriLieu","district"],["IdLieu", "IdDistrict"], "IdLieu", "IdRegion"]  });
+            console.log(res);
+            
+            return res;
         },
         descente: async (_,context,resolveInfo)=>{
-            return await model.descente.findOne({ where: { IdDescente: _.IdDescente} });
+            return await model.descente.findOne({ raw:true, where: { IdDescente: _.IdDescente} });
         },
         equipe: async (_,args,context)=>{
             let res = await context.database.query("SELECT * FROM mission INNER JOIN charger ON charger.IdMission=mission.IdMission INNER JOIN enqueteur ON enqueteur.IdPersonne=charger.IdPersonne WHERE mission.IdMission=:idm",{
@@ -30,7 +37,7 @@ module.exports= {
             return await  model.lieu.findAll({
                 raw: true,
                 where:{
-                    IdRegion: _.IdRegion,
+                    IdLieu: _.IdRegion,
                 },
                 attributes: [ ['IdLieu', 'IdDistrict'], ["descriLieu", "district"],"IdRegion"] 
             });

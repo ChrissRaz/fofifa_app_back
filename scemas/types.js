@@ -74,7 +74,7 @@ module.exports  =  gql`
     type DISTRICT{
         IdDistrict: ID!,
         district: String!,
-        region: DISTRICT,
+        region: REGION,
         missions:[MISSION]
     }
 
