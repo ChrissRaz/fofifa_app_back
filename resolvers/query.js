@@ -1,6 +1,10 @@
 const db_connect = require("../helpers/db");
-const {sing_scret_key,expiration_login} = require("../config/constants");
+const {sing_scret_key,expiration_login,login_hash} = require("../config/constants");
 const msg = require("../config/messages");
+
+// const keyGen = require('crypto');
+const Crypto = require('node-crypt');  
+
 
 
 const seq = require('sequelize');
@@ -9,7 +13,7 @@ const model = require("../models/models");
 
 const joinMonster = require('join-monster');
 
-let bcrypt = require('bcryptjs');
+
 let jwt = require("jsonwebtoken");
 
 const Sequelize = require('sequelize');
@@ -73,9 +77,15 @@ module.exports = {
                 }
             }
         }
-    
-        const valid = await bcrypt.compare(args.password, usr_copy.password);
-    
+   
+
+        const crypto = new Crypto({
+            key: usr_copy.salt,
+            hmacKey: login_hash
+          });
+          
+        const valid =  (args.password == crypto.decrypt(usr_copy.password));
+
         if (!valid)
         {
             throw new Error(msg.passwordInvalid);
@@ -136,7 +146,21 @@ module.exports = {
         });       
 
         let res = [...chercheurs,...enqueteur,...saisisseur];
-        
+
+        res.forEach((el,i) => {
+            const crypto = new Crypto({
+                key: el.salt,
+                hmacKey: login_hash
+              });
+    
+            res[i] = {
+                ...res[i],
+                password: crypto.decrypt(el.password)
+            };
+
+            delete crypto;
+        });
+
         return res;
     },
 
@@ -146,12 +170,25 @@ module.exports = {
             replacements: { idp: args.IdUser}, type: seq.QueryTypes.SELECT
         });
 
+        
         if (res.length==0)
         {
             throw Error(msg.userNotExist);
         }
+
+        res = res[0];
         
-        return res[0];
+        const crypto = new Crypto({
+            key: res.salt,
+            hmacKey: login_hash
+          });
+
+        res = {
+            ...res,
+            password: crypto.decrypt(res.password)
+        };
+        
+        return res;
     },
 
     availableEnqueteurForDescente: async (_, args, context) => {

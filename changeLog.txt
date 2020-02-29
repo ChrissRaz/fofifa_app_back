@@ -1,0 +1,19 @@
+News Version 0.1.0:
+
+	+Mutations:
+		affectSaisisseurToDescente
+		deleteSaisisseurFromDescente
+		deleteEnqueteurFromMission
+		updateUser
+
+	+Types:
+		SAISISSEUR{
+			...,
+			descentes: [DESCENTE]
+		}
+
+		USER{
+			password: String (Decrypted)
+		}
+
+	+Database was updated.

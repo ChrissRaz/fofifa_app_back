@@ -8,11 +8,14 @@ let lieu = require("./lieu");
 let mission = require("./mission");
 let personne = require("./personne");
 let saisisseur = require("./saisisseur");
+let affecter = require('./affecter');
 
 
 const {DataTypes} = require('sequelize');
 const db = require("../helpers/db");
 
+
+// sequelize-auto -h <host> -d <database> -u <user> -x [password] -p [port]  --dialect mysql -o models 
 
 
 module.exports = {
@@ -24,7 +27,8 @@ module.exports = {
     descente: descente(db,DataTypes),
     mission: mission(db,DataTypes),
     personne: personne(db,DataTypes),
-    charger: charger(db,DataTypes)    
+    charger: charger(db,DataTypes)    ,
+    affecter: affecter(db,DataTypes)
 };
 
 

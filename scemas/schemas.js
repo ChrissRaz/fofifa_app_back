@@ -30,7 +30,11 @@ const base = gql`
         deleteUser(groupe: GROUP!, IdUser: ID!): Boolean,
         
         affectEnqueteurToMission(IdMission: ID!, IdEnqueteur: ID!): Boolean,
+        deleteEnqueteurFromMission(IdMission: ID!, IdEnqueteur: ID!): Boolean,
+
         affectSaisisseurToDescente(IdSaisisseur: ID!, IdDescente: ID!): Boolean,
+        deleteSaisisseurFromDescente(IdSaisisseur: ID!, IdDescente: ID!): Boolean,
+
 
 
         addRegion(region: String!) : REGION,

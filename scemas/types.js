@@ -44,6 +44,7 @@ module.exports  =  gql`
         username: String!,
         password: String!,
         salt: String!,
+        descentes: [DESCENTE]
     }
 
     type  CHERCHEUR implements  USER{

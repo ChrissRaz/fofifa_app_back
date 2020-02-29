@@ -90,9 +90,19 @@ module.exports= {
     
     SAISISSEUR: {
 
-        details_personne: (_,args,context) =>{
-            return model.personne.findByPk(_.IdPersonne);
-        }
+        details_personne: async (_,args,context) =>{
+            return await model.personne.findByPk(_.IdPersonne);
+        },
+        descentes: async (_,args,context) =>{
+
+            let res= await context.database.query(`
+            SELECT des.* FROM affecter 
+            INNER JOIN descente as des ON des.IdDescente= affecter.IdDescente WHERE affecter.IdPersonne = :idp `,{
+                replacements: {idp: _.IdPersonne}, type: seq.QueryTypes.SELECT
+            });
+
+            return res;
+        },
     },
   
 };

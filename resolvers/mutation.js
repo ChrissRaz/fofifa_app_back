@@ -1,6 +1,9 @@
 let jwt = require("jsonwebtoken");
 let bcrypt = require('bcryptjs');
-const {crypt_salt,sing_scret_key} = require("../config/constants");
+const keyGen = require('crypto');
+const Crypto = require('node-crypt');  
+
+const {crypt_salt,sing_scret_key,login_hash} = require("../config/constants");
 const msg = require("../config/messages");
 
 const db_connect = require("../helpers/db");
@@ -10,6 +13,8 @@ const model = require("../models/models");
 const Sequelize = require('sequelize');
 
 const Op = Sequelize.Op;
+
+
 
 
 module.exports= {
@@ -29,8 +34,14 @@ module.exports= {
 
         let addedBase = await model.personne.create({nom:args.userInfo.nom,prenom:args.userInfo.prenom,sexe:args.userInfo.sexe,age:args.userInfo.age});
 
-        let salt = bcrypt.genSaltSync();
-        let added = await model.fofifapers.create({IdPersonne:addedBase.IdPersonne, username:args.loginInfo.username, password: bcrypt.hashSync(args.loginInfo.password,salt),salt:salt});
+        let salt = keyGen.randomBytes(32).toString('hex');
+
+        const crypto = new Crypto({
+          key: salt,
+          hmacKey: login_hash
+        });
+
+        let added = await model.fofifapers.create({IdPersonne:addedBase.IdPersonne, username:args.loginInfo.username, password: crypto.encrypt(args.loginInfo.password),salt:salt});
         let usrAdded = added;
 
         if (args.groupe=="CHERCHEUR")
@@ -77,9 +88,15 @@ module.exports= {
 
       if (args.loginInfo){
 
-        let salt = bcrypt.genSaltSync();
 
-        args.loginInfo.password = bcrypt.hashSync(args.loginInfo.password,salt);
+        let salt = keyGen.randomBytes(32).toString('hex');
+
+        const crypto = new Crypto({
+          key: salt,
+          hmacKey: login_hash
+        });
+  
+        args.loginInfo.password =crypto.encrypt(args.loginInfo.password);
 
         await model.fofifapers.update({...args.loginInfo, salt: salt}, {
           where: {
@@ -162,9 +179,66 @@ module.exports= {
             throw  new Error(msg.notAllowedApi);
         }
 
-        added = await model.charger.create({IdPersonne:args.IdEnqueteur, IdMission: args.IdMission});
+        await model.charger.create({IdPersonne:args.IdEnqueteur, IdMission: args.IdMission});
         return  true;
     },
+
+    deleteEnqueteurFromMission: async (_,args, context) => {
+      if (!context.req.auth.connected)
+      {
+          throw  new Error(msg.notConnectedUser);
+      }
+
+      if (context.req.auth.userInfo.groupe!="CHERCHEUR")
+      {
+          throw  new Error(msg.notAllowedApi);
+      }
+
+      await model.charger.destroy({
+        where: {
+          IdPersonne: args.IdEnqueteur,
+          IdMission: args.IdMission
+        }
+      });
+
+      return  true;
+  },
+    
+    affectSaisisseurToDescente: async (_,args, context) => {
+      if (!context.req.auth.connected)
+      {
+          throw  new Error(msg.notConnectedUser);
+      }
+
+      if (context.req.auth.userInfo.groupe!="CHERCHEUR")
+      {
+          throw  new Error(msg.notAllowedApi);
+      }
+
+      await model.affecter.create({IdPersonne:args.IdSaisisseur, IdDescente: args.IdDescente});
+      return  true;
+    },
+
+    deleteSaisisseurFromDescente: async (_,args, context) => {
+      if (!context.req.auth.connected)
+      {
+          throw  new Error(msg.notConnectedUser);
+      }
+
+      if (context.req.auth.userInfo.groupe!="CHERCHEUR")
+      {
+          throw  new Error(msg.notAllowedApi);
+      }
+
+      await model.affecter.destroy({
+        where: {
+          IdPersonne: args.IdSaisisseur,
+          IdDescente: args.IdDescente
+        }
+      });
+      
+      return  true;
+  },
     
     addDescente: async (_,args,context) =>{
       if (!context.req.auth.connected)
