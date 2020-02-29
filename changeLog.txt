@@ -16,4 +16,6 @@ News Version 0.1.0:
 			password: String (Decrypted)
 		}
 
-	+Database was updated.
+	+Database and models:
+		. Tables and Models:
+			-affecter
