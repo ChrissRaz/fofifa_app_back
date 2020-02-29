@@ -106,7 +106,7 @@ module.exports = {
             return null;
         }
 
-        let res = {token: auth.token, groupe: auth.userInfo.groupe,expiration: expiration_login,user: auth.userInfo};
+        let res = {token: auth.token, groupe: auth.userInfo.groupe,expiration: expiration_login,user: auth.userInfo, IdPersonne: auth.userInfo.IdUser};
             
         return res;
     
