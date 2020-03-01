@@ -11,6 +11,21 @@ module.exports  =  gql`
         SAISISSEUR
     }
 
+    enum PARAM_TYPE{
+        NIVEAU_SCOLAIRE
+        TYPE_MAIN_OEUVRE
+        TYPE_PARENTE
+        ACTIVITE
+    }
+
+    type PARAM{
+        IdParam: ID!,
+        table: PARAM_TYPE!,
+        code: String,
+        val: String!,
+        status: Boolean!
+    }
+
     type PERSONNE{
         IdPersonne: ID!,
         nom: String!,

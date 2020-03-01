@@ -335,4 +335,49 @@ module.exports = {
         return await model.mission.findByPk(args.IdMission);
     },
 
+    parametres: async (_,args, context) => {
+
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        if (context.req.auth.userInfo.groupe!="CHERCHEUR" && context.req.auth.userInfo.groupe!="ENQUETEUR")
+        {
+            throw  new Error(msg.notAllowedApi);
+        }
+
+
+        return await model.param_divers.findAll({
+            raw: true,
+            where:  {
+                tableParam: args.table
+            },
+            attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]]
+        });
+    },
+
+    parametre: async (_,args, context) => {
+
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        if (context.req.auth.userInfo.groupe!="CHERCHEUR" && context.req.auth.userInfo.groupe!="ENQUETEUR")
+        {
+            throw  new Error(msg.notAllowedApi);
+        }
+
+        return await model.param_divers.findOne({
+            raw: true,
+            where:  {
+                tableParam: args.table,
+                IdParam: args.IdParam
+            },
+            attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]]
+        });
+    },
+    
+
 };

@@ -1,30 +1,35 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('charger', {
-    IdCharger: {
+  return sequelize.define('aider', {
+    IdMOA: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true
-    },
-    IdMission: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
       references: {
-        model: 'mission',
-        key: 'IdMission'
+        model: 'moe',
+        key: 'IdPersonne'
       }
     },
-    IdPersonne: {
+    IdTypMOE: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
+      primaryKey: true,
       references: {
-        model: 'enqueteur',
-        key: 'IdPersonne'
+        model: 'param_divers',
+        key: 'IdParam'
+      }
+    },
+    IDEA: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      primaryKey: true,
+      references: {
+        model: 'ea',
+        key: 'IDEA'
       }
     }
   }, {
-    tableName: 'charger'
+    tableName: 'aider'
   });
 };

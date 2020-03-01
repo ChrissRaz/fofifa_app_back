@@ -20,13 +20,15 @@ const base = gql`
 
         missions(IdDescente: ID):[MISSION],
         mission(IdMission: ID):MISSION,
+
+        parametres(table: PARAM_TYPE!): [PARAM],
+        parametre(table: PARAM_TYPE!, IdParam: ID!): PARAM
         
     }
       
     type Mutation{
         newUser(groupe: GROUP!,userInfo: userInfo!, loginInfo: loginInfo): USER,
         updateUser(groupe: GROUP!,IdUser: ID!, userInfo: userInfo, loginInfo: loginInfo): USER,
-
         deleteUser(groupe: GROUP!, IdUser: ID!): Boolean,
         
         affectEnqueteurToMission(IdMission: ID!, IdEnqueteur: ID!): Boolean,
@@ -35,11 +37,13 @@ const base = gql`
         affectSaisisseurToDescente(IdSaisisseur: ID!, IdDescente: ID!): Boolean,
         deleteSaisisseurFromDescente(IdSaisisseur: ID!, IdDescente: ID!): Boolean,
 
-
-
         addRegion(region: String!) : REGION,
         updateRegion(IdRegion: ID!, region: String!) : REGION,
         deleteRegion(IdRegion: ID!): Boolean,
+
+        addParam(table: PARAM_TYPE!,code: String,val: String!,status: Boolean!): PARAM,
+        updateParam(table: PARAM_TYPE!,IdParam: ID!, code: String,val: String!,status: Boolean!): PARAM,
+        deleteParam(table: PARAM_TYPE!,IdParam: ID!): Boolean,
 
         addDistrict(IdRegion: ID!, district: String!): DISTRICT,
         updateDistrict(IdDistrict: ID!, district: String!): DISTRICT,
@@ -49,7 +53,6 @@ const base = gql`
         addDescente( dateDescente: String!, description: String!): DESCENTE,
         updateDescente(IdDescente: ID! ,dateDescente: String, description: String): DESCENTE,
         
-
         addMission(commune: String!, fokotany: String!, village: String!, IdDescente: ID!, IdDistrict: ID!): MISSION,
         updateMission(IdMission:ID! ,commune: String!, fokotany: String!, village: String!, IdDescente: ID!, IdDistrict: ID!): MISSION
         deleteMission:Boolean,
