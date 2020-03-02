@@ -1,3 +1,5 @@
+# BACKEND FOFIFA_APP EVOLUTION
+
 ## Version 0.1.0
 
 * Mutations:
@@ -7,15 +9,15 @@
   * updateUser
 
 * Types:
-  * SAISISSEUR{
-    ...
-		descentes: [DESCENTE] 
-	}	
+  * ```graphql SAISISSEUR{
+...
+descentes: [DESCENTE]
+}```
 
   * USER{
     ...
-	  password: String (Decrypted)
-	}
+password: String (Decrypted)
+}
 
 * Database and models:
   * Tables and Models:
@@ -23,7 +25,7 @@
 
 ## Version 0.1.2
 
-Note: EA = EXPLOITATION AGRICOLE
+**Note: EA=EXPLOITATION AGRICOLE**
 
 * Mutations:
   * addEA
@@ -31,7 +33,7 @@ Note: EA = EXPLOITATION AGRICOLE
   * deleteEA
 
 * Query
-  * EAs 
+  * EAs
   * EA
   
 * Database and models:
@@ -45,6 +47,3 @@ Note: EA = EXPLOITATION AGRICOLE
   * aider
   * avoir_famille
   * saisir
-
-
-		
