@@ -5,6 +5,8 @@ const Crypto = require('node-crypt');
 const { crypt_salt, sing_scret_key, login_hash } = require("../config/constants");
 const msg = require("../config/messages");
 
+const helpers = require("../helpers/helpers");
+
 const db_connect = require("../helpers/db");
 
 const model = require("../models/models");
@@ -280,7 +282,7 @@ module.exports = {
   addRegion: async (_, args, context) => {
 
     let added = await model.lieu.create({ descriLieu: args.region });
-    console.log(added);
+    // console.log(added);
 
     return {
       ...added.dataValues,
@@ -315,7 +317,7 @@ module.exports = {
       attributes: [['IdLieu', 'IdRegion'], ["descriLieu", "region"]]
     });
 
-    console.log(res);
+    // console.log(res);
 
     return res.dataValues;
 
@@ -524,7 +526,6 @@ module.exports = {
     {
       return false;
     }
-  
 
     await model.param_divers.destroy({
       where: {
@@ -536,7 +537,80 @@ module.exports = {
     return true;
 
   },
+
+
+  addEA:  async (_, args, context) => {
+
+      if (!context.req.auth.connected) {
+        throw new Error(msg.notConnectedUser);
+      }
+
+      let charger = await model.charger.findOne({
+        raw: true,
+        where: {
+          IdPersonne: args.IdEnqueteur,
+          IdMission: args.IdMission,
+        }
+      });
+
+      if (!charger)
+      {
+        throw  new Error(msg.invalidData);
+      }
+
+      let added = await model.EA.create({
+        codeEA: args.codeEA,
+        IdCharger: charger.IdCharger
+      }); 
+
+      helpers.saisir(context.req.auth.userInfo.IdPersonne,added.dataValues.IdEA);
+
+      return added.dataValues;
+  },
+
+  updateEA: async (_, args, context) => {
+
+    if (!context.req.auth.connected) {
+      throw new Error(msg.notConnectedUser);
+    }
+
+    await model.EA.update({
+      codeEA: args.codeEA,
+    }, {
+      where: {
+        IdEA: args.IdEA,
+      }
+    });
+
+    let res = await model.EA.findOne({
+      raw: true,
+      where: {
+        IdEA: args.IdEA
+      },
+    });
+
+    helpers.saisir(context.req.auth.userInfo.IdPersonne, res.IdEA);
+
+    return res;
+  },
+
+  deleteEA: async (_, args, context) => {
+    if (!context.req.auth.connected) {
+      throw new Error(msg.notConnectedUser);
+    }
+
+    model.EA.destroy({
+      where: {
+        IdEA: args.IdEA
+      }
+    });
+
+    return true;
+
+  }
 };
+
+
 
 
 

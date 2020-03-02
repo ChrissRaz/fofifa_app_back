@@ -16,7 +16,7 @@ module.exports= {
             let res= await model.lieu.findOne({
                     raw:true,
                     where: { IdLieu: _.IdLieu}, attributes: [["descriLieu","district"],["IdLieu", "IdDistrict"], "IdLieu", "IdRegion"]  });
-            console.log(res);
+            // console.log(res);
             
             return res;
         },
@@ -37,7 +37,7 @@ module.exports= {
             return await  model.lieu.findAll({
                 raw: true,
                 where:{
-                    IdLieu: _.IdRegion,
+                    IdRegion: _.IdRegion,
                 },
                 attributes: [ ['IdLieu', 'IdDistrict'], ["descriLieu", "district"],"IdRegion"] 
             });

@@ -22,7 +22,7 @@ const {DataTypes} = require('sequelize');
 const db = require("../helpers/db");
 
 
-// sequelize-auto -h <host> -d <database> -u <user> -x [password] -p [port]  --dialect mysql -o models 
+// sequelize-auto -h localhost -d fofifa -u root  --dialect mysql -o models 
 
 
 module.exports = {
@@ -41,7 +41,7 @@ module.exports = {
     mission: mission(db,DataTypes),
     moe: moe(db,DataTypes),
     param_divers: param_divers(db,DataTypes),
-    saisir: saisir+(db,DataTypes),
+    saisir: saisir(db,DataTypes),
     personne: personne(db,DataTypes),
     charger: charger(db,DataTypes)    ,
 };

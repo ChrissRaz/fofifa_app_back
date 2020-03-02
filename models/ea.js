@@ -2,7 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('ea', {
-    IDEA: {
+    IdEA: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
@@ -10,7 +10,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     codeEA: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     IdCharger: {
       type: DataTypes.INTEGER(11),

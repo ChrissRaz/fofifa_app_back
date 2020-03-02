@@ -22,8 +22,11 @@ const base = gql`
         mission(IdMission: ID):MISSION,
 
         parametres(table: PARAM_TYPE!): [PARAM],
-        parametre(table: PARAM_TYPE!, IdParam: ID!): PARAM
-        
+        parametre(table: PARAM_TYPE!, IdParam: ID!): PARAM,
+
+        EAs(IdMission: ID, IdEnqueteur: ID): [EA],
+        EA(IdEA: ID):EA,
+
     }
       
     type Mutation{
@@ -54,8 +57,12 @@ const base = gql`
         updateDescente(IdDescente: ID! ,dateDescente: String, description: String): DESCENTE,
         
         addMission(commune: String!, fokotany: String!, village: String!, IdDescente: ID!, IdDistrict: ID!): MISSION,
-        updateMission(IdMission:ID! ,commune: String!, fokotany: String!, village: String!, IdDescente: ID!, IdDistrict: ID!): MISSION
-        deleteMission:Boolean,
+        updateMission(IdMission:ID! ,commune: String!, fokotany: String!, village: String!, IdDescente: ID!, IdDistrict: ID!): MISSION,
+        deleteMission(IdMission: ID!):Boolean,
+
+        addEA(codeEA: String!, IdEnqueteur: ID!, IdMission: ID!): EA!,
+        updateEA(IdEA: ID!, codeEA: String!): EA!,
+        deleteEA(IdEA: ID!): Boolean,
     }
 `;
 

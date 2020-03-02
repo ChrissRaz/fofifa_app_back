@@ -2,5 +2,6 @@ module.exports ={
     notConnectedUser: "NOTCONNECTED",
     notAllowedApi: "NOTALLOWED",
     passwordInvalid: "INVALIDPASSWORD",
-    userNotExist: "USERNOTEXIST"
+    userNotExist: "USERNOTEXIST",
+    invalidData: "INVALIDDATA"
 };

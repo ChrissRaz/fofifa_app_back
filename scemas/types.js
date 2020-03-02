@@ -1,6 +1,4 @@
 const {gql} = require('../helpers/helpers');
-// const {gql} = require('apollo-server-express');
-
 
 
 module.exports  =  gql`
@@ -16,6 +14,7 @@ module.exports  =  gql`
         TYPE_MAIN_OEUVRE
         TYPE_PARENTE
         ACTIVITE
+        TYPE_AVANTAGE_NATURE
     }
 
     type PARAM{
@@ -117,5 +116,46 @@ module.exports  =  gql`
         missions: [MISSION]
     }
 
+    type ANVANTAGE_NAT{
+        IdAvantageNat: ID!,
+        puAvNar: Int,
+        qteAvNat: Int,
+        type: PARAM!
+    }
+
+    type MENAGE{
+        IdPersonne: ID!,
+        utaFamilale: Float!,
+        utaAgricole: Float!,
+        dateEnquete: String!,
+        presence: Boolean!,
+        observation: String,
+        details_personne: PERSONNE!,
+        activitePricipale: PARAM,
+        activiteSecondaire: PARAM,
+        autreSourceRevenu: PARAM,
+        nivScolaireAct: PARAM,
+        nivScolaireAtteint: PARAM,
+        relatioAvecCE: PARAM,
+        ea: [EA!]
+    }
+
+    type MOE{
+        IdPersonne: ID!,
+        moisDebut: String!,
+        moisFin: String!,
+        salaireMens: Int!,
+        observation: String,
+        activitePricipale: PARAM,
+        avantegeNature: [ANVANTAGE_NAT],
+        ea: [EA!]
+    }
+
+    type EA{
+        IdEA: ID!,
+        codeEA: String!,
+        # meanages: [MENAGE],
+        # mainOeuvre: [MOE]
+    }
 `;
 

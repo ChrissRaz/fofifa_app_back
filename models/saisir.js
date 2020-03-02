@@ -11,18 +11,19 @@ module.exports = function(sequelize, DataTypes) {
         key: 'IdPersonne'
       }
     },
-    IDEA: {
+    IdEA: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
       references: {
         model: 'ea',
-        key: 'IDEA'
+        key: 'IdEA'
       }
     },
     date_modif: {
-      type: DataTypes.DATEONLY,
-      allowNull: false
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     }
   }, {
     tableName: 'saisir'

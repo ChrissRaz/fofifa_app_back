@@ -109,7 +109,7 @@ module.exports = {
     
         let auth = context.req.auth;
 
-        console.log(auth);
+        // console.log(auth);
         
         if (!auth.connected)
         {
@@ -259,7 +259,7 @@ module.exports = {
             attributes: [ ['IdLieu', 'IdRegion'], ["descriLieu", "region"]] 
         });
 
-        console.log(res);
+        // console.log(res);
         
         return res;
     },
@@ -379,5 +379,68 @@ module.exports = {
         });
     },
     
+    EAs: async (_,args, context) => {
+
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        let res  = null;
+    
+        if (args.IdMission && args.IdEnqueteur)
+        {
+            res = await context.database.query(`
+                SELECT * FROM ea 
+                INNER JOIN charger as ch ON ch.IdCharger = ea.IdCharger WHERE ch.IdMission =:idm AND ch.IdPersonne = :idp`,{
+                replacements: { 
+                    idm: args.IdMission,
+                    idp: args.IdEnqueteur
+                }, type: seq.QueryTypes.SELECT
+            })
+        }
+        else if(args.IdMission)
+        {
+            res = await context.database.query(`
+                SELECT * FROM ea 
+                INNER JOIN charger as ch ON ch.IdCharger = ea.IdCharger WHERE ch.IdMission =:idm`,{
+                replacements: { 
+                    idm: args.IdMission
+                }, type: seq.QueryTypes.SELECT
+            })
+        }
+        else if (args.IdEnqueteur){
+            res = await context.database.query(`
+                SELECT * FROM ea 
+                INNER JOIN charger as ch ON ch.IdCharger = ea.IdCharger WHERE ch.IdPersonne = :idp`,{
+                replacements: { 
+                    idp: args.IdEnqueteur
+                }, type: seq.QueryTypes.SELECT
+            })
+        }   
+        else
+        {
+            res = await model.EA.findAll({
+                raw: true,
+            });
+        }
+
+        return res;
+    },
+    
+    EA: async (_,args, context) => {
+
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        return await model.EA.findOne({
+            raw: true,
+            where: {
+                IdEA: args.IdEA
+            }
+        });
+    }
 
 };

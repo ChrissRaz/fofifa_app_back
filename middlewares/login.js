@@ -53,12 +53,12 @@ module.exports =  (req, res, next) => {
         return;
     }
 
-    console.log(token);
+    // console.log(token);
     
     delete decodedToken.iat;
     delete decodedToken.exp;
 
-    console.log(decodedToken);
+    // console.log(decodedToken);
     
 
     // let t = jwt.sign(token,sing_scret_key,{

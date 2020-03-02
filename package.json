@@ -1,6 +1,6 @@
 {
   "name": "fofifa_project_back",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "ce projet est le backend du projet fofifa",
   "main": "index.js",
   "scripts": {
