@@ -8,18 +8,18 @@
 
 * Types:
   * SAISISSEUR{
-		...,
-		descentes: [DESCENTE]
+    ...
+		descentes: [DESCENTE] 
 	}	
 
   * USER{
-
-		password: String (Decrypted)
+    ...
+	  password: String (Decrypted)
 	}
 
-  * Database and models:
-    * Tables and Models:
-	* affecter
+* Database and models:
+  * Tables and Models:
+    * affecter
 
 ## Version 0.1.2
 
