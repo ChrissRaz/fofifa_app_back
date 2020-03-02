@@ -9,10 +9,10 @@
   * updateUser
 
 * Types:
-  * ```graphql SAISISSEUR{
-...
+  * SAISISSEUR{
+    ...
 descentes: [DESCENTE]
-}```
+}
 
   * USER{
     ...
