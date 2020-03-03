@@ -14,9 +14,9 @@ const base = gql`
         descentes:[DESCENTE],
         descente(IdDescente: ID):DESCENTE,
 
-        regions:[REGION],
-        region(IdRegion: ID!): REGION,
-        regionsWithAvailableDistrictForDescente(IdDescente: ID!):[REGION],
+        regions(IdDescente: ID, IdDisctrictOfMission: ID):[REGION],
+        region(IdRegion: ID!,IdDescente: ID, IdDisctrictOfMission: ID): REGION,
+        # regionsWithAvailableDistrictForDescente(IdDescente: ID!, IdMission: ID):[REGION],
 
         missions(IdDescente: ID):[MISSION],
         mission(IdMission: ID):MISSION,
@@ -27,6 +27,8 @@ const base = gql`
         EAs(IdMission: ID, IdEnqueteur: ID): [EA],
         EA(IdEA: ID):EA,
 
+        menages(IdEA: ID!):[MENAGE],
+        menage(IdMenage: ID!): MENAGE
     }
       
     type Mutation{
@@ -61,8 +63,12 @@ const base = gql`
         deleteMission(IdMission: ID!):Boolean,
 
         addEA(codeEA: String!, IdEnqueteur: ID!, IdMission: ID!): EA!,
-        updateEA(IdEA: ID!, codeEA: String!): EA!,
+        updateEA(IdEA: ID!, codeEA: String!, IdStatus: ID!): EA!,
         deleteEA(IdEA: ID!): Boolean,
+
+        addMenage(InfoMenage: menage!, IdEA: ID!): MENAGE!,
+        updateMenage(IdMenage: ID!, InfoMenage: menage!): EA!,
+        deleteMenage(IdMenage: ID!): Boolean,
     }
 `;
 

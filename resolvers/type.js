@@ -34,13 +34,52 @@ module.exports= {
     REGION: {
 
         districts: async(_,args,context)=>{
-            return await  model.lieu.findAll({
-                raw: true,
-                where:{
-                    IdRegion: _.IdRegion,
-                },
-                attributes: [ ['IdLieu', 'IdDistrict'], ["descriLieu", "district"],"IdRegion"] 
-            });
+
+            let res = null;
+            console.log(_);
+            
+
+            if (_.IdDescente)
+            {
+                let query = "";
+
+                if (_.IdDisctrictOfMission)
+                {
+                    query =`SELECT IdLieu as IdDistrict, descriLieu as district , IdRegion
+                    FROM lieu as li WHERE li.IdLieu NOT IN (SELECT dist.IdLieu FROM descente as dst 
+                    INNER JOIN mission as miss ON miss.IdDescente= dst.IdDescente
+                    INNER JOIN lieu as dist ON dist.IdLieu = miss.IdLieu
+                    INNER JOIN lieu as reg ON reg.IdLieu = dist.IdRegion
+                    WHERE reg.IdLieu = :idReg AND dst.IdDescente = :iddst  AND dist.IdLieu!=:idl)  AND NOT li.IdRegion <=> NULL AND li.IdRegion =:idReg `;
+                }
+                else
+                {
+                    query =`SELECT IdLieu as IdDistrict, descriLieu as district , IdRegion
+                    FROM lieu as li WHERE li.IdLieu NOT IN (SELECT dist.IdLieu FROM descente as dst 
+                    INNER JOIN mission as miss ON miss.IdDescente= dst.IdDescente
+                    INNER JOIN lieu as dist ON dist.IdLieu = miss.IdLieu
+                    INNER JOIN lieu as reg ON reg.IdLieu = dist.IdRegion
+                    WHERE reg.IdLieu = :idReg AND dst.IdDescente = :iddst)  AND NOT li.IdRegion <=> NULL AND li.IdRegion =:idReg `
+                }
+                
+                res = await context.database.query(query,{
+                        replacements: { iddst: _.IdDescente, idReg: _.IdRegion, idl: _.IdDisctrictOfMission}, 
+                        type: seq.QueryTypes.SELECT,
+                        attributes: [ ['IdLieu', 'IdDistrict'], ["descriLieu", "district"],"IdRegion"] 
+                    });
+            }
+            else
+            {
+                res = await  model.lieu.findAll({
+                    raw: true,
+                    where:{
+                        IdRegion: _.IdRegion,
+                    },
+                    attributes: [ ['IdLieu', 'IdDistrict'], ["descriLieu", "district"],"IdRegion"] 
+                });
+            }
+
+            return res;
         }
     },
 

@@ -11,22 +11,33 @@ module.exports  = gql`
         age: Int,
     },
 
+    input personneInfo
+    {
+        nom: String!,
+        prenom: String!,
+        sexe: Boolean!,
+        age: Int,
+    },
+
     input loginInfo
     {
         username: String!,
         password: String!,
     },
 
-    # input menage 
-    # {
-    #     info_personne: userInfo!
-    #     utaFamilale: Float!,
-    #     utaAgricole: Float!,
-    #     dateEnquete: String!,
-    #     presence: Boolean!,
-    #     observation: String,
-    #     IdRealationAvecCE: String,
-
-    # }
-
+    input menage 
+    {
+        details_personne: personneInfo!,
+        utaFamilale: Float!,
+        utaAgricole: Float!,
+        dateEnquete: String!,
+        presence: Boolean!,
+        obs_men: String,
+        IdactivitePricipale: ID,
+        IdactiviteSecondaire: ID,
+        IdautreSourceRevenu: ID,
+        IdnivScolaireAct: ID,
+        IdnivScolaireAtteint: ID,
+        IdrelatioAvecCE: ID,
+    }
 `;

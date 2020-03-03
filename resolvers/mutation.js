@@ -607,7 +607,45 @@ module.exports = {
 
     return true;
 
-  }
+  },
+
+
+  addMenage: async (_, args, context) => {
+    if (!context.req.auth.connected) {
+      throw new Error(msg.notConnectedUser);
+    }
+
+    let person = await model.personne.create(args.InfoMenage.details_personne);
+
+    // let manageInfo = {
+    //   IdPersonne:,
+    //   utaFamiliale:,
+    //   utaAgricole:,
+    //   autreRessRev: ,
+    //   dateEnquete: ,
+    //   presence: ,
+    //   obs_men: ,
+    // };
+
+    args.InfoMenage.IdPersonne = person.IdPersonne;
+
+    let menage = await model.menage.create({
+      ...args.InfoMenage.IdPersonne,
+      IdActPcpl: IdactivitePricipale,
+        IdActSec: IdactiviteSecondaire,
+        IdAutrSrcRev: IdautreSourceRevenu,
+        IdNivAtt: IdnivScolaireAtteint,
+        IdNivAct : IdnivScolaireAct,
+    });
+
+    //ajout relation avec CE et liaison EA
+
+    //reformat menage for MenageType
+
+    return menage;
+
+  },
+
 };
 
 

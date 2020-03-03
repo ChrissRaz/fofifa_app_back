@@ -15,6 +15,7 @@ module.exports  =  gql`
         TYPE_PARENTE
         ACTIVITE
         TYPE_AVANTAGE_NATURE
+        SAISIE_STATUT
     }
 
     type PARAM{
@@ -136,7 +137,7 @@ module.exports  =  gql`
         autreSourceRevenu: PARAM,
         nivScolaireAct: PARAM,
         nivScolaireAtteint: PARAM,
-        relatioAvecCE: PARAM,
+        relatioAvecCE: PARAM!,
         ea: [EA!]
     }
 
@@ -155,7 +156,8 @@ module.exports  =  gql`
         IdEA: ID!,
         codeEA: String!,
         # meanages: [MENAGE],
-        # mainOeuvre: [MOE]
+        # mainOeuvre: [MOE],
+        status: PARAM!,
     }
 `;
 

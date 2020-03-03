@@ -260,23 +260,32 @@ module.exports = {
         });
 
         // console.log(res);
-        
+        res.forEach((el, i) => {
+
+            res[i] = {
+                ...res[i],
+                IdDescente: args.IdDescente,
+                IdDisctrictOfMission: args.IdDisctrictOfMission
+            };
+                
+        });
+      
         return res;
     },
 
-    regionsWithAvailableDistrictForDescente: async (_, args, context) => {
-        if (!context.req.auth.connected)
-        {
-            throw  new Error(msg.notConnectedUser);
-        }
+    // regionsWithAvailableDistrictForDescente: async (_, args, context) => {
+    //     if (!context.req.auth.connected)
+    //     {
+    //         throw  new Error(msg.notConnectedUser);
+    //     }
 
-        //à reviser SELECT * FROM lieu as dist INNER JOIN lieu as reg ON reg.IdLieu = dist.IdRegion LEFT JOIN mission as miss ON miss.IdLieu = dist.IdLieu LEFT JOIN descente as dst ON dst.IdDescente =miss.IdDescente WHERE miss.IdMission <=> NULL AND reg.IdRegion = 1
-        let res =  await context.database.query(``,{
-            replacements: { }, type: seq.QueryTypes.SELECT
-        }); 
+    //     //à reviser SELECT * FROM lieu as dist INNER JOIN lieu as reg ON reg.IdLieu = dist.IdRegion LEFT JOIN mission as miss ON miss.IdLieu = dist.IdLieu LEFT JOIN descente as dst ON dst.IdDescente =miss.IdDescente WHERE miss.IdMission <=> NULL AND reg.IdRegion = 1
+    //     let res =  await context.database.query(``,{
+    //         replacements: { }, type: seq.QueryTypes.SELECT
+    //     }); 
         
-        return res;
-    },
+    //     return res;
+    // },
 
     region: async (_, args, context) => {
         if (!context.req.auth.connected)
@@ -284,7 +293,7 @@ module.exports = {
             throw  new Error(msg.notConnectedUser);
         }
 
-        return await model.lieu.findOne({
+        let res = await model.lieu.findOne({
             raw: true,
             where:{
                 IdLieu: args.IdRegion,
@@ -294,6 +303,14 @@ module.exports = {
             },
             attributes: [ ['IdLieu', 'IdRegion'], ["descriLieu", "region"]] 
         });
+
+        res= {
+            ...res,
+            IdDescente: args.IdDescente,
+            IdDisctrictOfMission: args.IdDisctrictOfMission
+        };
+
+        return res;
     },
 
     missions: async (_,args, context) => {

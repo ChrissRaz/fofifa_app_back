@@ -11,7 +11,7 @@
 * Types:
   * SAISISSEUR{
     ...
-descentes: [DESCENTE]
+descentes: [DESCENTE] 
 }
 
   * USER{
@@ -23,18 +23,37 @@ password: String (Decrypted)
   * Tables and Models:
     * affecter
 
+
 ## Version 0.1.2
 
-**Note: EA=EXPLOITATION AGRICOLE**
+**Note: EA:EXPLOITATION AGRICOLE ; PARAM: tout les tables qui ont un clé valeurs comme donnés sont gerées par ce TYPE**
 
 * Mutations:
   * addEA
   * updateEA
   * deleteEA
 
+  * addParam
+  * updateParam
+  * deleteParam
+
 * Query
   * EAs
   * EA
+  * parametres
+  * parametre
+
+* Type
+  * PARAM
+  * PARAM_TYPE
+  * ANVANTAGE_NAT
+  * MENAGE
+  * MOE
+  * EA
+  * SAISISSEUR {
+    ...
+     descentes: [DESCENTE]
+  }
   
 * Database and models:
   * affecter
@@ -47,3 +66,6 @@ password: String (Decrypted)
   * aider
   * avoir_famille
   * saisir
+
+* Bug Fixes:
+  * addRegion
