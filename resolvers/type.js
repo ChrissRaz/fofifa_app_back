@@ -1,6 +1,10 @@
 const model = require("../models/models");
 const seq = require('sequelize');
 
+const {param_tabes} = require('../config/constants');
+
+
+
 
 module.exports= {
     DESCENTE: {
@@ -61,7 +65,7 @@ module.exports= {
                     INNER JOIN lieu as reg ON reg.IdLieu = dist.IdRegion
                     WHERE reg.IdLieu = :idReg AND dst.IdDescente = :iddst)  AND NOT li.IdRegion <=> NULL AND li.IdRegion =:idReg `
                 }
-                
+
                 res = await context.database.query(query,{
                         replacements: { iddst: _.IdDescente, idReg: _.IdRegion, idl: _.IdDisctrictOfMission}, 
                         type: seq.QueryTypes.SELECT,
@@ -143,5 +147,143 @@ module.exports= {
             return res;
         },
     },
-  
+    EA: {
+        status: async (_,args,context) =>{
+            
+            return await model.param_divers.findByPk(_.IdStatus,{
+                raw: true,
+                attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]],
+            });
+
+        },
+
+        meanages:  async (_,args,context) =>{
+            
+            return await context.database.query(
+                `SELECT * FROM ea 
+                INNER JOIN avoir_famille AS af ON af.IdEA = ea.IdEA 
+                INNER JOIN menage AS mn ON mn.IdPersonne= af.IdPersonne 
+                WHERE ea.IdEA = :idea` ,
+                {
+                    replacements: {
+                        idea: _.IdEA
+                    },
+                    type: seq.QueryTypes.SELECT
+                }
+            );
+
+        },
+    },
+    MENAGE: {
+        // IdActPcpl: ID,
+        // IdActSec: ID,
+        // IdAutreSrcRev: ID,
+        // IdNivAtt: ID,
+        // IdNivAct: ID,
+        // IdRelAvecCE: ID!,
+        activitePricipale: async (_,args,context) =>{
+            
+            console.log(_);
+            
+            let res =  await model.param_divers.findOne({
+                where: {
+                    IdParam: _.IdActPcpl,
+                    tableParam: param_tabes.activite
+                },
+                raw: true,
+                attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]],
+            });
+
+            console.log(res);
+
+            return res;
+            
+        },
+        activiteSecondaire: async (_,args,context) =>{
+            
+            return await model.param_divers.findOne({
+                where: {
+                    IdParam: _.IdActSec,
+                    tableParam: param_tabes.activite
+                },
+                raw: true,
+                attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]],
+            });
+        },
+        autreSourceRevenu: async (_,args,context) =>{
+            
+            return await model.param_divers.findOne({
+                where: {
+                    IdParam: _.IdAutrSrcRev,
+                    tableParam: param_tabes.activite
+                },
+                raw: true,
+                attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]],
+            });
+        },
+        nivScolaireAct: async (_,args,context) =>{
+            
+            return await model.param_divers.findOne({
+                where: {
+                    IdParam: _.IdNivAct,
+                    tableParam: param_tabes.niv_sco
+                },
+                raw: true,
+                attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]],
+            });
+        },
+        nivScolaireAtteint: async (_,args,context) =>{
+            
+            return await model.param_divers.findOne({
+                where: {
+                    IdParam: _.IdNivAtt,
+                    tableParam: param_tabes.niv_sco
+                },
+                raw: true,
+                attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]],
+            });
+        },
+        relatioAvecCE: async (_,args,context) =>{
+            
+             await model.param_divers.findByPk(_.IdStatus,{
+                raw: true,
+                attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]],
+            });
+
+            return context.database.query(
+                `SELECT pd.* FROM param_divers as pd 
+                INNER JOIN avoir_famille as af ON af.IdRelaCE = pd.IdParam 
+                WHERE af.IdPersonne =  :idp AND af.IdEA= :idEA` ,
+                {
+                    replacements: {
+                        idp: _.IdPersonne,
+                        idEA: _.IdEA
+                    },
+                    raw: true,
+                    attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]],
+                }
+            );
+
+            
+        },
+        ea: async (_,args,context) =>{
+            
+            return await model.EA.findOne({
+                raw: true,
+                where: {
+                    IdEA:_.IdEA
+                }
+            });
+        },
+        details_personne: async (_,args,context) =>{
+            
+            return await model.personne.findOne({
+                raw: true,
+                where: {
+                    IdPersonne:_.IdPersonne
+                }
+            });
+
+        },
+    },
 };

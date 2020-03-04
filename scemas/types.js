@@ -15,7 +15,14 @@ module.exports  =  gql`
         TYPE_PARENTE
         ACTIVITE
         TYPE_AVANTAGE_NATURE
-        SAISIE_STATUT
+        SAISIE_STATUS
+    }
+
+    enum CODE_STATUS{
+        EN_SAISI
+        AT_VALID
+        EN_REVIS
+        VALIDE
     }
 
     type PARAM{
@@ -31,6 +38,7 @@ module.exports  =  gql`
         nom: String!,
         prenom: String!,
         age: Int,
+        sexe: Boolean,
     }
 
     interface USER{
@@ -126,9 +134,8 @@ module.exports  =  gql`
 
     type MENAGE{
         IdPersonne: ID!,
-        utaFamilale: Float!,
-        utaAgricole: Float!,
-        dateEnquete: String!,
+        UTA: Float!,
+        UTAAgricole: Float!,
         presence: Boolean!,
         observation: String,
         details_personne: PERSONNE!,
@@ -138,7 +145,7 @@ module.exports  =  gql`
         nivScolaireAct: PARAM,
         nivScolaireAtteint: PARAM,
         relatioAvecCE: PARAM!,
-        ea: [EA!]
+        ea: EA!
     }
 
     type MOE{
@@ -148,14 +155,15 @@ module.exports  =  gql`
         salaireMens: Int!,
         observation: String,
         activitePricipale: PARAM,
-        avantegeNature: [ANVANTAGE_NAT],
+        # avantegeNature: [ANVANTAGE_NAT],
         ea: [EA!]
     }
 
     type EA{
         IdEA: ID!,
         codeEA: String!,
-        # meanages: [MENAGE],
+        dateEnquete: String!
+        meanages: [MENAGE],
         # mainOeuvre: [MOE],
         status: PARAM!,
     }

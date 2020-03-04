@@ -69,3 +69,11 @@ password: String (Decrypted)
 
 * Bug Fixes:
   * addRegion
+
+## Version 0.1.3
+
+* Mutation
+* Query
+  * regionsWithAvailableDistrictForDescente [Deleted]
+  * regions & region [filtrage aded]
+  

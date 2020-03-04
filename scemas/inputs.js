@@ -28,16 +28,15 @@ module.exports  = gql`
     input menage 
     {
         details_personne: personneInfo!,
-        utaFamilale: Float!,
-        utaAgricole: Float!,
-        dateEnquete: String!,
+        UTA: Float!,
+        UTAAgricole: Float!,
         presence: Boolean!,
-        obs_men: String,
-        IdactivitePricipale: ID,
-        IdactiviteSecondaire: ID,
-        IdautreSourceRevenu: ID,
-        IdnivScolaireAct: ID,
-        IdnivScolaireAtteint: ID,
-        IdrelatioAvecCE: ID,
+        observation: String,
+        IdActPcpl: ID,
+        IdActSec: ID,
+        IdAutrSrcRev: ID,
+        IdNivAtt: ID,
+        IdNivAct: ID,
+        IdRelAvecCE: ID!,
     }
 `;

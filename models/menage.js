@@ -11,20 +11,12 @@ module.exports = function(sequelize, DataTypes) {
         key: 'IdPersonne'
       }
     },
-    utaFamiliale: {
+    UTA: {
       type: DataTypes.FLOAT,
       allowNull: false
     },
-    utaAgricole: {
+    UTAAgricole: {
       type: DataTypes.FLOAT,
-      allowNull: false
-    },
-    autreRessRev: {
-      type: DataTypes.STRING(50),
-      allowNull: false
-    },
-    dateEnquete: {
-      type: DataTypes.DATEONLY,
       allowNull: false
     },
     presence: {
@@ -73,7 +65,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     obs_men: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: true
     }
   }, {
     tableName: 'menage'

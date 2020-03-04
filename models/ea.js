@@ -13,6 +13,18 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       unique: true
     },
+    dateEnquete: {
+      type: DataTypes.DATEONLY,
+      allowNull: false
+    },
+    IdStatus: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        model: 'param_divers',
+        key: 'IdParam'
+      }
+    },
     IdCharger: {
       type: DataTypes.INTEGER(11),
       allowNull: false,

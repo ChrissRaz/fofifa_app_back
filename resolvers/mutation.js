@@ -500,11 +500,11 @@ module.exports = {
 
     let res = await model.param_divers.findByPk(args.IdParam, {
       raw: true,
-      attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]]
+      attributes: ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]]
     });
 
     // console.log(res);
-    
+
     return res;
 
   },
@@ -522,8 +522,7 @@ module.exports = {
 
     // Vérification de liaison
 
-    if (linked)
-    {
+    if (linked) {
       return false;
     }
 
@@ -533,39 +532,51 @@ module.exports = {
         tableParam: args.table
       }
     });
-    
+
     return true;
 
   },
 
 
-  addEA:  async (_, args, context) => {
+  addEA: async (_, args, context) => {
 
-      if (!context.req.auth.connected) {
-        throw new Error(msg.notConnectedUser);
+    if (!context.req.auth.connected) {
+      throw new Error(msg.notConnectedUser);
+    }
+
+    let charger = await model.charger.findOne({
+      raw: true,
+      where: {
+        IdPersonne: args.IdEnqueteur,
+        IdMission: args.IdMission,
       }
+    });
 
-      let charger = await model.charger.findOne({
-        raw: true,
-        where: {
-          IdPersonne: args.IdEnqueteur,
-          IdMission: args.IdMission,
-        }
-      });
+    // avoir l'id du status en saisi
+    let status = await model.param_divers.findOne({
+      where: {
+        codeParam: "EN_SAISI",
+      },
+      raw: true
+    });
 
-      if (!charger)
-      {
-        throw  new Error(msg.invalidData);
-      }
+    console.log(status);
 
-      let added = await model.EA.create({
-        codeEA: args.codeEA,
-        IdCharger: charger.IdCharger
-      }); 
 
-      helpers.saisir(context.req.auth.userInfo.IdPersonne,added.dataValues.IdEA);
+    if (!charger) {
+      throw new Error(msg.invalidData);
+    }
 
-      return added.dataValues;
+    let added = await model.EA.create({
+      codeEA: args.codeEA,
+      dateEnquete: args.dateEnquete,
+      IdCharger: charger.IdCharger,
+      IdStatus: status.IdParam
+    });
+
+    helpers.saisir(context.req.auth.userInfo.IdPersonne, added.dataValues.IdEA);
+
+    return added.dataValues;
   },
 
   updateEA: async (_, args, context) => {
@@ -574,13 +585,26 @@ module.exports = {
       throw new Error(msg.notConnectedUser);
     }
 
+    let status = await model.param_divers.findOne({
+      where: {
+        codeParam: args.codeStatus,
+      },
+      raw: true
+    });
+
+    console.log(status);
+
+
     await model.EA.update({
       codeEA: args.codeEA,
+      IdStatus: status.IdParam,
+      dateEnquete: args.dateEnquete
     }, {
       where: {
-        IdEA: args.IdEA,
+        IdEA: args.IdEA
       }
     });
+
 
     let res = await model.EA.findOne({
       raw: true,
@@ -611,9 +635,9 @@ module.exports = {
 
 
   addMenage: async (_, args, context) => {
-    if (!context.req.auth.connected) {
-      throw new Error(msg.notConnectedUser);
-    }
+    // if (!context.req.auth.connected) {
+    //   throw new Error(msg.notConnectedUser);
+    // }
 
     let person = await model.personne.create(args.InfoMenage.details_personne);
 
@@ -627,24 +651,48 @@ module.exports = {
     //   obs_men: ,
     // };
 
-    args.InfoMenage.IdPersonne = person.IdPersonne;
+    args.InfoMenage = { IdPersonne: person.IdPersonne, ...args.InfoMenage };
 
-    let menage = await model.menage.create({
-      ...args.InfoMenage.IdPersonne,
-      IdActPcpl: IdactivitePricipale,
-        IdActSec: IdactiviteSecondaire,
-        IdAutrSrcRev: IdautreSourceRevenu,
-        IdNivAtt: IdnivScolaireAtteint,
-        IdNivAct : IdnivScolaireAct,
+    let menage = await model.menage.create(args.InfoMenage);
+
+
+    await model.avoir_famille.create({
+      IdPersonne: person.IdPersonne,
+      IdEA: args.IdEA,
+      IdRelaCE: args.InfoMenage.IdRelAvecCE
     });
 
-    //ajout relation avec CE et liaison EA
-
-    //reformat menage for MenageType
-
-    return menage;
-
+    return {
+      ...menage.dataValues,
+    };
   },
+
+  // updateMenage: async (_, args, context) => {
+  //   // if (!context.req.auth.connected) {
+  //   //   throw new Error(msg.notConnectedUser);
+  //   // }
+
+
+  //   model.menage.update(args.InfoMenage, {
+  //     where: {
+  //       IdPersonne: args.IdMenage
+  //     }
+  //   });
+
+
+  //   let res = await model.menage.findOne({
+  //     raw: true,
+  //     where: {
+  //       IdPersonne: args.IdMenage,
+  //     }
+  //   });
+
+  //   return {
+  //     ...res,
+  //     ...args
+  //   }
+
+  // },
 
 };
 

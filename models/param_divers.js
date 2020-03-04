@@ -14,7 +14,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     codeParam: {
       type: DataTypes.STRING(10),
-      allowNull: true
+      allowNull: true,
+      unique: true
     },
     val_param: {
       type: DataTypes.STRING(255),

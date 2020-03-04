@@ -458,6 +458,44 @@ module.exports = {
                 IdEA: args.IdEA
             }
         });
-    }
+    },
 
+    menage: async (_,args, context) => {
+
+        // if (!context.req.auth.connected)
+        // {
+        //     throw  new Error(msg.notConnectedUser);
+        // }
+
+        let res =  await model.menage.findOne({
+            raw: true,
+            where: {
+                IdPersonne: args.IdMenage,
+            }
+        });
+        
+        return  {
+            ...res,
+            ...args
+        }
+    },
+    menages: async (_,args, context) => {
+
+        // if (!context.req.auth.connected)
+        // {
+        //     throw  new Error(msg.notConnectedUser);
+        // }
+
+        let res =  await context.database.query(`
+        SELECT * FROM menage  
+        INNER JOIN avoir_famille  AS af ON af.IdPersonne= menage.IdPersonne 
+        WHERE af.IdEA= :idea` ,{
+            replacements: {
+                idea: args.IdEA
+            },
+            type: seq.QueryTypes.SELECT
+        });
+        
+        return  res;
+    },
 };

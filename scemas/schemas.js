@@ -28,7 +28,7 @@ const base = gql`
         EA(IdEA: ID):EA,
 
         menages(IdEA: ID!):[MENAGE],
-        menage(IdMenage: ID!): MENAGE
+        menage(IdMenage: ID!,IdEA: ID!): MENAGE
     }
       
     type Mutation{
@@ -62,13 +62,13 @@ const base = gql`
         updateMission(IdMission:ID! ,commune: String!, fokotany: String!, village: String!, IdDescente: ID!, IdDistrict: ID!): MISSION,
         deleteMission(IdMission: ID!):Boolean,
 
-        addEA(codeEA: String!, IdEnqueteur: ID!, IdMission: ID!): EA!,
-        updateEA(IdEA: ID!, codeEA: String!, IdStatus: ID!): EA!,
-        deleteEA(IdEA: ID!): Boolean,
+        addEA(codeEA: String!,dateEnquete: String!, IdEnqueteur: ID!, IdMission: ID!): EA!,
+        updateEA(IdEA: ID!, codeEA: String!, dateEnquete: String!,codeStatus: CODE_STATUS!): EA!,
+        deleteEA(IdEA: ID!): Boolean, 
 
         addMenage(InfoMenage: menage!, IdEA: ID!): MENAGE!,
-        updateMenage(IdMenage: ID!, InfoMenage: menage!): EA!,
-        deleteMenage(IdMenage: ID!): Boolean,
+        # updateMenage(IdMenage: ID!, IdEA: ID!, InfoMenage: menage!): EA!,
+        # deleteMenage(IdMenage: ID!): Boolean,
     }
 `;
 
