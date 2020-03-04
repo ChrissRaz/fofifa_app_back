@@ -368,12 +368,10 @@ module.exports = {
 
         if (!( typeof args.status === 'undefined'))
         {            
-            console.log("mandalo");
             
             status = args.status;
         }
 
-        console.log(status);
         
         return await model.param_divers.findAll({
             raw: true,

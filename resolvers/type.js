@@ -175,15 +175,8 @@ module.exports= {
         },
     },
     MENAGE: {
-        // IdActPcpl: ID,
-        // IdActSec: ID,
-        // IdAutreSrcRev: ID,
-        // IdNivAtt: ID,
-        // IdNivAct: ID,
-        // IdRelAvecCE: ID!,
         activitePricipale: async (_,args,context) =>{
             
-            // console.log(_);
             
             let res =  await model.param_divers.findOne({
                 where: {
@@ -245,13 +238,14 @@ module.exports= {
         },
         relatioAvecCE: async (_,args,context) =>{
             
-             await model.param_divers.findByPk(_.IdStatus,{
-                raw: true,
-                attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]],
-            });
+            //  await model.param_divers.findByPk(_.IdStatus,{
+            //     raw: true,
+            //     attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]],
+            // });
 
-            return context.database.query(
-                `SELECT pd.IdParam, pd.tableParam AS table,  pd.codeParam AS code, pd.val_param AS val, pd.status_param AS status 
+
+            let res = await context.database.query(
+                `SELECT pd.IdParam, pd.tableParam AS 'table',  pd.codeParam AS code, pd.val_param AS val, pd.status_param AS status  
                 FROM param_divers as pd 
                 INNER JOIN avoir_famille as af ON af.IdRelaCE = pd.IdParam 
                 WHERE af.IdPersonne =  :idp AND af.IdEA= :idEA`,
@@ -259,11 +253,11 @@ module.exports= {
                     replacements: {
                         idp: _.IdPersonne,
                         idEA: _.IdEA
-                    },
-                    raw: true,
-                    attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]],
+                    }, type: seq.QueryTypes.SELECT               
                 }
             );
+                        
+            return res[0];
 
             
         },

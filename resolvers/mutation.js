@@ -672,7 +672,7 @@ module.exports = {
     //   throw new Error(msg.notConnectedUser);
     // }
 
-    console.log(args);
+    // console.log(args);
 
     await model.personne.update(args.InfoMenage. details_personne, {
       where: {
@@ -694,7 +694,7 @@ module.exports = {
       }
     });
 
-    console.log(res);
+    // console.log(res);
     
 
     return {
