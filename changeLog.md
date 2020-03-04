@@ -73,7 +73,18 @@ password: String (Decrypted)
 ## Version 0.1.3
 
 * Mutation
+  * addMeange
+  * updateEA [Param + Code]
+
 * Query
   * regionsWithAvailableDistrictForDescente [Deleted]
-  * regions & region [filtrage aded]
+  * regions & region [filtrage added]
+  * menages
+  * menage
+
+* Type
+  * EA {
+    ...
+    status: [PARAM]
+  }
   
