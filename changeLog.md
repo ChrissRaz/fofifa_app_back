@@ -87,4 +87,6 @@ password: String (Decrypted)
     ...
     status: [PARAM]
   }
+
+* NB: alwais import config.sql after importing the new database
   
