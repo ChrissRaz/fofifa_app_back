@@ -667,32 +667,42 @@ module.exports = {
     };
   },
 
-  // updateMenage: async (_, args, context) => {
-  //   // if (!context.req.auth.connected) {
-  //   //   throw new Error(msg.notConnectedUser);
-  //   // }
+  updateMenage: async (_, args, context) => {
+    // if (!context.req.auth.connected) {
+    //   throw new Error(msg.notConnectedUser);
+    // }
+
+    console.log(args);
+
+    await model.personne.update(args.InfoMenage. details_personne, {
+      where: {
+        IdPersonne: args.IdMenage
+      }
+    });
+  
+    model.menage.update(args.InfoMenage, {
+      where: {
+        IdPersonne: args.IdMenage
+      }
+    });
 
 
-  //   model.menage.update(args.InfoMenage, {
-  //     where: {
-  //       IdPersonne: args.IdMenage
-  //     }
-  //   });
+    let res = await model.menage.findOne({
+      raw: true,
+      where: {
+        IdPersonne: args.IdMenage,
+      }
+    });
 
+    console.log(res);
+    
 
-  //   let res = await model.menage.findOne({
-  //     raw: true,
-  //     where: {
-  //       IdPersonne: args.IdMenage,
-  //     }
-  //   });
+    return {
+      ...res,
+      ...args
+    }
 
-  //   return {
-  //     ...res,
-  //     ...args
-  //   }
-
-  // },
+  },
 
   deleteMenage: async (_, args, context) => {
     if (!context.req.auth.connected) {
@@ -701,7 +711,7 @@ module.exports = {
 
     model.personne.destroy({
       where: {
-        IdPersonne: args.IdMenage
+        IdPersonne: args.IdMenage 
       }
     });
 

@@ -40,7 +40,7 @@ module.exports= {
         districts: async(_,args,context)=>{
 
             let res = null;
-            console.log(_);
+            // console.log(_);
             
 
             if (_.IdDescente)
@@ -183,7 +183,7 @@ module.exports= {
         // IdRelAvecCE: ID!,
         activitePricipale: async (_,args,context) =>{
             
-            console.log(_);
+            // console.log(_);
             
             let res =  await model.param_divers.findOne({
                 where: {
@@ -194,7 +194,7 @@ module.exports= {
                 attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]],
             });
 
-            console.log(res);
+            // console.log(res);
 
             return res;
             
@@ -251,9 +251,10 @@ module.exports= {
             });
 
             return context.database.query(
-                `SELECT pd.* FROM param_divers as pd 
+                `SELECT pd.IdParam, pd.tableParam AS table,  pd.codeParam AS code, pd.val_param AS val, pd.status_param AS status 
+                FROM param_divers as pd 
                 INNER JOIN avoir_famille as af ON af.IdRelaCE = pd.IdParam 
-                WHERE af.IdPersonne =  :idp AND af.IdEA= :idEA` ,
+                WHERE af.IdPersonne =  :idp AND af.IdEA= :idEA`,
                 {
                     replacements: {
                         idp: _.IdPersonne,

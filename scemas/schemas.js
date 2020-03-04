@@ -67,7 +67,7 @@ const base = gql`
         deleteEA(IdEA: ID!): Boolean, 
 
         addMenage(InfoMenage: menage!, IdEA: ID!): MENAGE!,
-        # updateMenage(IdMenage: ID!, IdEA: ID!, InfoMenage: menage!): EA!,
+        updateMenage(IdMenage: ID!, IdEA: ID!, InfoMenage: menage!): MENAGE!,
         deleteMenage(IdMenage: ID!): Boolean,
     }
 `;

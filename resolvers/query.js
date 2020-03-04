@@ -354,24 +354,27 @@ module.exports = {
 
     parametres: async (_,args, context) => {
 
-        if (!context.req.auth.connected)
-        {
-            throw  new Error(msg.notConnectedUser);
-        }
+        // if (!context.req.auth.connected)
+        // {
+        //     throw  new Error(msg.notConnectedUser);
+        // }
 
-        if (context.req.auth.userInfo.groupe!="CHERCHEUR" && context.req.auth.userInfo.groupe!="ENQUETEUR")
-        {
-            throw  new Error(msg.notAllowedApi);
-        }
+        // if (context.req.auth.userInfo.groupe!="CHERCHEUR" && context.req.auth.userInfo.groupe!="ENQUETEUR")
+        // {
+        //     throw  new Error(msg.notAllowedApi);
+        // }
 
         let status = true;
 
-        if (!(args.status === 'undefined'))
-        {
+        if (!( typeof args.status === 'undefined'))
+        {            
+            console.log("mandalo");
+            
             status = args.status;
         }
 
-
+        console.log(status);
+        
         return await model.param_divers.findAll({
             raw: true,
             where:  {
