@@ -21,7 +21,7 @@ const base = gql`
         missions(IdDescente: ID):[MISSION],
         mission(IdMission: ID):MISSION,
 
-        parametres(table: PARAM_TYPE!): [PARAM],
+        parametres(table: PARAM_TYPE!, status: Boolean): [PARAM],
         parametre(table: PARAM_TYPE!, IdParam: ID!): PARAM,
 
         EAs(IdMission: ID, IdEnqueteur: ID): [EA],
@@ -68,7 +68,7 @@ const base = gql`
 
         addMenage(InfoMenage: menage!, IdEA: ID!): MENAGE!,
         # updateMenage(IdMenage: ID!, IdEA: ID!, InfoMenage: menage!): EA!,
-        # deleteMenage(IdMenage: ID!): Boolean,
+        deleteMenage(IdMenage: ID!): Boolean,
     }
 `;
 

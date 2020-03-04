@@ -88,5 +88,11 @@ password: String (Decrypted)
     status: [PARAM]
   }
 
-* NB: alwais import config.sql after importing the new database
+**NB: always import config.sql after importing the new database**
+
+## Version *.*.*
+
+* Query
+
+  * Parametre [Param + status]
   

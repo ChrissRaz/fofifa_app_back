@@ -364,11 +364,19 @@ module.exports = {
             throw  new Error(msg.notAllowedApi);
         }
 
+        let status = true;
+
+        if (!(args.status === 'undefined'))
+        {
+            status = args.status;
+        }
+
 
         return await model.param_divers.findAll({
             raw: true,
             where:  {
-                tableParam: args.table
+                tableParam: args.table,
+                status_param: status
             },
             attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]]
         });

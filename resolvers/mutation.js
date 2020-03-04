@@ -694,6 +694,21 @@ module.exports = {
 
   // },
 
+  deleteMenage: async (_, args, context) => {
+    if (!context.req.auth.connected) {
+      throw new Error(msg.notConnectedUser);
+    }
+
+    model.personne.destroy({
+      where: {
+        IdPersonne: args.IdMenage
+      }
+    });
+
+    return true;
+
+  },
+
 };
 
 

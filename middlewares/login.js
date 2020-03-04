@@ -1,5 +1,5 @@
 let jwt = require("jsonwebtoken");
-const {sing_scret_key,expiration_login} = require("../config/constants");
+const {sing_scret_key,expiration_login, test} = require("../config/constants");
 
 module.exports =  (req, res, next) => {
     
@@ -74,6 +74,25 @@ module.exports =  (req, res, next) => {
     auth.userInfo = decodedToken;
     auth.token = token;
     
-    req.auth =auth;
+
+    if (test){
+        let auth_payloadTest= {
+            connected: true,
+            token: "test",
+            userInfo: {
+                IdPersonne: 7,
+                groupe: "CHERCHEUR"
+            }
+        };
+        
+        //à décommenter après le config des use par défaut
+        // req.auth = auth_payloadTest;
+        req.auth =auth;
+    }
+    else
+    {
+        req.auth =auth;
+    }
+    
     next();
 };
