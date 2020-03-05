@@ -16,6 +16,7 @@ module.exports  =  gql`
         ACTIVITE
         TYPE_AVANTAGE_NATURE
         SAISIE_STATUS
+        TYPE_OP
     }
 
     enum CODE_STATUS{
@@ -43,7 +44,7 @@ module.exports  =  gql`
 
     interface USER{
         IdPersonne: ID!,
-        actif: Int!,
+        actif: Boolean!,
         username: String!,
         password: String!,
         salt: String!,
@@ -53,7 +54,7 @@ module.exports  =  gql`
     type ENQUETEUR implements USER{
         IdPersonne: ID!,
         details_personne: PERSONNE!,
-        actif: Int!,
+        actif: Boolean!,
         username: String!,
         password: String!,
         salt: String!,
@@ -63,7 +64,7 @@ module.exports  =  gql`
     type  SAISISSEUR implements  USER{
         IdPersonne: ID!,
         details_personne: PERSONNE!,
-        actif: Int!,
+        actif: Boolean!,
         username: String!,
         password: String!,
         salt: String!,
@@ -73,7 +74,7 @@ module.exports  =  gql`
     type  CHERCHEUR implements  USER{
         IdPersonne: ID!,
         details_personne: PERSONNE!,
-        actif: Int!,
+        actif: Boolean!,
         username: String!,
         password: String!,
         salt: String!,
@@ -145,7 +146,9 @@ module.exports  =  gql`
         nivScolaireAct: PARAM,
         nivScolaireAtteint: PARAM,
         relatioAvecCE: PARAM!,
-        ea: EA!
+        ea: EA!,
+        # eas: [EA]!
+        assiciations: [ASSOCIATION_PERSONNE]
     }
 
     type MOE{
@@ -167,5 +170,18 @@ module.exports  =  gql`
         # mainOeuvre: [MOE],
         status: PARAM!,
     }
+
+    type ASSOCIATION{
+        IdAssoc: ID!,
+        nomAssoc: String!,
+        type: PARAM!,
+    }
+
+    type ASSOCIATION_PERSONNE{
+        association: ASSOCIATION!
+        actif: Boolean!
+    }
+
+
 `;
 

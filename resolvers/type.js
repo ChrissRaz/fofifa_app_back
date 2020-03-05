@@ -280,5 +280,43 @@ module.exports= {
             });
 
         },
+        assiciations: async (_,args,context) =>{
+            
+            let res =  await model.etre_membre.findAll({
+                raw: true,
+                where: {
+                    IdPersonne: _.IdPersonne
+                }
+            });
+            
+            return  res;
+        },
     },
+
+    ASSOCIATION: {
+        type: async (_,args,context) =>{
+            
+            return await model.param_divers.findOne({
+                raw: true,
+                where: {
+                    IdParam:_.IdType,
+                    tableParam: param_tabes.type_op
+                },
+                attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]],
+            });
+        },
+    },
+
+    ASSOCIATION_PERSONNE:{
+        association: async (_,args,context) =>{
+            
+            return  await model.association.findOne({
+                raw: true,
+                where: {
+                    IdAssoc: _.IdAssoc
+                }
+            });
+
+        },
+    }
 };

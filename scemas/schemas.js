@@ -28,7 +28,9 @@ const base = gql`
         EA(IdEA: ID):EA,
 
         menages(IdEA: ID!):[MENAGE],
-        menage(IdMenage: ID!,IdEA: ID!): MENAGE
+        menage(IdMenage: ID!,IdEA: ID!): MENAGE,
+        associations: [ASSOCIATION],
+        association(IdAssoc: ID!):ASSOCIATION
     }
       
     type Mutation{
@@ -69,6 +71,14 @@ const base = gql`
         addMenage(InfoMenage: menage!, IdEA: ID!): MENAGE!,
         updateMenage(IdMenage: ID!, IdEA: ID!, InfoMenage: menage!): MENAGE!,
         deleteMenage(IdMenage: ID!): Boolean,
+
+        addAssociation(nomAssoc: String!, IdTypeAssoc: ID!): ASSOCIATION,
+        updateAssociation(IdAssoc: ID! , nomAssoc: String!, IdTypeAssoc: ID!): ASSOCIATION,
+        deleteAssociation(IdAssoc: ID!): Boolean,
+
+        addAssociationToMenage(IdPersonne: ID!, IdAssoc: ID!): ASSOCIATION_PERSONNE,
+        updateAssociationOfMenage(IdPersonne: ID!, IdAssoc: ID!,actif: Boolean!): ASSOCIATION_PERSONNE,
+        deleteAssociationOfMenage(IdPersonne: ID!, IdAssoc: ID!): Boolean
     }
 `;
 

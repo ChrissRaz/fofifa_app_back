@@ -70,6 +70,7 @@ password: String (Decrypted)
 * Bug Fixes:
   * addRegion
 
+
 ## Version 0.1.3
 
 * Mutation
@@ -90,9 +91,51 @@ password: String (Decrypted)
 
 **NB: always import config.sql after importing the new database**
 
-## Version *.*.*
+
+## Version 0.1.5
 
 * Query
 
-  * Parametre [Param + status]
+  * Parametre [Updated: Query Param + status]
+  * Associations
+  * Association
+
+* Mutation
   
+  * deleteMenage
+  * updateMenage
+  * addAssociation
+  * updateAssociation
+  * deleteAssociation
+  * addAssociationToMenage
+  * updateAssociationOfMenage
+  * deleteAssociationOfMenage
+
+* Bug fixes
+
+  * Resolvers relatioAvecCE in  MENAGE
+
+* Database and Models
+
+  * association
+  * etre_membre
+
+* Types
+
+  * ASSOCIATION {new}
+  * ASSOCIATION_PERSONNE {new}
+  * MENAGE{
+    ...
+     assiciations: [ASSOCIATION_PERSONNE] {new}
+  }
+
+  * USER and childs {
+    ...
+    actif: [Boolean] [Type modified]
+  }
+
+* enum
+  * PARAM_TYPE{
+    ...,
+    TYPE_OP
+  }

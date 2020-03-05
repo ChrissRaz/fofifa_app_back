@@ -58,8 +58,8 @@ module.exports = {
     return {
       groupe: args.groupe,
       ...added.dataValues,
-      ...usrAdded.dataValues,
-      ...addedBase.dataValues
+      ...{...usrAdded.dataValues, actif: parseInt(usrAdded.dataValues.actif) },
+      ...{...addedBase.dataValues, sexe: parseInt(addedBase.dataValues.sexe) }
     };
   },
 
@@ -474,7 +474,7 @@ module.exports = {
     });
 
     return {
-      ...added.dataValues, ...args
+      ...{...added.dataValues, status: added.dataValues.status}, ...args
     };
   },
 
@@ -635,9 +635,9 @@ module.exports = {
 
 
   addMenage: async (_, args, context) => {
-    // if (!context.req.auth.connected) {
-    //   throw new Error(msg.notConnectedUser);
-    // }
+    if (!context.req.auth.connected) {
+      throw new Error(msg.notConnectedUser);
+    }
 
     let person = await model.personne.create(args.InfoMenage.details_personne);
 
@@ -668,9 +668,9 @@ module.exports = {
   },
 
   updateMenage: async (_, args, context) => {
-    // if (!context.req.auth.connected) {
-    //   throw new Error(msg.notConnectedUser);
-    // }
+    if (!context.req.auth.connected) {
+      throw new Error(msg.notConnectedUser);
+    }
 
     // console.log(args);
 
@@ -715,6 +715,99 @@ module.exports = {
       }
     });
 
+    return true;
+
+  },
+
+  addAssociation: async (_, args, context) => {
+    // if (!context.req.auth.connected) {
+    //   throw new Error(msg.notConnectedUser);
+    // }
+
+    let assoc = await model.association.create({nomAssoc: args.nomAssoc, IdType: args.IdTypeAssoc},{
+      raw: true
+    });
+
+    return assoc;
+  },
+
+  updateAssociation: async (_, args, context) => {
+    if (!context.req.auth.connected) {
+      throw new Error(msg.notConnectedUser);
+    }
+
+    await model.association.update({nomAssoc: args.nomAssoc, IdType: args.IdTypeAssoc},{
+      raw: true,
+      where: {
+        IdAssoc: args.IdAssoc
+      }
+    });
+
+    return await model.association.findOne({
+      where: {
+        IdAssoc: args.IdAssoc,
+      },
+      raw: true
+    });
+  },
+
+  deleteAssociation: async (_, args, context) => {
+    if (!context.req.auth.connected) {
+      throw new Error(msg.notConnectedUser);
+    }
+
+    await model.association.destroy({
+      where: {
+        IdAssoc: args.IdAssoc
+      }
+    });
+
+    return true;
+  },
+
+  addAssociationToMenage: async (_, args, context) => {
+    // if (!context.req.auth.connected) {
+    //   throw new Error(msg.notConnectedUser);
+    // }
+    
+    let assoc = await model.etre_membre.create({IdAssoc: args.IdAssoc, IdPersonne: args.IdPersonne}, {
+      raw: true,
+      plain: true
+    });
+    
+    return {...assoc.dataValues, actif: parseInt(assoc.dataValues.actif)};
+  },
+
+  updateAssociationOfMenage: async (_, args, context) => {
+    if (!context.req.auth.connected) {
+      throw new Error(msg.notConnectedUser);
+    }
+    
+    await model.etre_membre.update({ actif: args.actif, }, {
+      raw: true,
+      plain: true,
+      where: {
+        IdAssoc: args.IdAssoc,
+        IdPersonne: args.IdPersonne,
+      }
+    });
+
+    return args;
+
+  },
+
+  deleteAssociationOfMenage: async (_, args, context) => {
+    if (!context.req.auth.connected) {
+      throw new Error(msg.notConnectedUser);
+    }
+    
+    await model.etre_membre.destroy({
+      where: {
+        IdAssoc: args.IdAssoc,
+        IdPersonne: args.IdPersonne,
+      }
+    });
+  
     return true;
 
   },

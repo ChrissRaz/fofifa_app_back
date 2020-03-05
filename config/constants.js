@@ -10,6 +10,7 @@ module.exports ={
         type_parente: "TYPE_PARENTE",
         activite: "ACTIVITE",
         type_av_nat: "TYPE_AVANTAGE_NATURE",
-        sais_stat: "SAISIE_STATUS"
+        sais_stat: "SAISIE_STATUS",
+        type_op: "TYPE_OP"
     }
 };

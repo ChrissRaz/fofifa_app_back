@@ -124,15 +124,15 @@ module.exports = {
     
     users: async (_, args, context) => {
 
-        if (!context.req.auth.connected)
-        {
-            throw  new Error(msg.notConnectedUser);
-        }
+        // if (!context.req.auth.connected)
+        // {
+        //     throw  new Error(msg.notConnectedUser);
+        // }
 
-        if (context.req.auth.userInfo.groupe!="CHERCHEUR")
-        {
-            throw  new Error(msg.notAllowedApi);
-        }
+        // if (context.req.auth.userInfo.groupe!="CHERCHEUR")
+        // {
+        //     throw  new Error(msg.notAllowedApi);
+        // }
 
         let chercheurs  = await context.database.query("SELECT *, 'CHERCHEUR' AS groupe FROM chercheur as us INNER JOIN fofifapers as ffp ON ffp.IdPersonne=us.IdPersonne",{
             type: seq.QueryTypes.SELECT
@@ -160,6 +160,9 @@ module.exports = {
 
             delete crypto;
         });
+
+        console.log(res);
+        
 
         return res;
     },
@@ -368,7 +371,6 @@ module.exports = {
 
         if (!( typeof args.status === 'undefined'))
         {            
-            
             status = args.status;
         }
 
@@ -471,10 +473,10 @@ module.exports = {
 
     menage: async (_,args, context) => {
 
-        // if (!context.req.auth.connected)
-        // {
-        //     throw  new Error(msg.notConnectedUser);
-        // }
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
 
         let res =  await model.menage.findOne({
             raw: true,
@@ -507,4 +509,36 @@ module.exports = {
         
         return  res;
     },
+
+    associations: async (_,args, context) => {
+
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        let res =  await model.association.findAll({
+            raw: true
+        });
+        
+        return  res;
+    },
+
+    association: async (_,args, context) => {
+
+        if (!context.req.auth.connected)
+        {
+            throw  new Error(msg.notConnectedUser);
+        }
+
+        let res =  await model.association.findOne({
+            raw: true,
+            where: {
+                IdAssoc: args.IdAssoc
+            }
+        });
+        
+        return  res;
+    },
+
 };

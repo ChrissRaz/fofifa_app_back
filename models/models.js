@@ -1,5 +1,6 @@
 let affecter = require('./affecter');
 let aider = require("./aider");
+let association = require("./association");
 let avantage_nat = require("./avantage_nat");
 let avoir_famille = require("./avoir_famille");
 let charger = require("./charger");
@@ -7,6 +8,7 @@ let chercheur = require("./chercheur");
 let descente = require("./descente");
 let EA =require("./ea");
 let enqueteur = require("./enqueteur");
+let etre_membre = require('./etre_membre');
 let fofifapers = require("./fofifapers");
 let lieu = require("./lieu");
 let menage = require('./menage');
@@ -28,12 +30,14 @@ const db = require("../helpers/db");
 module.exports = {
     affecter: affecter(db,DataTypes),
     aider: aider(db,DataTypes),
+    association: association(db,DataTypes),
     avantage_nat: avantage_nat(db,DataTypes),
     avoir_famille: avoir_famille(db,DataTypes),
     fofifapers: fofifapers(db,DataTypes),
     chercheur: chercheur(db,DataTypes),
     EA: EA(db,DataTypes),
     enqueteur: enqueteur(db,DataTypes),
+    etre_membre: etre_membre(db,DataTypes),
     menage: menage(db,DataTypes),
     saisisseur: saisisseur(db,DataTypes),
     lieu: lieu(db,DataTypes),
