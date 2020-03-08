@@ -38,7 +38,7 @@ const base = gql`
         updateUser(groupe: GROUP!,IdUser: ID!, userInfo: userInfo, loginInfo: loginInfo): USER,
         deleteUser(groupe: GROUP!, IdUser: ID!): Boolean,
         
-        affectEnqueteurToMission(IdMission: ID!, IdEnqueteur: ID!): Boolean,
+        affectEnqueteurToMission(IdMission: ID!, IdEnqueteurs: [ID!]): Boolean,
         deleteEnqueteurFromMission(IdMission: ID!, IdEnqueteur: ID!): Boolean,
 
         affectSaisisseurToDescente(IdSaisisseur: ID!, IdDescente: ID!): Boolean,

@@ -96,7 +96,8 @@ password: String (Decrypted)
 
 * Query
 
-  * Parametre [Updated: Query Param + status]
+  * Parametres [Updated: Query Param + status]
+
   * Associations
   * Association
 
@@ -104,9 +105,11 @@ password: String (Decrypted)
   
   * deleteMenage
   * updateMenage
+  
   * addAssociation
   * updateAssociation
   * deleteAssociation
+
   * addAssociationToMenage
   * updateAssociationOfMenage
   * deleteAssociationOfMenage
@@ -139,3 +142,12 @@ password: String (Decrypted)
     ...,
     TYPE_OP
   }
+
+## Version *
+
+  * ENUM
+
+    * PARAM_TYPE{
+      ...
+      SAISIE_STATUS[Deleted]
+    }

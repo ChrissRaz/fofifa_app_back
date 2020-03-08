@@ -15,7 +15,6 @@ module.exports  =  gql`
         TYPE_PARENTE
         ACTIVITE
         TYPE_AVANTAGE_NATURE
-        SAISIE_STATUS
         TYPE_OP
     }
 
