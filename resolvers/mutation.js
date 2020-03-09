@@ -173,16 +173,9 @@ module.exports = {
     //   throw new Error(msg.notAllowedApi);
     // }
 
-    await context.database.query(`
-      DELETE FROM charger
-      WHERE IdMission=:idm
-  `, { replacements: { idm: args.IdMission }, type: Sequelize.QueryTypes.DELETE});
-
-      args.IdEnqueteurs.forEach( async el => {   
-        await model.charger.create({ IdPersonne: el, IdMission: args.IdMission });
-      });
-      
-      return true;
+    await model.charger.create({ IdPersonne: args.IdEnqueteur, IdMission: args.IdMission });
+  
+    return true;
   },
 
   deleteEnqueteurFromMission: async (_, args, context) => {
