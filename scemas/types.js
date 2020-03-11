@@ -16,6 +16,17 @@ module.exports  =  gql`
         ACTIVITE
         TYPE_AVANTAGE_NATURE
         TYPE_OP
+
+        ##news
+        ETAT_MAT, 
+        TYPE_BAT, 
+        TYPE_CHAMP, 
+        TYPE_TOPO,
+        MODE_TENURE, 
+        STATUS_FONCIER, 
+        MODE_ACQUI, 
+        TYPE_CULT, 
+        TYPE_CHARGE, 
     }
 
     enum CODE_STATUS{
@@ -127,7 +138,7 @@ module.exports  =  gql`
 
     type ANVANTAGE_NAT{
         IdAvantageNat: ID!,
-        puAvNar: Int,
+        puAvNat: Int,
         qteAvNat: Int,
         type: PARAM!
     }

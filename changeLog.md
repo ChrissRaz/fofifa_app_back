@@ -148,6 +148,24 @@ password: String (Decrypted)
   * ENUM
 
     * PARAM_TYPE{
-      ...
-      SAISIE_STATUS[Deleted]
+      ETAT_MAT [new]
+      TYPE_BAT [new]
+      TYPE_CHAMP [new]
+      TYPE_TOPO [new]
+      MODE_TENURE [new]
+      STATUS_FONCIER [new]
+      MODE_ACQUI [new]
+      TYPE_CULT [new]
+      TYPE_CHARGE [new]
     }
+  
+  * Database and Models
+    * materiel
+    * batime_agri
+    * vente_terre
+    * foncier
+    * location
+    * metayage
+    * charge_locataire
+    * locataion_avoir_charge_loc
+    * metayage_avoir_charge_loc

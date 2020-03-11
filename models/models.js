@@ -18,6 +18,14 @@ let param_divers = require("./param_divers");
 let personne = require("./personne");
 let saisir = require("./saisir");
 let saisisseur = require("./saisisseur");
+let batiment_agricole = require('./batiment_agri');
+let charge_locataire = require("./charge_locataire");
+let foncier = require("./foncier");
+let location_avoir_charge_loc = require("./location_avoir_charge_locataire");
+let location = require("./location");
+let metayage_avoir_charge_loc = require("./metayage_avoir_charge_loc");
+let metayage = require("./metayage");
+let vente_terre = require("./vente_terre");
 
 
 const {DataTypes} = require('sequelize');
@@ -47,7 +55,7 @@ module.exports = {
     param_divers: param_divers(db,DataTypes),
     saisir: saisir(db,DataTypes),
     personne: personne(db,DataTypes),
-    charger: charger(db,DataTypes)    ,
+    charger: charger(db,DataTypes),
 };
 
 

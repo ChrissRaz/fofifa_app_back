@@ -40,9 +40,9 @@ module.exports = {
         },
 
         regions: async (_, args, context) => {
-            if (!context.req.auth.connected) {
-                throw new Error(msg.notConnectedUser);
-            }
+            // if (!context.req.auth.connected) {
+            //     throw new Error(msg.notConnectedUser);
+            // }
 
             let res = await model.lieu.findAll({
                 raw: true,
