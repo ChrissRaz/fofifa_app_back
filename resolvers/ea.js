@@ -4,6 +4,8 @@ const seq = require('sequelize');
 
 const model = require("../models/models");
 
+const helpers = require("../helpers/helpers");
+
 
 module.exports = {
     Query: {
@@ -71,9 +73,9 @@ module.exports = {
 
         addEA: async (_, args, context) => {
 
-            if (!context.req.auth.connected) {
-                throw new Error(msg.notConnectedUser);
-            }
+            // if (!context.req.auth.connected) {
+            //     throw new Error(msg.notConnectedUser);
+            // }
 
             let charger = await model.charger.findOne({
                 raw: true,
@@ -105,7 +107,7 @@ module.exports = {
                 IdStatus: status.IdParam
             });
 
-            helpers.saisir(context.req.auth.userInfo.IdPersonne, added.dataValues.IdEA);
+            // helpers.saisir(context.req.auth.userInfo.IdPersonne, added.dataValues.IdEA);
 
             return added.dataValues;
         },
@@ -144,7 +146,7 @@ module.exports = {
                 },
             });
 
-            helpers.saisir(context.req.auth.userInfo.IdPersonne, res.IdEA);
+            // helpers.saisir(context.req.auth.userInfo.IdPersonne, res.IdEA);
 
             return res;
         },

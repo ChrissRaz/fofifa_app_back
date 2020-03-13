@@ -30,35 +30,35 @@ let model = require("../models/models");
 // };
 
 async function saisir(IdPers, IdEA) {
-    let res = await model.saisir.findOne({
-        raw: true,
-        where: {
-            IdPersonne: IdPers,
-            IdEA: IdEA
-        }
-    });
+    // let res = await model.saisir.findOne({
+    //     raw: true,
+    //     where: {
+    //         IdPersonne: IdPers,
+    //         IdEA: IdEA
+    //     }
+    // });
 
-    console.log(res);
+    // console.log(res);
     
     
 
-    if (res) {  
-        model.saisir.update({
-            date_modif: (Date.now()/1000) ,
-        }, {
-            where: {
-                IdPersonne: IdPers,
-                IdEA: IdEA
-            }
-        });
-    }
-    else {
+    // if (res) {  
+    //     model.saisir.update({
+    //         date_modif: (Date.now()/1000) ,
+    //     }, {
+    //         where: {
+    //             IdPersonne: IdPers,
+    //             IdEA: IdEA
+    //         }
+    //     });
+    // }
+    // else {
 
-        model.saisir.create({
-            IdPersonne: IdPers,
-            IdEA: IdEA
-        });
-    }
+    //     model.saisir.create({
+    //         IdPersonne: IdPers,
+    //         IdEA: IdEA
+    //     });
+    // }
 
 }
 

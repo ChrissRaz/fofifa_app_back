@@ -176,24 +176,38 @@ module.exports = {
 
         availableEnqueteurForDescente: async (_, args, context) => {
 
-            if (!context.req.auth.connected) {
-                throw new Error(msg.notConnectedUser);
-            }
+            // if (!context.req.auth.connected) {
+            //     throw new Error(msg.notConnectedUser);
+            // }
 
-            if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
-                throw new Error(msg.notAllowedApi);
-            }
+            // if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
+            //     throw new Error(msg.notAllowedApi);
+            // }
 
-            let res = await context.database.query(`SELECT * FROM enqueteur WHERE IdPersonne NOT IN 
-            (SELECT enq.IdPersonne FROM descente as des 
+            let res = await context.database.query(`SELECT * FROM enqueteur as enq INNER JOIN fofifapers as ffp ON ffp.IdPersonne = enq.IdPersonne WHERE enq.IdPersonne NOT IN  (SELECT enq.IdPersonne FROM descente as des 
                 INNER JOIN mission as miss ON miss.IdDescente = des.IdDescente 
                 INNER JOIN lieu as li ON li.IdLieu=miss.IdLieu
                 INNER JOIN charger as ch ON ch.IdMission = miss.IdMission 
                 INNER JOIN enqueteur as enq  ON enq.IdPersonne= ch.IdPersonne 
-                WHERE des.IdDescente = :idd AND li.IdLieu !=:idl )`, {
+                WHERE des.IdDescente = 2 AND li.IdLieu !=2)`, {
                 replacements: { idd: args.IdDescente, idl: args.IdDistrict }, type: seq.QueryTypes.SELECT
             });
 
+            console.log(res);
+            
+            res.forEach((el, i) => {
+                const crypto = new Crypto({
+                    key: el.salt,
+                    hmacKey: login_hash
+                });
+
+                res[i] = {
+                    ...res[i],
+                    password: crypto.decrypt(el.password)
+                };
+
+                delete crypto;
+            });
             return res;
         },
     },

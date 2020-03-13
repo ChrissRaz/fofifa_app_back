@@ -2,7 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('aider', {
-    IdMOA: {
+    IdMOE: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
         key: 'IdParam'
       }
     },
-    IDEA: {
+    IdEA: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
@@ -28,6 +28,22 @@ module.exports = function(sequelize, DataTypes) {
         model: 'ea',
         key: 'IdEA'
       }
+    },
+    moisDebut: {
+      type: DataTypes.DATEONLY,
+      allowNull: false
+    },
+    moisFin: {
+      type: DataTypes.DATEONLY,
+      allowNull: false
+    },
+    salaireMens: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
+    obs_moe: {
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
   }, {
     tableName: 'aider'

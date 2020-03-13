@@ -9,6 +9,7 @@ const mission = require("./mission");
 const modalite = require("./modalite");
 const ea = require("./ea");
 const menage = require("./menage");
+const moe = require("./moe");
 
 
 module.exports = {
@@ -22,7 +23,8 @@ module.exports = {
         ...mission.Query,
         ...modalite.Query,
         ...ea.Query,
-        ...menage.Query
+        ...menage.Query,
+        ...moe.Query
     },
     Mutation: {
         ...user.Mutation,
@@ -30,7 +32,8 @@ module.exports = {
         ...mission.Mutation,
         ...modalite.Mutation,
         ...ea.Mutation,
-        ...menage.Mutation
+        ...menage.Mutation,
+        ...moe.Mutation
     },
 };
 

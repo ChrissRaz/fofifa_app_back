@@ -11,22 +11,6 @@ module.exports = function(sequelize, DataTypes) {
         key: 'IdPersonne'
       }
     },
-    moisDebut: {
-      type: DataTypes.DATEONLY,
-      allowNull: false
-    },
-    moisFin: {
-      type: DataTypes.DATEONLY,
-      allowNull: false
-    },
-    salaireMens: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false
-    },
-    obs_moe: {
-      type: DataTypes.STRING(50),
-      allowNull: false
-    },
     IdActPcpl: {
       type: DataTypes.INTEGER(11),
       allowNull: true,

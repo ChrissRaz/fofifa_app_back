@@ -8,16 +8,16 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    type: {
+    typeAvNat: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
     puAvNat: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.FLOAT,
       allowNull: false
     },
     qteAvNat: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.FLOAT,
       allowNull: false
     },
     IdPersonne: {

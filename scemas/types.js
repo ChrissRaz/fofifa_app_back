@@ -165,10 +165,11 @@ module.exports  =  gql`
         IdPersonne: ID!,
         moisDebut: String!,
         moisFin: String!,
-        salaireMens: Int!,
+        salaireMens: Float!,
         observation: String,
         activitePricipale: PARAM,
-        # avantegeNature: [ANVANTAGE_NAT],
+        details_personne: PERSONNE,
+        avantegeNature: [ANVANTAGE_NAT],
         ea: [EA!]
     }
 

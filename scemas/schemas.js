@@ -78,7 +78,12 @@ const base = gql`
 
         addAssociationToMenage(IdPersonne: ID!, IdAssoc: ID!): ASSOCIATION_PERSONNE,
         updateAssociationOfMenage(IdPersonne: ID!, IdAssoc: ID!,actif: Boolean!): ASSOCIATION_PERSONNE,
-        deleteAssociationOfMenage(IdPersonne: ID!, IdAssoc: ID!): Boolean
+        deleteAssociationOfMenage(IdPersonne: ID!, IdAssoc: ID!): Boolean,
+
+        addMOE(IdEA: ID!, personneInfo: personneInfo!, moisDebut: String! moisFin: String!,salaireMens: Float!, observation: String, IdActivitPricip: ID, IdTypeMOE: ID! avantages: [avantage_nat]):MOE,
+        updateMOE(IdEA: ID!, IdMOE: ID!,personneInfo: personneInfo!,  moisDebut: String! moisFin: String!,salaireMens: Float!, observation: String, IdActivitPricip: ID, avantages: [avantage_nat]):MOE,
+        deleteMOE(IdEA: ID!, IdMOE: ID!):Boolean,
+
     }
 `;
 

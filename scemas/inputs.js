@@ -39,4 +39,11 @@ module.exports  = gql`
         IdNivAct: ID,
         IdRelAvecCE: ID!,
     }
+
+    input avantage_nat
+    {
+        puAvNat: Float,
+        qteAvNat: Float,
+        type: ID!,
+    }
 `;

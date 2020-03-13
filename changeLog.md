@@ -169,3 +169,8 @@ password: String (Decrypted)
     * charge_locataire
     * locataion_avoir_charge_loc
     * metayage_avoir_charge_loc
+  
+  * Mutations 
+    * addMOE
+    * updateMOE
+    * deleteMOE
