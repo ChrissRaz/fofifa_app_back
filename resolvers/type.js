@@ -50,7 +50,7 @@ module.exports= {
                 if (_.IdDisctrictOfMission)
                 {
                     query =`SELECT IdLieu as IdDistrict, descriLieu as district , IdRegion
-                    FROM lieu as li WHERE li.IdLieu IN (SELECT dist.IdLieu FROM descente as dst 
+                    FROM lieu as li WHERE li.IdLieu NOT IN (SELECT dist.IdLieu FROM descente as dst 
                     INNER JOIN mission as miss ON miss.IdDescente= dst.IdDescente
                     INNER JOIN lieu as dist ON dist.IdLieu = miss.IdLieu
                     INNER JOIN lieu as reg ON reg.IdLieu = dist.IdRegion
@@ -59,7 +59,7 @@ module.exports= {
                 else
                 {
                     query =`SELECT IdLieu as IdDistrict, descriLieu as district , IdRegion
-                    FROM lieu as li WHERE li.IdLieu IN (SELECT dist.IdLieu FROM descente as dst 
+                    FROM lieu as li WHERE li.IdLieu NOT IN (SELECT dist.IdLieu FROM descente as dst 
                     INNER JOIN mission as miss ON miss.IdDescente= dst.IdDescente
                     INNER JOIN lieu as dist ON dist.IdLieu = miss.IdLieu
                     INNER JOIN lieu as reg ON reg.IdLieu = dist.IdRegion

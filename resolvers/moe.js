@@ -59,24 +59,43 @@ module.exports = {
                 throw new Error(msg.notConnectedUser);
             }
 
-            // await model.personne.update(args.personneInfo, {
-            //     where: 
-            // });            
-
-            let moe = await model.moe.create({
-                IdPersonne: person.IdPersonne,
-                IdActPcpl:args.IdActivitPricip,
-                
+            model.personne.update(args.personneInfo,{
+                where: {
+                    IdPersonne: args.IdMOE
+                }
+            });   
+            
+            let person = await model.personne.findOne({
+                where: {
+                    IdPersonne: args.IdMOE
+                }
             });
 
-            let aider = await model.aider.create({
-                IdTypMOE: args.IdTypeMOE,
-                IdMOE: moe.IdPersonne,
-                IdEA: args.IdEA,
+            await model.moe.update({
+                IdActPcpl:args.IdActivitPricip,
+            }, {
+                where: {
+                    IdPersonne: person.IdPersonne,
+                }
+            });
+
+            let moe =  await model.moe.findOne({
+                where: {
+                    IdPersonne: args.IdMOE
+                }
+            });
+
+            let aider = await model.aider.update({
+                IdTypMOE: args.IdTypeMOE,        
                 moisDebut: args.moisDebut,
                 moisFin:args.moisFin,
                 salaireMens:args.salaireMens,
                 obs_moe: args.observation,
+            }, {
+                where: {
+                    IdMOE: args.IdMOE,
+                    IdEA: args.IdEA,
+                }
             });
 
             
@@ -94,8 +113,8 @@ module.exports = {
 
             return {
                 ...moe.dataValues,
-                ...aider,
-                observation: aider.obs_moe
+                ...aider.dataValues,
+                observation: moe.obs_moe
             }
         
         },
