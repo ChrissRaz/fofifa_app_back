@@ -60,7 +60,8 @@ module.exports = {
                 res[i] = {
                     ...res[i],
                     IdDescente: args.IdDescente,
-                    IdDisctrictOfMission: args.IdDisctrictOfMission
+                    IdDisctrictOfMission: args.IdDisctrictOfMission,
+                    isForm: args.isForm
                 };
 
             });

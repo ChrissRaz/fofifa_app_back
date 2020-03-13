@@ -14,9 +14,9 @@ const base = gql`
         descentes:[DESCENTE],
         descente(IdDescente: ID):DESCENTE,
 
-        regions(IdDescente: ID, IdDisctrictOfMission: ID):[REGION],
+        regions(IdDescente: ID, IdDisctrictOfMission: ID, isForm: Boolean):[REGION],
         region(IdRegion: ID!,IdDescente: ID, IdDisctrictOfMission: ID): REGION,
-        # regionsWithAvailableDistrictForDescente(IdDescente: ID!, IdMission: ID):[REGION],
+        # regWithAvailableDistrictForDescente(IdDescente: ID!, IdMission: ID):[REGION],
 
         missions(IdDescente: ID):[MISSION],
         mission(IdMission: ID):MISSION,

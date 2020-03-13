@@ -58,12 +58,23 @@ module.exports= {
                 }
                 else
                 {
+                    let condition = "NOT IN";
+
+                    if (_.isForm===true){
+                        condition = "NOT IN";
+                    }
+                    else
+                    {
+                        condition = "IN";
+                    }
+
                     query =`SELECT IdLieu as IdDistrict, descriLieu as district , IdRegion
-                    FROM lieu as li WHERE li.IdLieu NOT IN (SELECT dist.IdLieu FROM descente as dst 
-                    INNER JOIN mission as miss ON miss.IdDescente= dst.IdDescente
-                    INNER JOIN lieu as dist ON dist.IdLieu = miss.IdLieu
-                    INNER JOIN lieu as reg ON reg.IdLieu = dist.IdRegion
-                    WHERE reg.IdLieu = :idReg AND dst.IdDescente = :iddst)  AND NOT li.IdRegion <=> NULL AND li.IdRegion =:idReg `
+                        FROM lieu as li WHERE li.IdLieu `+condition+`(SELECT dist.IdLieu FROM descente as dst 
+                        INNER JOIN mission as miss ON miss.IdDescente= dst.IdDescente
+                        INNER JOIN lieu as dist ON dist.IdLieu = miss.IdLieu
+                        INNER JOIN lieu as reg ON reg.IdLieu = dist.IdRegion
+                        WHERE reg.IdLieu = :idReg AND dst.IdDescente = :iddst)  AND NOT li.IdRegion <=> NULL AND li.IdRegion =:idReg `
+ 
                 }
 
                 res = await context.database.query(query,{
