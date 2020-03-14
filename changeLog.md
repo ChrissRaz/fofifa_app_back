@@ -148,15 +148,15 @@ password: String (Decrypted)
   * ENUM
 
     * PARAM_TYPE{
-      ETAT_MAT [new]
-      TYPE_BAT [new]
-      TYPE_CHAMP [new]
-      TYPE_TOPO [new]
-      MODE_TENURE [new]
-      STATUS_FONCIER [new]
-      MODE_ACQUI [new]
-      TYPE_CULT [new]
-      TYPE_CHARGE [new]
+    * ETAT_MAT [new]
+    * TYPE_BAT [new]
+    * TYPE_CHAMP [new]
+    * TYPE_TOPO [new]
+    * MODE_TENURE [new]
+    * STATUS_FONCIER [new]
+    * MODE_ACQUI [new]
+    * TYPE_CULT [new]
+    * TYPE_CHARGE [new]
     }
   
   * Database and Models
@@ -170,7 +170,7 @@ password: String (Decrypted)
     * locataion_avoir_charge_loc
     * metayage_avoir_charge_loc
   
-  * Mutations 
+  * Mutations
     * addMOE
     * updateMOE
     * deleteMOE

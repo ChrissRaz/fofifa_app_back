@@ -2,7 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('avantage_nat', {
-    IdAvantageNat: {
+    IdAvNat: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,

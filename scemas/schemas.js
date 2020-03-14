@@ -80,9 +80,11 @@ const base = gql`
         updateAssociationOfMenage(IdPersonne: ID!, IdAssoc: ID!,actif: Boolean!): ASSOCIATION_PERSONNE,
         deleteAssociationOfMenage(IdPersonne: ID!, IdAssoc: ID!): Boolean,
 
-        addMOE(IdEA: ID!, personneInfo: personneInfo!, moisDebut: String! moisFin: String!,salaireMens: Float!, observation: String, IdActivitPricip: ID, IdTypeMOE: ID! avantages: [avantage_nat]):MOE,
-        updateMOE(IdEA: ID!, IdMOE: ID!,personneInfo: personneInfo!,  moisDebut: String! moisFin: String!,salaireMens: Float!, observation: String, IdActivitPricip: ID, avantages: [avantage_nat]):MOE,
-        deleteMOE(IdEA: ID!, IdMOE: ID!):Boolean,
+        addMOE(IdEA: ID!, personneInfo: personneInfo!, moisDebut: String! moisFin: String!,salaireMens: Float!, observation: String, IdTypeMOE: ID!, IdActivitPricip: ID ,avantages: [avantage_nat]):MOE,
+        updateMOE(IdMOE: ID!,personneInfo: personneInfo!,  moisDebut: String! moisFin: String!,salaireMens: Float!, observation: String, IdTypeMOE: ID!, IdActivitPricip: ID, avantages: [avantage_nat]):MOE,
+        deleteMOE( IdMOE: ID!):Boolean,
+
+        # addExistingMOEToEA(IdEA: ID!, IdMOE: ID!, moisDebut: String! moisFin: String!,salaireMens: Float!, observation: String, IdTypeMOE: ID!):MOE
 
     }
 `;

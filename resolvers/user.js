@@ -189,11 +189,11 @@ module.exports = {
                 INNER JOIN lieu as li ON li.IdLieu=miss.IdLieu
                 INNER JOIN charger as ch ON ch.IdMission = miss.IdMission 
                 INNER JOIN enqueteur as enq  ON enq.IdPersonne= ch.IdPersonne 
-                WHERE des.IdDescente = 2 AND li.IdLieu !=2)`, {
+                WHERE des.IdDescente = :idd AND li.IdLieu != :idl)`, {
                 replacements: { idd: args.IdDescente, idl: args.IdDistrict }, type: seq.QueryTypes.SELECT
             });
 
-            console.log(res);
+            // console.log(res);
             
             res.forEach((el, i) => {
                 const crypto = new Crypto({

@@ -42,8 +42,9 @@ module.exports  = gql`
 
     input avantage_nat
     {
-        puAvNat: Float,
-        qteAvNat: Float,
+        IdAvNat: ID,
+        puAvNat: Float!,
+        qteAvNat: Float!,
         type: ID!,
     }
 `;

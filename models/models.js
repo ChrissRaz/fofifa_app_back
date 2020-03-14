@@ -1,5 +1,4 @@
 let affecter = require('./affecter');
-let aider = require("./aider");
 let association = require("./association");
 let avantage_nat = require("./avantage_nat");
 let avoir_famille = require("./avoir_famille");
@@ -37,7 +36,6 @@ const db = require("../helpers/db");
 
 module.exports = {
     affecter: affecter(db,DataTypes),
-    aider: aider(db,DataTypes),
     association: association(db,DataTypes),
     avantage_nat: avantage_nat(db,DataTypes),
     avoir_famille: avoir_famille(db,DataTypes),
