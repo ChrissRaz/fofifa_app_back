@@ -38,6 +38,11 @@ module.exports = {
                 throw new Error(msg.userNotExist);
             }
             else {
+
+                if (!usr_copy.actif){
+                    throw new Error(msg.desactivatedStuff);
+                }
+
                 // vérification du groupe de la personne correspondante
                 let idUser = usr_copy.IdPersonne;
                 usr = await model.chercheur.findByPk(idUser);
