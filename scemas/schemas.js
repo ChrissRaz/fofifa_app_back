@@ -33,7 +33,7 @@ const base = gql`
       
     type Mutation{
         newUser(groupe: GROUP!,userInfo: userInfo!, loginInfo: loginInfo): USER,
-        updateUser(groupe: GROUP!,IdUser: ID!, userInfo: userInfo, loginInfo: loginInfo): USER,
+        updateUser(groupe: GROUP!,IdUser: ID!, userInfo: userInfo, loginInfo: loginInfo, actif: Boolean): USER,
         deleteUser(groupe: GROUP!, IdUser: ID!): Boolean,
         
         affectEnqueteurToMission(IdMission: ID!, IdEnqueteur: ID!): Boolean,

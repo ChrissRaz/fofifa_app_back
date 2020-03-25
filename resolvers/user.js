@@ -260,13 +260,13 @@ module.exports = {
         },
 
         updateUser: async (_, args, context) => {
-            if (!context.req.auth.connected) {
-                throw new Error(msg.notConnectedUser);
-            }
+            // if (!context.req.auth.connected) {
+            //     throw     new Error(msg.notConnectedUser);
+            // }
 
-            if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
-                throw new Error(msg.notAllowedApi);
-            }
+            // if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
+            //     throw new Error(msg.notAllowedApi);
+            // }
 
             if (args.userInfo) {
 
@@ -290,7 +290,18 @@ module.exports = {
 
                 args.loginInfo.password = crypto.encrypt(args.loginInfo.password);
 
-                await model.fofifapers.update({ ...args.loginInfo, salt: salt }, {
+                let userInfoToUp = { ...args.loginInfo, salt: salt };
+
+                if (args.actif!=undefined && args.actif!=null){
+                    userInfoToUp= {
+                        ...userInfoToUp,
+                        actif: args.actif
+                    };
+                }
+                console.log(userInfoToUp);
+                
+
+                await model.fofifapers.update(userInfoToUp, {
                     where: {
                         IdPersonne: args.IdUser
                     }
@@ -315,9 +326,15 @@ module.exports = {
                 throw Error(msg.userNotExist);
             }
 
+
+            const crypto = new Crypto({
+                key: res[0].salt,
+                hmacKey: login_hash
+            });
+
             return {
                 ...res[0],
-                password: crypto.decrypt(res[0])
+                password: crypto.decrypt(res[0].password)
             };
 
         },
