@@ -143,7 +143,7 @@ password: String (Decrypted)
     TYPE_OP
   }
 
-## Version *
+## Version 1.7
 
   * ENUM
 

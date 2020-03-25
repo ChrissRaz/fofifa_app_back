@@ -2,7 +2,6 @@ const {gql} = require('../helpers/helpers');
 const types = require("./types");
 const inputs = require("./inputs");
 
-
 const base = gql` 
 
     type Query {
@@ -12,11 +11,10 @@ const base = gql`
         user(groupe: GROUP!, IdUser: ID!):USER,
         availableEnqueteurForDescente(IdDescente: ID!, IdDistrict: ID!):[ENQUETEUR],
         descentes:[DESCENTE],
-        descente(IdDescente: ID):DESCENTE,
+        descente(IdDescente: ID, IdSaisisseur: ID, IdEnqueteur: ID):DESCENTE,
 
         regions(IdDescente: ID, IdDisctrictOfMission: ID, isForm: Boolean):[REGION],
         region(IdRegion: ID!,IdDescente: ID, IdDisctrictOfMission: ID): REGION,
-        # regWithAvailableDistrictForDescente(IdDescente: ID!, IdMission: ID):[REGION],
 
         missions(IdDescente: ID):[MISSION],
         mission(IdMission: ID):MISSION,
@@ -81,8 +79,9 @@ const base = gql`
         deleteAssociationOfMenage(IdPersonne: ID!, IdAssoc: ID!): Boolean,
 
         addMOE(IdEA: ID!, personneInfo: personneInfo!, moisDebut: String! moisFin: String!,salaireMens: Float!, observation: String, IdTypeMOE: ID!, IdActivitPricip: ID ,avantages: [avantage_nat]):MOE,
-        updateMOE(IdMOE: ID!,personneInfo: personneInfo!,  moisDebut: String! moisFin: String!,salaireMens: Float!, observation: String, IdTypeMOE: ID!, IdActivitPricip: ID, avantages: [avantage_nat]):MOE,
+        updateMOE(IdMOE: ID!,personneInfo: personneInfo!, moisDebut: String! moisFin: String!,salaireMens: Float!, observation: String, IdTypeMOE: ID!, IdActivitPricip: ID, avantages: [avantage_nat]):MOE,
         deleteMOE( IdMOE: ID!):Boolean,
+        
 
         # addExistingMOEToEA(IdEA: ID!, IdMOE: ID!, moisDebut: String! moisFin: String!,salaireMens: Float!, observation: String, IdTypeMOE: ID!):MOE
 

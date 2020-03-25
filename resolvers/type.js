@@ -4,8 +4,6 @@ const seq = require('sequelize');
 const {param_tabes} = require('../config/constants');
 
 
-
-
 module.exports= {
     DESCENTE: {
         missions: async (_,args,context)=>{
@@ -158,6 +156,7 @@ module.exports= {
             return res;
         },
     },
+
     EA: {
         status: async (_,args,context) =>{
             
@@ -184,7 +183,23 @@ module.exports= {
             );
 
         },
+        moes:  async (_,args,context) =>{
+
+            // console.log(_);
+            
+            let res =  await model.moe.findAll({
+                raw: true,
+                where: {
+                    IdEA: _.IdEA
+                },
+                
+            });
+
+            return res;
+        }
+
     },
+    
     MENAGE: {
         activitePricipale: async (_,args,context) =>{
             
@@ -329,5 +344,65 @@ module.exports= {
             });
 
         },
+    },
+
+    MOE: {
+        activitePricipale: async (_,args,context) =>{
+            
+            return await model.param_divers.findByPk(_.IdActPcpl,{
+                raw: true,
+                attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]],
+            });
+
+        },
+        details_personne: async (_,args,context) =>{
+            
+            return await model.personne.findOne({
+                raw: true,
+                where: {
+                    IdPersonne:_.IdPersonne
+                }
+            });
+
+        },
+        avantegeNature: async (_,args,context) =>{
+            let res = await model.avantage_nat.findAll(
+                {
+                    raw: true,
+                    where: {
+                        IdPersonne: _.IdPersonne
+                    }
+                }
+            );
+            console.log(res);
+            
+
+            return res;
+
+        },
+        ea: async (_,args,context) =>{
+            
+            return await model.EA.findOne({
+                raw: true,
+                where: {
+                    IdEA:_.IdEA
+                }
+            });
+        },
+    },
+    ANVANTAGE_NAT :{
+        type: async (_,args,context) =>{
+            
+            return await model.param_divers.findOne({
+                where: {
+                    IdParam: _.IdtypeAvNat,
+                    // tableParam: param_tabes.type_av_nat
+                },
+                raw: true,
+                attributes: ["IdParam",["tableParam","table"],["codeParam", "code"], ["val_param","val"], ["status_param", "status"]],
+            });
+        },
+
     }
+
 };

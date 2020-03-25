@@ -11,9 +11,9 @@ module.exports = {
     Query: {
         EAs: async (_, args, context) => {
 
-            if (!context.req.auth.connected) {
-                throw new Error(msg.notConnectedUser);
-            }
+            // if (!context.req.auth.connected) {
+            //     throw new Error(msg.notConnectedUser);
+            // }
 
             let res = null;
 

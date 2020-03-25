@@ -29,7 +29,7 @@ module.exports = {
 
             //récupération de l'info client correspondant
             let usr = await model.fofifapers.findOne({
-                where: { username: args.username }
+                where: { username: args.username, actif: 1 }
             });
 
             let usr_copy = usr;
@@ -41,6 +41,7 @@ module.exports = {
                 // vérification du groupe de la personne correspondante
                 let idUser = usr_copy.IdPersonne;
                 usr = await model.chercheur.findByPk(idUser);
+
 
                 if (usr) {
                     groupe = "CHERCHEUR";
@@ -54,7 +55,7 @@ module.exports = {
                     else {
                         usr = await model.saisisseur.findByPk(idUser);
 
-                        if (user) {
+                        if (usr) {
                             groupe = "SAISISSEUR";
                         }
                         else {
@@ -314,7 +315,10 @@ module.exports = {
                 throw Error(msg.userNotExist);
             }
 
-            return res[0];
+            return {
+                ...res[0],
+                password: crypto.decrypt(res[0])
+            };
 
         },
 

@@ -27,6 +27,7 @@ module.exports  =  gql`
         MODE_ACQUI, 
         TYPE_CULT, 
         TYPE_CHARGE, 
+        SAISIE_STATUS
     }
 
     enum CODE_STATUS{
@@ -138,8 +139,8 @@ module.exports  =  gql`
 
     type ANVANTAGE_NAT{
         IdAvantageNat: ID!,
-        puAvNat: Int,
-        qteAvNat: Int,
+        puAvNat: Int!,
+        qteAvNat: Int!,
         type: PARAM!
     }
 
@@ -158,7 +159,7 @@ module.exports  =  gql`
         relatioAvecCE: PARAM!,
         ea: EA!,
         # eas: [EA]!
-        assiciations: [ASSOCIATION_PERSONNE]
+        assiciations: [ASSOCIATION_PERSONNE],
     }
 
     type MOE{
@@ -170,7 +171,7 @@ module.exports  =  gql`
         activitePricipale: PARAM,
         details_personne: PERSONNE,
         avantegeNature: [ANVANTAGE_NAT],
-        ea: [EA!]
+        ea: EA!
     }
 
     type EA{
@@ -178,8 +179,9 @@ module.exports  =  gql`
         codeEA: String!,
         dateEnquete: String!
         meanages: [MENAGE],
-        # mainOeuvre: [MOE],
         status: PARAM!,
+        menages: [MENAGE],
+        moes: [MOE]
     }
 
     type ASSOCIATION{

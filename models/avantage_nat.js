@@ -8,10 +8,6 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    typeAvNat: {
-      type: DataTypes.STRING(50),
-      allowNull: false
-    },
     puAvNat: {
       type: DataTypes.FLOAT,
       allowNull: false
@@ -19,6 +15,14 @@ module.exports = function(sequelize, DataTypes) {
     qteAvNat: {
       type: DataTypes.FLOAT,
       allowNull: false
+    },
+    IdtypeAvNat: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        model: 'param_divers',
+        key: 'IdParam'
+      }
     },
     IdPersonne: {
       type: DataTypes.INTEGER(11),

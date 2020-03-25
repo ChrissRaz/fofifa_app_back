@@ -2,22 +2,14 @@ const express = require("express");
 const graphqlHTTP = require("express-graphql");
 
 const db = require("./helpers/db");
-
 const typeDefs = require("./scemas/schemas");
 const model = require("./models/models");
-
 const resolvers = require('./resolvers/index');
-
-const loggingMiddleware = require('./middlewares/login');
-
 const graphqlTools = require('graphql-tools');
-
+const loggingMiddleware = require('./middlewares/login');
 var cors = require('cors');
-
 const app = express();
-
 app.use(cors());
-
 
 let schema = graphqlTools.makeExecutableSchema({
     typeDefs,

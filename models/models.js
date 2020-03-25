@@ -54,6 +54,14 @@ module.exports = {
     saisir: saisir(db,DataTypes),
     personne: personne(db,DataTypes),
     charger: charger(db,DataTypes),
+    batiment_agricole: batiment_agricole(db,DataTypes),
+    charge_locataire: charge_locataire(db,DataTypes),
+    foncier: foncier(db, DataTypes),
+    location_avoir_charge_loc: location_avoir_charge_loc(db,DataTypes),
+    location: location(db, DataTypes),
+    metayage_avoir_charge_loc: metayage_avoir_charge_loc(db, DataTypes),
+    metayage: metayage(db, DataTypes),
+    vente_terre: vente_terre(db, DataTypes)
 };
 
 

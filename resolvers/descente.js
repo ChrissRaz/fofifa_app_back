@@ -15,6 +15,8 @@ module.exports = {
             {
                 throw  new Error(msg.notConnectedUser);
             }
+
+            
             
             let res = await model.descente.findAll();
             

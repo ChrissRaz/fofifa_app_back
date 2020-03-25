@@ -67,8 +67,6 @@ module.exports =  (req, res, next) => {
 
     // console.log(t);
     
-
-    
     
     auth.connected=true;
     auth.userInfo = decodedToken;

@@ -40,7 +40,7 @@ module.exports = {
             
             avantages.forEach(async el => {
                 await model.avantage_nat.create({   
-                    typeAvNat: el.type,
+                    IdTypeAvNat: el.type,
                     puAvNat: el.puAvNat,
                     qteAvNat: el.qteAvNat,
                     IdPersonne: person.IdPersonne
@@ -106,7 +106,7 @@ module.exports = {
 
                 if (el.IdAvNat){
                     await model.avantage_nat.update({   
-                        typeAvNat: el.type,
+                        IdTypeAvNat: el.type,
                         puAvNat: el.puAvNat,
                         qteAvNat: el.qteAvNat,
                         IdPersonne: person.IdPersonne
@@ -118,7 +118,7 @@ module.exports = {
                 }
                 else{
                     await model.avantage_nat.create({   
-                        typeAvNat: el.type,
+                        IdTypeAvNat: el.type,
                         puAvNat: el.puAvNat,
                         qteAvNat: el.qteAvNat,
                         IdPersonne: person.IdPersonne
