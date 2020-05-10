@@ -134,7 +134,8 @@ module.exports  =  gql`
         IdDescente: ID!,
         dateDescente: String,
         description: String,
-        missions: [MISSION]
+        missions: [MISSION],
+        saisisseurs: [SAISISSEUR]
     }
 
     type ANVANTAGE_NAT{

@@ -11,7 +11,7 @@ const base = gql`
         user(groupe: GROUP!, IdUser: ID!):USER,
         availableEnqueteurForDescente(IdDescente: ID!, IdDistrict: ID!):[ENQUETEUR],
         descentes:[DESCENTE],
-        descente(IdDescente: ID, IdSaisisseur: ID, IdEnqueteur: ID):DESCENTE,
+        descente(IdDescente: ID):DESCENTE,
 
         regions(IdDescente: ID, IdDisctrictOfMission: ID, isForm: Boolean):[REGION],
         region(IdRegion: ID!,IdDescente: ID, IdDisctrictOfMission: ID): REGION,

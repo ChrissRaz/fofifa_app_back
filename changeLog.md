@@ -174,3 +174,8 @@ password: String (Decrypted)
     * addMOE
     * updateMOE
     * deleteMOE
+
+
+## Version 1.8
+  * add saisisseurs to type DESCENTE
+  * 

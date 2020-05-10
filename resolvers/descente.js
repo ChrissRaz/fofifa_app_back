@@ -5,18 +5,16 @@ const model = require("../models/models");
 module.exports = {
     Query:{
         descentes: async (_, args, context) => {
-            if (!context.req.auth.connected)
-            {
-                throw  new Error(msg.notConnectedUser);
-            }
+            // if (!context.req.auth.connected)
+            // {
+            //     throw  new Error(msg.notConnectedUser);
+            // }
     
             
-            if (!context.req.auth.connected)
-            {
-                throw  new Error(msg.notConnectedUser);
-            }
-
-            
+            // if (!context.req.auth.connected)
+            // {
+            //     throw  new Error(msg.notConnectedUser);
+            // }
             
             let res = await model.descente.findAll();
             
@@ -24,10 +22,10 @@ module.exports = {
         },
     
         descente: async (_, args, context) => {
-            if (!context.req.auth.connected)
-            {
-                throw  new Error(msg.notConnectedUser);
-            }
+            // if (!context.req.auth.connected)
+            // {
+            //     throw  new Error(msg.notConnectedUser);
+            // }
             let res = await model.descente.findByPk(args.IdDescente);
       
             return res;

@@ -3,6 +3,10 @@ const seq = require('sequelize');
 
 const {param_tabes} = require('../config/constants');
 
+const Crypto = require('node-crypt');
+
+const { login_hash } = require("../config/constants");
+
 
 module.exports= {
     DESCENTE: {
@@ -10,7 +14,42 @@ module.exports= {
            return await model.mission.findAll({ 
                 raw:true,
                 where: { IdDescente: _.IdDescente} });
-        }
+        },
+        saisisseurs: async (_,args,context)=>{
+            let res = await context.database.query(`SELECT *, 'SAISISSEUR' AS groupe  FROM affecter 
+            INNER JOIN saisisseur ON saisisseur.IdPersonne=affecter.IdPersonne 
+            INNER JOIN  fofifapers as ffp ON ffp.IdPersonne=saisisseur.IdPersonne 
+
+            WHERE affecter.IdDescente=:idd`,{
+                replacements: { idd: _.IdDescente }, type: seq.QueryTypes.SELECT
+            });
+
+            console.log(res);  
+
+            if (res.length == 0) {
+                return [];
+            }
+
+            let crypto = null;
+
+            res = res.map(el=>{
+
+                crypto = new Crypto({
+                    key: el.salt,
+                    hmacKey: login_hash
+                });
+
+                el = {
+                    ...el,
+                    password: crypto.decrypt(el.password)
+                }
+
+                return el;
+            });
+           
+
+            return res;
+            }
     },
 
     MISSION: {
