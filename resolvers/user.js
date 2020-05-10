@@ -399,6 +399,22 @@ module.exports = {
             return true;
         },
 
+        affectEnqueteursToMission: async (_, args, context) => {
+            // if (!context.req.auth.connected) {
+            //   throw new Error(msg.notConnectedUser);
+            // }
+
+            // if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
+            //   throw new Error(msg.notAllowedApi);
+            // }
+
+            args.IdEnqueteurs.forEach( IdEnqueteur => {
+                model.charger.create({ IdPersonne: IdEnqueteur, IdMission: args.IdMission }); 
+            });
+
+            return true;
+        },
+
         deleteEnqueteurFromMission: async (_, args, context) => {
             if (!context.req.auth.connected) {
                 throw new Error(msg.notConnectedUser);

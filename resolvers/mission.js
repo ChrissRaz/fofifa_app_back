@@ -7,13 +7,13 @@ module.exports = {
     Query: {
         missions: async (_, args, context) => {
 
-            if (!context.req.auth.connected) {
-                throw new Error(msg.notConnectedUser);
-            }
+            // if (!context.req.auth.connected) {
+            //     throw new Error(msg.notConnectedUser);
+            // }
 
-            if (context.req.auth.userInfo.groupe != "CHERCHEUR" && context.req.auth.userInfo.groupe != "ENQUETEUR") {
-                throw new Error(msg.notAllowedApi);
-            }
+            // if (context.req.auth.userInfo.groupe != "CHERCHEUR" && context.req.auth.userInfo.groupe != "ENQUETEUR") {
+            //     throw new Error(msg.notAllowedApi);
+            // }
 
             let filter = {};
 
@@ -42,13 +42,13 @@ module.exports = {
 
     Mutation: {
         addMission: async (_, args, context) => {
-            if (!context.req.auth.connected) {
-                throw new Error(msg.notConnectedUser);
-            }
+            // if (!context.req.auth.connected) {
+            //     throw new Error(msg.notConnectedUser);
+            // }
 
-            if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
-                throw new Error(msg.notAllowedApi);
-            }
+            // if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
+            //     throw new Error(msg.notAllowedApi);
+            // }
             let added = await model.mission.create({
                 commune: args.commune, fokotany: args.fokotany, village: args.village,
                 IdDescente: args.IdDescente, IdLieu: args.IdDistrict
