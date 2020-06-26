@@ -1,5 +1,5 @@
 let jwt = require("jsonwebtoken");
-const { sing_scret_key, expiration_login, test } = require("../config/constants");
+const { sing_scret_key, expiration_login, dev } = require("../config/constants");
 
 module.exports = (req, res, next) => {
 
@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
         userInfo: null
     };
 
-    if (test) {
+    if (dev) {
 
         console.log("test");
         auth.token = "test";
