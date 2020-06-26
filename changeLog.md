@@ -2,180 +2,197 @@
 
 ## Version 0.1.0
 
-* Mutations:
-  * affectSaisisseurToDescente
-  * deleteSaisisseurFromDescente
-  * deleteEnqueteurFromMission
-  * updateUser
+- Mutations:
 
-* Types:
-  * SAISISSEUR{
+  - affectSaisisseurToDescente
+  - deleteSaisisseurFromDescente
+  - deleteEnqueteurFromMission
+  - updateUser
+
+- Types:
+
+  - SAISISSEUR{
     ...
-descentes: [DESCENTE] 
-}
+    descentes: [DESCENTE]
+    }
 
-  * USER{
+  - USER{
     ...
-password: String (Decrypted)
-}
+    password: String (Decrypted)
+    }
 
-* Database and models:
-  * Tables and Models:
-    * affecter
-
+- Database and models:
+  - Tables and Models:
+    - affecter
 
 ## Version 0.1.2
 
 **Note: EA:EXPLOITATION AGRICOLE ; PARAM: tout les tables qui ont un clé valeurs comme donnés sont gerées par ce TYPE**
 
-* Mutations:
-  * addEA
-  * updateEA
-  * deleteEA
+- Mutations:
 
-  * addParam
-  * updateParam
-  * deleteParam
+  - addEA
+  - updateEA
+  - deleteEA
 
-* Query
-  * EAs
-  * EA
-  * parametres
-  * parametre
+  - addParam
+  - updateParam
+  - deleteParam
 
-* Type
-  * PARAM
-  * PARAM_TYPE
-  * ANVANTAGE_NAT
-  * MENAGE
-  * MOE
-  * EA
-  * SAISISSEUR {
+- Query
+
+  - EAs
+  - EA
+  - parametres
+  - parametre
+
+- Type
+
+  - PARAM
+  - PARAM_TYPE
+  - ANVANTAGE_NAT
+  - MENAGE
+  - MOE
+  - EA
+  - SAISISSEUR {
     ...
-     descentes: [DESCENTE]
-  }
-  
-* Database and models:
-  * affecter
-  * charger
-  * ea
-  * param_divers
-  * menage
-  * moe
-  * avantage_nat
-  * aider
-  * avoir_famille
-  * saisir
+    descentes: [DESCENTE]
+    }
 
-* Bug Fixes:
-  * addRegion
+- Database and models:
 
+  - affecter
+  - charger
+  - ea
+  - param_divers
+  - menage
+  - moe
+  - avantage_nat
+  - aider
+  - avoir_famille
+  - saisir
+
+- Bug Fixes:
+  - addRegion
 
 ## Version 0.1.3
 
-* Mutation
-  * addMeange
-  * updateEA [Param + Code]
+- Mutation
 
-* Query
-  * regionsWithAvailableDistrictForDescente [Deleted]
-  * regions & region [filtrage added]
-  * menages
-  * menage
+  - addMeange
+  - updateEA [Param + Code]
 
-* Type
-  * EA {
+- Query
+
+  - regionsWithAvailableDistrictForDescente [Deleted]
+  - regions & region [filtrage added]
+  - menages
+  - menage
+
+- Type
+  - EA {
     ...
     status: [PARAM]
-  }
+    }
 
 **NB: always import config.sql after importing the new database**
 
-
 ## Version 0.1.5
 
-* Query
+- Query
 
-  * Parametres [Updated: Query Param + status]
+  - Parametres [Updated: Query Param + status]
 
-  * Associations
-  * Association
+  - Associations
+  - Association
 
-* Mutation
-  
-  * deleteMenage
-  * updateMenage
-  
-  * addAssociation
-  * updateAssociation
-  * deleteAssociation
+- Mutation
 
-  * addAssociationToMenage
-  * updateAssociationOfMenage
-  * deleteAssociationOfMenage
+  - deleteMenage
+  - updateMenage
 
-* Bug fixes
+  - addAssociation
+  - updateAssociation
+  - deleteAssociation
 
-  * Resolvers relatioAvecCE in  MENAGE
+  - addAssociationToMenage
+  - updateAssociationOfMenage
+  - deleteAssociationOfMenage
 
-* Database and Models
+- Bug fixes
 
-  * association
-  * etre_membre
+  - Resolvers relatioAvecCE in MENAGE
 
-* Types
+- Database and Models
 
-  * ASSOCIATION {new}
-  * ASSOCIATION_PERSONNE {new}
-  * MENAGE{
+  - association
+  - etre_membre
+
+- Types
+
+  - ASSOCIATION {new}
+  - ASSOCIATION_PERSONNE {new}
+  - MENAGE{
     ...
-     assiciations: [ASSOCIATION_PERSONNE] {new}
-  }
+    assiciations: [ASSOCIATION_PERSONNE] {new}
+    }
 
-  * USER and childs {
+  - USER and childs {
     ...
-    actif: [Boolean] [Type modified]
-  }
+    actif: [Boolean][type modified]
+    }
 
-* enum
-  * PARAM_TYPE{
+- enum
+  - PARAM_TYPE{
     ...,
     TYPE_OP
-  }
+    }
 
 ## Version 1.7
 
-  * ENUM
+- ENUM
 
-    * PARAM_TYPE{
-    * ETAT_MAT [new]
-    * TYPE_BAT [new]
-    * TYPE_CHAMP [new]
-    * TYPE_TOPO [new]
-    * MODE_TENURE [new]
-    * STATUS_FONCIER [new]
-    * MODE_ACQUI [new]
-    * TYPE_CULT [new]
-    * TYPE_CHARGE [new]
+  - PARAM_TYPE{
+  - ETAT_MAT [new]
+  - TYPE_BAT [new]
+  - TYPE_CHAMP [new]
+  - TYPE_TOPO [new]
+  - MODE_TENURE [new]
+  - STATUS_FONCIER [new]
+  - MODE_ACQUI [new]
+  - TYPE_CULT [new]
+  - TYPE_CHARGE [new]
     }
-  
-  * Database and Models
-    * materiel
-    * batime_agri
-    * vente_terre
-    * foncier
-    * location
-    * metayage
-    * charge_locataire
-    * locataion_avoir_charge_loc
-    * metayage_avoir_charge_loc
-  
-  * Mutations
-    * addMOE
-    * updateMOE
-    * deleteMOE
 
+- Database and Models
+
+  - materiel
+  - batime_agri
+  - vente_terre
+  - foncier
+  - location
+  - metayage
+  - charge_locataire
+  - locataion_avoir_charge_loc
+  - metayage_avoir_charge_loc
+
+- Mutations
+  - addMOE
+  - updateMOE
+  - deleteMOE
 
 ## Version 1.8
-  * add saisisseurs to type DESCENTE
-  * 
+
+- add saisisseurs to type DESCENTE
+
+## Version 1.9
+
+- Bug Fix:
+
+  - debug type EA type resolver
+
+- New Features:
+  - add mutation addMissionsWithEquipe
+  - add mutation deleteMissionsOfDistrict
+  - add mutation deleteMissions
+  - add qery parametreByCode

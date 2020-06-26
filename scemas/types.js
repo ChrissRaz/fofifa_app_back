@@ -179,7 +179,6 @@ module.exports  =  gql`
         IdEA: ID!,
         codeEA: String!,
         dateEnquete: String!
-        meanages: [MENAGE],
         status: PARAM!,
         menages: [MENAGE],
         moes: [MOE]

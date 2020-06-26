@@ -2,13 +2,15 @@ let jwt = require("jsonwebtoken");
 const keyGen = require('crypto');
 const Crypto = require('node-crypt');
 
-const { sing_scret_key, login_hash,expiration_login } = require("../config/constants");
+const { sing_scret_key, login_hash, expiration_login } = require("../config/constants");
 const msg = require("../config/messages");
 
 
 const model = require("../models/models");
 
 const seq = require('sequelize');
+
+const OP = seq.Op;
 
 
 
@@ -24,7 +26,7 @@ module.exports = {
             };
 
             console.log(args);
-            
+
             let groupe = null;
 
             //récupération de l'info client correspondant
@@ -39,7 +41,7 @@ module.exports = {
             }
             else {
 
-                if (!usr_copy.actif){
+                if (!usr_copy.actif) {
                     throw new Error(msg.desactivatedStuff);
                 }
 
@@ -182,13 +184,13 @@ module.exports = {
 
         availableEnqueteurForDescente: async (_, args, context) => {
 
-            // if (!context.req.auth.connected) {
-            //     throw new Error(msg.notConnectedUser);
-            // }
+            if (!context.req.auth.connected) {
+                throw new Error(msg.notConnectedUser);
+            }
 
-            // if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
-            //     throw new Error(msg.notAllowedApi);
-            // }
+            if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
+                throw new Error(msg.notAllowedApi);
+            }
 
             let res = await context.database.query(`SELECT * FROM enqueteur as enq INNER JOIN fofifapers as ffp ON ffp.IdPersonne = enq.IdPersonne WHERE enq.IdPersonne NOT IN  (SELECT enq.IdPersonne FROM descente as des 
                 INNER JOIN mission as miss ON miss.IdDescente = des.IdDescente 
@@ -200,7 +202,7 @@ module.exports = {
             });
 
             // console.log(res);
-            
+
             res.forEach((el, i) => {
                 const crypto = new Crypto({
                     key: el.salt,
@@ -221,16 +223,13 @@ module.exports = {
     Mutation: {
         newUser: async (_, args, context) => {
 
-            //à décommenter en prod
-            // if (!context.req.auth.connected)
-            // {
-            //     throw  new Error(msg.notConnectedUser);
-            // }
+            if (!context.req.auth.connected) {
+                throw new Error(msg.notConnectedUser);
+            }
 
-            // if (context.req.auth.userInfo.groupe!="CHERCHEUR")
-            // {
-            //     throw  new Error(msg.notAllowedApi);
-            // }
+            if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
+                throw new Error(msg.notAllowedApi);
+            }
 
             let addedBase = await model.personne.create({ nom: args.userInfo.nom, prenom: args.userInfo.prenom, sexe: args.userInfo.sexe, age: args.userInfo.age });
 
@@ -265,13 +264,13 @@ module.exports = {
         },
 
         updateUser: async (_, args, context) => {
-            // if (!context.req.auth.connected) {
-            //     throw     new Error(msg.notConnectedUser);
-            // }
+            if (!context.req.auth.connected) {
+                throw new Error(msg.notConnectedUser);
+            }
 
-            // if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
-            //     throw new Error(msg.notAllowedApi);
-            // }
+            if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
+                throw new Error(msg.notAllowedApi);
+            }
 
             if (args.userInfo) {
 
@@ -297,14 +296,14 @@ module.exports = {
 
                 let userInfoToUp = { ...args.loginInfo, salt: salt };
 
-                if (args.actif!=undefined && args.actif!=null){
-                    userInfoToUp= {
+                if (args.actif != undefined && args.actif != null) {
+                    userInfoToUp = {
                         ...userInfoToUp,
                         actif: args.actif
                     };
                 }
                 console.log(userInfoToUp);
-                
+
 
                 await model.fofifapers.update(userInfoToUp, {
                     where: {
@@ -386,13 +385,13 @@ module.exports = {
 
 
         affectEnqueteurToMission: async (_, args, context) => {
-            // if (!context.req.auth.connected) {
-            //   throw new Error(msg.notConnectedUser);
-            // }
+            if (!context.req.auth.connected) {
+                throw new Error(msg.notConnectedUser);
+            }
 
-            // if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
-            //   throw new Error(msg.notAllowedApi);
-            // }
+            if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
+                throw new Error(msg.notAllowedApi);
+            }
 
             await model.charger.create({ IdPersonne: args.IdEnqueteur, IdMission: args.IdMission });
 
@@ -400,17 +399,22 @@ module.exports = {
         },
 
         affectEnqueteursToMission: async (_, args, context) => {
-            // if (!context.req.auth.connected) {
-            //   throw new Error(msg.notConnectedUser);
-            // }
+            if (!context.req.auth.connected) {
+                throw new Error(msg.notConnectedUser);
+            }
 
-            // if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
-            //   throw new Error(msg.notAllowedApi);
-            // }
+            if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
+                throw new Error(msg.notAllowedApi);
+            }
 
-            args.IdEnqueteurs.forEach( IdEnqueteur => {
-                model.charger.create({ IdPersonne: IdEnqueteur, IdMission: args.IdMission }); 
+            let ids = args.IdEnqueteurs.map(el => {
+                return {
+                    IdPersonne: el,
+                    IdMission: args.IdMission,
+                }
             });
+
+            await model.charger.bulkCreate(ids);
 
             return true;
         },
@@ -430,6 +434,31 @@ module.exports = {
                     IdMission: args.IdMission
                 }
             });
+
+            return true;
+        },
+
+        deleteEnqueteursFromMission: async (_, args, context) => {
+            if (!context.req.auth.connected) {
+                throw new Error(msg.notConnectedUser);
+            }
+
+            if (context.req.auth.userInfo.groupe != "CHERCHEUR") {
+                throw new Error(msg.notAllowedApi);
+            }
+
+            try {
+                await model.charger.destroy({
+                    where: {
+                        IdPersonne: {
+                            [OP.in]: args.IdEnqueteurs
+                        },
+                        IdMission: args.IdMission
+                    }
+                });
+            } catch (error) {
+                throw error;
+            }
 
             return true;
         },

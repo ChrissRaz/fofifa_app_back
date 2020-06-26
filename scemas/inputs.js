@@ -3,30 +3,26 @@ const {gql} = require('../helpers/helpers');
     
 module.exports  = gql`
 
-    input userInfo
-    {
+    input userInfo{
         nom: String!,
         prenom: String!,
         sexe: Boolean!,
         age: Int,
     },
 
-    input personneInfo
-    {
+    input personneInfo{
         nom: String!,
         prenom: String!,
         sexe: Boolean!,
         age: Int,
     },
 
-    input loginInfo
-    {
+    input loginInfo{
         username: String!,
         password: String!,
     },
 
-    input menage 
-    {
+    input menage {
         details_personne: personneInfo!,
         UTA: Float!,
         UTAAgricole: Float!,
@@ -40,11 +36,17 @@ module.exports  = gql`
         IdRelAvecCE: ID!,
     }
 
-    input avantage_nat
-    {
+    input avantage_nat{
         IdAvNat: ID,
         puAvNat: Float!,
         qteAvNat: Float!,
         type: ID!,
     }
+
+    input mission_input{
+        commune: String!, 
+        fokotany: String!, 
+        village: String!
+    }
 `;
+

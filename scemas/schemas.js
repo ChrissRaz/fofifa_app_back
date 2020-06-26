@@ -1,4 +1,4 @@
-const {gql} = require('../helpers/helpers');
+const { gql } = require('../helpers/helpers');
 const types = require("./types");
 const inputs = require("./inputs");
 
@@ -21,6 +21,7 @@ const base = gql`
 
         parametres(table: PARAM_TYPE!, status: Boolean): [PARAM],
         parametre(table: PARAM_TYPE!, IdParam: ID!): PARAM,
+        parametreByCode(table: PARAM_TYPE!, codeParam: ID!): PARAM,
 
         EAs(IdMission: ID, IdEnqueteur: ID): [EA],
         EA(IdEA: ID):EA,
@@ -39,9 +40,11 @@ const base = gql`
         affectEnqueteurToMission(IdMission: ID!, IdEnqueteur: ID!): Boolean,
         affectEnqueteursToMission(IdMission: ID!, IdEnqueteurs: [ID!]!): Boolean,
         deleteEnqueteurFromMission(IdMission: ID!, IdEnqueteur: ID!): Boolean,
+        deleteEnqueteursFromMission(IdMission: ID!, IdEnqueteurs: [ID]!): Boolean,
 
         affectSaisisseurToDescente(IdSaisisseur: ID!, IdDescente: ID!): Boolean,
         deleteSaisisseurFromDescente(IdSaisisseur: ID!, IdDescente: ID!): Boolean,
+
 
         addRegion(region: String!) : REGION,
         updateRegion(IdRegion: ID!, region: String!) : REGION,
@@ -62,6 +65,10 @@ const base = gql`
         addMission(commune: String!, fokotany: String!, village: String!, IdDescente: ID!, IdDistrict: ID!): MISSION,
         updateMission(IdMission:ID! ,commune: String!, fokotany: String!, village: String!, IdDescente: ID!, IdDistrict: ID!): MISSION,
         deleteMission(IdMission: ID!):Boolean,
+        deleteMissions(IdMissions: [ID]!):Boolean,
+        deleteMissionsOfDistrict(IdDescente: ID!, IdDistrict: ID!):Boolean,
+
+        addMissionsWithEquipe(IdEnqueteurs: [ID!]!, IdDescente: ID!, IdDistrict: ID!, missions: [mission_input!]!): [MISSION],
 
         addEA(codeEA: String!,dateEnquete: String!, IdEnqueteur: ID!, IdMission: ID!): EA!,
         updateEA(IdEA: ID!, codeEA: String!, dateEnquete: String!,codeStatus: CODE_STATUS!): EA!,
@@ -91,8 +98,8 @@ const base = gql`
 
 
 
-const typeDefs =inputs+types+base;
+const typeDefs = inputs + types + base;
 
 // module.exports.schemas = mergeTypes(merged, { all: true });
 // 
-module.exports =  typeDefs;
+module.exports = typeDefs;

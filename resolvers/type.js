@@ -65,9 +65,19 @@ module.exports= {
             return await model.descente.findOne({ raw:true, where: { IdDescente: _.IdDescente} });
         },
         equipe: async (_,args,context)=>{
-            let res = await context.database.query("SELECT * FROM mission INNER JOIN charger ON charger.IdMission=mission.IdMission INNER JOIN enqueteur ON enqueteur.IdPersonne=charger.IdPersonne WHERE mission.IdMission=:idm",{
+
+            console.log("IDMISSION",_.IdMission);
+            
+            let res = await context.database.query(`SELECT * FROM mission 
+            INNER JOIN charger ON charger.IdMission=mission.IdMission 
+            INNER JOIN enqueteur ON enqueteur.IdPersonne=charger.IdPersonne 
+            INNER JOIN fofifapers ON fofifapers.IdPersonne=enqueteur.IdPersonne
+            WHERE mission.IdMission=:idm`,{ 
                 replacements: { idm: _.IdMission }, type: seq.QueryTypes.SELECT
             });
+
+            console.log(res);
+            
             return res;
         },
     },
@@ -76,9 +86,7 @@ module.exports= {
 
         districts: async(_,args,context)=>{
 
-            let res = null;
-            // console.log(_);
-            
+            let res = null;            
 
             if (_.IdDescente)
             {
@@ -119,6 +127,14 @@ module.exports= {
                         type: seq.QueryTypes.SELECT,
                         attributes: [ ['IdLieu', 'IdDistrict'], ["descriLieu", "district"],"IdRegion"] 
                     });
+
+                res = res.map(el =>{
+                    return {
+                        ...el,
+                        IdDescente: _.IdDescente
+                    }
+                });
+
             }
             else
             {
@@ -137,7 +153,17 @@ module.exports= {
 
     DISTRICT: {
         missions: async (_,args,context)=>{
-            return await model.mission.findAll({ where: { IdLieu: _.IdDistrict} });
+
+            if (_.IdDescente){
+            
+                console.log("WITTH");
+                
+                return await model.mission.findAll({ where: { IdLieu: _.IdDistrict, IdDescente: _.IdDescente} });
+            }else{
+                console.log("NOWITTH");
+
+                return await model.mission.findAll({ where: { IdLieu: _.IdDistrict} });
+            }
         },
     },
 
@@ -206,7 +232,7 @@ module.exports= {
 
         },
 
-        meanages:  async (_,args,context) =>{
+        menages:  async (_,args,context) =>{
             
             return await context.database.query(
                 `SELECT * FROM ea 

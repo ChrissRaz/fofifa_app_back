@@ -27,10 +27,9 @@ module.exports = {
         },
         menages: async (_, args, context) => {
 
-            // if (!context.req.auth.connected)
-            // {
-            //     throw  new Error(msg.notConnectedUser);
-            // }
+            if (!context.req.auth.connected) {
+                throw new Error(msg.notConnectedUser);
+            }
 
             let res = await context.database.query(`
             SELECT * FROM menage  
@@ -134,9 +133,9 @@ module.exports = {
         },
 
         addAssociationToMenage: async (_, args, context) => {
-            // if (!context.req.auth.connected) {
-            //   throw new Error(msg.notConnectedUser);
-            // }
+            if (!context.req.auth.connected) {
+                throw new Error(msg.notConnectedUser);
+            }
 
             let assoc = await model.etre_membre.create({ IdAssoc: args.IdAssoc, IdPersonne: args.IdPersonne }, {
                 raw: true,

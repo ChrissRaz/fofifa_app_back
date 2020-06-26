@@ -40,9 +40,9 @@ module.exports = {
         },
 
         regions: async (_, args, context) => {
-            // if (!context.req.auth.connected) {
-            //     throw new Error(msg.notConnectedUser);
-            // }
+            if (!context.req.auth.connected) {
+                throw new Error(msg.notConnectedUser);
+            }
 
             let res = await model.lieu.findAll({
                 raw: true,
@@ -55,6 +55,7 @@ module.exports = {
             });
 
             // console.log(res);
+
             res.forEach((el, i) => {
 
                 res[i] = {
@@ -97,15 +98,13 @@ module.exports = {
 
         parametres: async (_, args, context) => {
 
-            // if (!context.req.auth.connected)
-            // {
-            //     throw  new Error(msg.notConnectedUser);
-            // }
+            if (!context.req.auth.connected) {
+                throw new Error(msg.notConnectedUser);
+            }
 
-            // if (context.req.auth.userInfo.groupe!="CHERCHEUR" && context.req.auth.userInfo.groupe!="ENQUETEUR")
-            // {
-            //     throw  new Error(msg.notAllowedApi);
-            // }
+            if (context.req.auth.userInfo.groupe != "CHERCHEUR" && context.req.auth.userInfo.groupe != "ENQUETEUR") {
+                throw new Error(msg.notAllowedApi);
+            }
 
             let status = true;
 
@@ -143,13 +142,34 @@ module.exports = {
                 attributes: ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]]
             });
         },
+
+        parametreByCode: async (_, args, context) => {
+            console.log(context.req.auth);
+
+            if (!context.req.auth.connected) {
+                throw new Error(msg.notConnectedUser);
+            }
+
+            if (context.req.auth.userInfo.groupe != "CHERCHEUR" && context.req.auth.userInfo.groupe != "ENQUETEUR") {
+                throw new Error(msg.notAllowedApi);
+            }
+
+            return await model.param_divers.findOne({
+                raw: true,
+                where: {
+                    tableParam: args.table,
+                    codeParam: args.codeParam
+                },
+                attributes: ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]]
+            });
+        }
     },
 
     Mutation: {
         addAssociation: async (_, args, context) => {
-            // if (!context.req.auth.connected) {
-            //   throw new Error(msg.notConnectedUser);
-            // }
+            if (!context.req.auth.connected) {
+                throw new Error(msg.notConnectedUser);
+            }
 
             let assoc = await model.association.create({ nomAssoc: args.nomAssoc, IdType: args.IdTypeAssoc }, {
                 raw: true
@@ -315,6 +335,7 @@ module.exports = {
 
             return true;
         },
+
         addParam: async (_, args, context) => {
             if (!context.req.auth.connected) {
                 throw new Error(msg.notConnectedUser);
