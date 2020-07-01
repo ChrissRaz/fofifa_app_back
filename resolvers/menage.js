@@ -41,6 +41,8 @@ module.exports = {
                 type: seq.QueryTypes.SELECT
             });
 
+            console.log(res);
+
             return res;
         },
 
@@ -75,9 +77,18 @@ module.exports = {
                 IdRelaCE: args.InfoMenage.IdRelAvecCE
             });
 
+            let res = await model.menage.findOne({
+                raw: true,
+                where: {
+                    IdPersonne: menage.IdPersonne,
+                }
+            });
+
             return {
-                ...menage.dataValues,
-            };
+                ...res,
+                ...args
+            }
+
         },
 
         updateMenage: async (_, args, context) => {
@@ -143,6 +154,26 @@ module.exports = {
             });
 
             return { ...assoc.dataValues, actif: parseInt(assoc.dataValues.actif) };
+        },
+
+        addAssociationsToMenage: async (_, args, context) => {
+            if (!context.req.auth.connected) {
+                throw new Error(msg.notConnectedUser);
+            }
+
+            let ids = args.IdsAssoc.forEach(el => {
+                return { IdAssoc: el, IdPersonne: args.IdPersonne }
+            });
+
+            let assoc = await model.etre_membre.bulkCreate(ids, {
+                raw: true,
+                plain: true
+            });
+
+            console.log(assoc);
+
+            return [];
+            // return { ...assoc.dataValues, actif: parseInt(assoc.dataValues.actif) };
         },
 
         updateAssociationOfMenage: async (_, args, context) => {

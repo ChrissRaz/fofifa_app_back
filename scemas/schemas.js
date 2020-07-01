@@ -83,6 +83,7 @@ const base = gql`
         deleteAssociation(IdAssoc: ID!): Boolean,
 
         addAssociationToMenage(IdPersonne: ID!, IdAssoc: ID!): ASSOCIATION_PERSONNE,
+        addAssociationsToMenage(IdPersonne: ID!, IdsAssoc: [ID!]): [ASSOCIATION_PERSONNE],
         updateAssociationOfMenage(IdPersonne: ID!, IdAssoc: ID!,actif: Boolean!): ASSOCIATION_PERSONNE,
         deleteAssociationOfMenage(IdPersonne: ID!, IdAssoc: ID!): Boolean,
 

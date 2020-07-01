@@ -196,3 +196,4 @@
   - add mutation deleteMissionsOfDistrict
   - add mutation deleteMissions
   - add qery parametreByCode
+  - add mutation addAssociationsToMenage
