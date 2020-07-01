@@ -1,7 +1,7 @@
-const {gql} = require('../helpers/helpers');
+const { gql } = require('../helpers/helpers');
 
-    
-module.exports  = gql`
+
+module.exports = gql`
 
     input userInfo{
         nom: String!,
@@ -22,7 +22,7 @@ module.exports  = gql`
         password: String!,
     },
 
-    input menage {
+    input menageInput {
         details_personne: personneInfo!,
         UTA: Float!,
         UTAAgricole: Float!,

@@ -74,8 +74,8 @@ const base = gql`
         updateEA(IdEA: ID!, codeEA: String!, dateEnquete: String!,codeStatus: CODE_STATUS!): EA!,
         deleteEA(IdEA: ID!): Boolean, 
 
-        addMenage(InfoMenage: menage!, IdEA: ID!): MENAGE!,
-        updateMenage(IdMenage: ID!, IdEA: ID!, InfoMenage: menage!): MENAGE!,
+        addMenage(InfoMenage: menageInput!, IdEA: ID!): MENAGE!,
+        updateMenage(IdMenage: ID!, IdEA: ID!, InfoMenage: menageInput!): MENAGE!,
         deleteMenage(IdMenage: ID!): Boolean,
 
         addAssociation(nomAssoc: String!, IdTypeAssoc: ID!): ASSOCIATION,

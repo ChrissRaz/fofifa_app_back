@@ -11,7 +11,6 @@ module.exports = (req, res, next) => {
 
     if (dev) {
 
-        console.log("test");
         auth.token = "test";
         auth.userInfo = {
             IdPersonne: 1,

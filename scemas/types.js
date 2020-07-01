@@ -1,7 +1,7 @@
-const {gql} = require('../helpers/helpers');
+const { gql } = require('../helpers/helpers');
 
 
-module.exports  =  gql`
+module.exports = gql`
 
     enum GROUP{
         CHERCHEUR
@@ -158,8 +158,7 @@ module.exports  =  gql`
         nivScolaireAct: PARAM,
         nivScolaireAtteint: PARAM,
         relatioAvecCE: PARAM!,
-        ea: EA!,
-        # eas: [EA]!
+        ea: EA,
         assiciations: [ASSOCIATION_PERSONNE],
     }
 
@@ -172,7 +171,7 @@ module.exports  =  gql`
         activitePricipale: PARAM,
         details_personne: PERSONNE,
         avantegeNature: [ANVANTAGE_NAT],
-        ea: EA!
+        ea: EA
     }
 
     type EA{

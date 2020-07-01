@@ -7,7 +7,9 @@ const model = require("./models/models");
 const resolvers = require('./resolvers/index');
 const graphqlTools = require('graphql-tools');
 const loggingMiddleware = require('./middlewares/login');
-var cors = require('cors');
+const cors = require('cors');
+
+
 const app = express();
 app.use(cors());
 
@@ -30,7 +32,28 @@ app.use("/api", graphqlHTTP((request, response, graphQLParams) =>
         }
     })));
 
+let http = require('http').Server(app);
 
-app.listen(1200, () => {
+
+const io = require('socket.io').listen(http, {
+    origins: '*:*'
+});
+
+http.listen(1200, () => {
     console.log("🚀 server started on port 1200, the api is available at http://127.0.0.1:1200/api");
 });
+
+io.sockets.on('connection', (socket) => {
+    console.log('connecté');
+
+    socket.test = "hahah"
+    socket.emit('test', { test: socket.test });
+
+
+    socket.on('disconnect', function () {
+        console.log('déconnecté');
+    });
+
+
+})
+

@@ -35,6 +35,7 @@
     "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
     "node-crypt": "^2.0.0",
-    "sequelize": "^5.21.3"
+    "sequelize": "^5.21.3",
+    "socket.io": "^2.3.0"
   }
 }
