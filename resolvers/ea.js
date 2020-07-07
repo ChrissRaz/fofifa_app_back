@@ -118,25 +118,37 @@ module.exports = {
                 throw new Error(msg.notConnectedUser);
             }
 
-            let status = await model.param_divers.findOne({
-                where: {
-                    codeParam: args.codeStatus,
-                },
-                raw: true
-            });
+            if (args.codeStatus) {
+                let status = await model.param_divers.findOne({
+                    where: {
+                        codeParam: args.codeStatus,
+                    },
+                    raw: true
+                });
+                console.log("status", status);
 
-            console.log(status);
+                await model.EA.update({
+                    codeEA: args.codeEA,
+                    IdStatus: status.IdParam,
+                    dateEnquete: args.dateEnquete
+                }, {
+                    where: {
+                        IdEA: args.IdEA
+                    }
+                });
+
+            } else {
+                await model.EA.update({
+                    codeEA: args.codeEA,
+                    dateEnquete: args.dateEnquete
+                }, {
+                    where: {
+                        IdEA: args.IdEA
+                    }
+                });
+            }
 
 
-            await model.EA.update({
-                codeEA: args.codeEA,
-                IdStatus: status.IdParam,
-                dateEnquete: args.dateEnquete
-            }, {
-                where: {
-                    IdEA: args.IdEA
-                }
-            });
 
 
             let res = await model.EA.findOne({

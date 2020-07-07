@@ -71,7 +71,7 @@ const base = gql`
         addMissionsWithEquipe(IdEnqueteurs: [ID!]!, IdDescente: ID!, IdDistrict: ID!, missions: [mission_input!]!): [MISSION],
 
         addEA(codeEA: String!,dateEnquete: String!, IdEnqueteur: ID!, IdMission: ID!): EA!,
-        updateEA(IdEA: ID!, codeEA: String!, dateEnquete: String!,codeStatus: CODE_STATUS!): EA!,
+        updateEA(IdEA: ID!, codeEA: String!, dateEnquete: String!,codeStatus: CODE_STATUS): EA!,
         deleteEA(IdEA: ID!): Boolean, 
 
         addMenage(InfoMenage: menageInput!, IdEA: ID!): MENAGE!,
