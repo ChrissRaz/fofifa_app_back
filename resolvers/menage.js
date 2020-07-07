@@ -17,7 +17,8 @@ module.exports = {
                 raw: true,
                 where: {
                     IdPersonne: args.IdMenage,
-                }
+                },
+                attributes: [['obs_men', 'observation'], `IdPersonne`, `UTA`, `UTAAgricole`, `presence`, `IdActPcpl`, `IdActSec`, `IdAutrSrcRev`, `IdNivAtt`, `IdNivAct`]
             });
 
             return {
@@ -32,7 +33,7 @@ module.exports = {
             }
 
             let res = await context.database.query(`
-            SELECT * FROM menage  
+            SELECT *, obs_men as observation FROM menage  
             INNER JOIN avoir_famille  AS af ON af.IdPersonne= menage.IdPersonne 
             WHERE af.IdEA= :idea` , {
                 replacements: {
@@ -81,7 +82,9 @@ module.exports = {
                 raw: true,
                 where: {
                     IdPersonne: menage.IdPersonne,
-                }
+                },
+                attributes: [['obs_men', 'observation'], `IdPersonne`, `UTA`, `UTAAgricole`, `presence`, `IdActPcpl`, `IdActSec`, `IdAutrSrcRev`, `IdNivAtt`, `IdNivAct`]
+
             });
 
             return {
@@ -161,9 +164,12 @@ module.exports = {
                 throw new Error(msg.notConnectedUser);
             }
 
-            let ids = args.IdsAssoc.forEach(el => {
+            let ids = args.IdsAssoc.map(el => {
                 return { IdAssoc: el, IdPersonne: args.IdPersonne }
             });
+
+            console.log(ids);
+
 
             let assoc = await model.etre_membre.bulkCreate(ids, {
                 raw: true,
