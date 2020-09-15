@@ -12,5 +12,8 @@ module.exports = {
         type_av_nat: "TYPE_AVANTAGE_NATURE",
         sais_stat: "SAISIE_STATUS",
         type_op: "TYPE_OP"
+    },
+    server: {
+        port: 1200
     }
 };

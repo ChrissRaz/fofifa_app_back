@@ -159,7 +159,7 @@ module.exports = gql`
         nivScolaireAtteint: PARAM,
         relatioAvecCE: PARAM!,
         ea: EA,
-        assiciations: [ASSOCIATION_PERSONNE],
+        associations: [ASSOCIATION_PERSONNE],
     }
 
     type MOE{

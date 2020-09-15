@@ -134,7 +134,7 @@
   - ASSOCIATION_PERSONNE {new}
   - MENAGE{
     ...
-    assiciations: [ASSOCIATION_PERSONNE] {new}
+    associations: [ASSOCIATION_PERSONNE] {new}
     }
 
   - USER and childs {
