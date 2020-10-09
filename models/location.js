@@ -3,10 +3,10 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('location', {
     IdLoc: {
+      autoIncrement: true,
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
+      primaryKey: true
     },
     mntLoc: {
       type: DataTypes.FLOAT,
@@ -30,9 +30,11 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "LOCATION_FONCIER"
     }
   }, {
+    sequelize,
     tableName: 'location'
-  });
+    });
 };

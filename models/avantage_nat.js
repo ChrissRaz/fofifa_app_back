@@ -3,10 +3,10 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('avantage_nat', {
     IdAvNat: {
+      autoIncrement: true,
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
+      primaryKey: true
     },
     puAvNat: {
       type: DataTypes.FLOAT,
@@ -22,7 +22,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "AVANTAGE_NAT_TYPE_FK"
     },
     IdPersonne: {
       type: DataTypes.INTEGER(11),
@@ -30,9 +31,11 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'moe',
         key: 'IdPersonne'
-      }
+      },
+      unique: "AVANTAGE_NAT_MOE_FK"
     }
   }, {
+    sequelize,
     tableName: 'avantage_nat'
-  });
+    });
 };

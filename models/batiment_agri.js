@@ -3,10 +3,10 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('batiment_agri', {
     IdBat: {
+      autoIncrement: true,
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
+      primaryKey: true
     },
     surface: {
       type: DataTypes.FLOAT,
@@ -30,13 +30,15 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "BATIMENT_TYPE_FK"
     },
     obs: {
       type: DataTypes.STRING(255),
       allowNull: true
     }
   }, {
+    sequelize,
     tableName: 'batiment_agri'
-  });
+    });
 };

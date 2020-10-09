@@ -33,7 +33,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "_MOE__PARAM_DIVERS0_FK"
     },
     IdTypMOE: {
       type: DataTypes.INTEGER(11),
@@ -41,7 +42,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "MOE_TYPE_MOE"
     },
     IdEA: {
       type: DataTypes.INTEGER(11),
@@ -49,9 +51,11 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'ea',
         key: 'IdEA'
-      }
+      },
+      unique: "MOE_EA_FK"
     }
   }, {
+    sequelize,
     tableName: 'moe'
-  });
+    });
 };

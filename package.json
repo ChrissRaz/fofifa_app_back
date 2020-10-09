@@ -4,7 +4,8 @@
   "description": "ce projet est le backend du projet fofifa",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index"
+    "start": "nodemon index",
+    "generate-model": "sequelize-auto -h localhost -d fofifa -u root -x  --dialect mysql -o models"
   },
   "repository": {
     "type": "git",

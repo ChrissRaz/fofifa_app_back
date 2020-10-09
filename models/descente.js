@@ -3,10 +3,10 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('descente', {
     IdDescente: {
+      autoIncrement: true,
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
+      primaryKey: true
     },
     dateDescente: {
       type: DataTypes.DATEONLY,
@@ -17,6 +17,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     }
   }, {
+    sequelize,
     tableName: 'descente'
-  });
+    });
 };

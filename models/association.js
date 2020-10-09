@@ -3,10 +3,10 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('association', {
     IdAssoc: {
+      autoIncrement: true,
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
+      primaryKey: true
     },
     nomAssoc: {
       type: DataTypes.STRING(255),
@@ -18,9 +18,11 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "ASSOCITION_TYPE_FK"
     }
   }, {
+    sequelize,
     tableName: 'association'
-  });
+    });
 };

@@ -3,10 +3,10 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('foncier', {
     IdFonc: {
+      autoIncrement: true,
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
+      primaryKey: true
     },
     nbParc: {
       type: DataTypes.INTEGER(11),
@@ -26,7 +26,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     mntFonc: {
       type: DataTypes.FLOAT,
-      allowNull: false
+      allowNull: true
     },
     cultive: {
       type: DataTypes.INTEGER(1),
@@ -38,7 +38,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "FONCIER_TYPE_CHAMP_FK"
     },
     IdTypeTopo: {
       type: DataTypes.INTEGER(11),
@@ -46,7 +47,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "FONCIER_TOPO_FK"
     },
     IdModeTenure: {
       type: DataTypes.INTEGER(11),
@@ -54,7 +56,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "FONCIER_TENURE_FK"
     },
     IdStatutFoncier: {
       type: DataTypes.INTEGER(11),
@@ -62,7 +65,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "FONCIER_STATUT_FK"
     },
     IdModeAcquis: {
       type: DataTypes.INTEGER(11),
@@ -70,9 +74,20 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "FONCIER_MODE_AQUI"
+    },
+    IdEA: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        model: 'ea',
+        key: 'IdEA'
+      },
+      unique: "foncier_ibfk_1"
     }
   }, {
+    sequelize,
     tableName: 'foncier'
-  });
+    });
 };

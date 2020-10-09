@@ -25,7 +25,7 @@ module.exports = {
                         idm: args.IdMission,
                         idp: args.IdEnqueteur
                     }, type: seq.QueryTypes.SELECT
-                })
+                });
             }
             else if (args.IdMission) {
                 res = await context.database.query(`

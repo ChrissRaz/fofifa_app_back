@@ -44,7 +44,9 @@ app.use(apiRoute, graphqlHTTP((request, response, graphQLParams) =>
             database: db,
             model: model,
         }
-    })));
+    })
+
+));
 
 
 //server instantiation

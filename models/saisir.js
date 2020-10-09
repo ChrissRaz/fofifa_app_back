@@ -24,8 +24,13 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    is_creator: {
+      type: DataTypes.INTEGER(1),
+      allowNull: false
     }
   }, {
+    sequelize,
     tableName: 'saisir'
-  });
+    });
 };

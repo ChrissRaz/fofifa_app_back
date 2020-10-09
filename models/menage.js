@@ -13,11 +13,13 @@ module.exports = function(sequelize, DataTypes) {
     },
     UTA: {
       type: DataTypes.FLOAT,
-      allowNull: false
+      allowNull: false,
+      comment: "entre 0 et 1"
     },
     UTAAgricole: {
       type: DataTypes.FLOAT,
-      allowNull: false
+      allowNull: false,
+      comment: "entre 0 et 1"
     },
     presence: {
       type: DataTypes.INTEGER(1),
@@ -29,7 +31,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "MENAGE__PARAM_DIVERS_FK"
     },
     IdActSec: {
       type: DataTypes.INTEGER(11),
@@ -37,7 +40,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "MENAGE__PARAM_DIVERS0_FK"
     },
     IdAutrSrcRev: {
       type: DataTypes.INTEGER(11),
@@ -45,7 +49,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "MENAGE__PARAM_DIVERS1_FK"
     },
     IdNivAtt: {
       type: DataTypes.INTEGER(11),
@@ -53,7 +58,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "MENAGE__PARAM_DIVERS2_FK"
     },
     IdNivAct: {
       type: DataTypes.INTEGER(11),
@@ -61,13 +67,15 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "MENAGE__PARAM_DIVERS3_FK"
     },
     obs_men: {
       type: DataTypes.STRING(50),
       allowNull: true
     }
   }, {
+    sequelize,
     tableName: 'menage'
-  });
+    });
 };

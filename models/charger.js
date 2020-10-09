@@ -3,10 +3,10 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('charger', {
     IdCharger: {
+      autoIncrement: true,
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
+      primaryKey: true
     },
     IdMission: {
       type: DataTypes.INTEGER(11),
@@ -14,7 +14,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'mission',
         key: 'IdMission'
-      }
+      },
+      unique: "CHARGER_MISSION_FK"
     },
     IdPersonne: {
       type: DataTypes.INTEGER(11),
@@ -22,9 +23,11 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'enqueteur',
         key: 'IdPersonne'
-      }
+      },
+      unique: "CHARGER_ENQUETEUR_FK"
     }
   }, {
+    sequelize,
     tableName: 'charger'
-  });
+    });
 };

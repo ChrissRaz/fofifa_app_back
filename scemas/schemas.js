@@ -29,9 +29,14 @@ const base = gql`
         menages(IdEA: ID!):[MENAGE],
         menage(IdMenage: ID!,IdEA: ID!): MENAGE,
         associations: [ASSOCIATION],
-        association(IdAssoc: ID!):ASSOCIATION
+        association(IdAssoc: ID!):ASSOCIATION,
+
+
+        foncier (IdFonc: ID!):FONCIER,
+        fonciers (IdEA: ID!):[FONCIER],
+
     }
-      
+    
     type Mutation{
         newUser(groupe: GROUP!,userInfo: userInfo!, loginInfo: loginInfo): USER,
         updateUser(groupe: GROUP!,IdUser: ID!, userInfo: userInfo, loginInfo: loginInfo, actif: Boolean): USER,
@@ -90,7 +95,11 @@ const base = gql`
         addMOE(IdEA: ID!, personneInfo: personneInfo!, moisDebut: String! moisFin: String!,salaireMens: Float!, observation: String, IdTypeMOE: ID!, IdActivitPricip: ID ,avantages: [avantage_nat]):MOE,
         updateMOE(IdMOE: ID!,personneInfo: personneInfo!, moisDebut: String! moisFin: String!,salaireMens: Float!, observation: String, IdTypeMOE: ID!, IdActivitPricip: ID, avantages: [avantage_nat]):MOE,
         deleteMOE( IdMOE: ID!):Boolean,
-        
+
+
+        addFoncier(IdEA: ID!, nbParc: Int!,denom: String!,surface: Float!, anneAcquis: String!,  mntFonc: Float,cultive: Boolean!,observation: String, IdTypeTopo: ID!,IdModeAcquis: ID! IdTypeChamp: ID!,IdModeTenure: ID!,IdStatutFoncier: ID!): FONCIER,
+        updateFoncier(IdFonc: ID!):FONCIER,
+        deleteFoncier(IdFonc: ID!):Boolean,
 
         # addExistingMOEToEA(IdEA: ID!, IdMOE: ID!, moisDebut: String! moisFin: String!,salaireMens: Float!, observation: String, IdTypeMOE: ID!):MOE
 

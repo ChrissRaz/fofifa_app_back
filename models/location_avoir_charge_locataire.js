@@ -21,6 +21,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   }, {
+    sequelize,
     tableName: 'location_avoir_charge_locataire'
-  });
+    });
 };

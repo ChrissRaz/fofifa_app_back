@@ -3,10 +3,10 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('mission', {
     IdMission: {
+      autoIncrement: true,
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
+      primaryKey: true
     },
     commune: {
       type: DataTypes.STRING(75),
@@ -26,7 +26,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'descente',
         key: 'IdDescente'
-      }
+      },
+      unique: "MISSION_DESCENTE0_FK"
     },
     IdLieu: {
       type: DataTypes.INTEGER(11),
@@ -34,9 +35,11 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'lieu',
         key: 'IdLieu'
-      }
+      },
+      unique: "MISSION_LIEU1_FK"
     }
   }, {
+    sequelize,
     tableName: 'mission'
-  });
+    });
 };

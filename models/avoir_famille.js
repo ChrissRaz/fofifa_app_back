@@ -30,6 +30,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   }, {
+    sequelize,
     tableName: 'avoir_famille'
-  });
+    });
 };

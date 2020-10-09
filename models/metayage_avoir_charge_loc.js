@@ -8,7 +8,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'metayage',
         key: 'IdMet'
-      }
+      },
+      unique: "AVOIR_CHARGE2_METAYAGE_FK"
     },
     IdMet: {
       type: DataTypes.INTEGER(11),
@@ -16,9 +17,11 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'charge_locataire',
         key: 'IdChrg'
-      }
+      },
+      unique: "AVOIR_CHARGE2_CHARGE_FK"
     }
   }, {
+    sequelize,
     tableName: 'metayage_avoir_charge_loc'
-  });
+    });
 };

@@ -3,10 +3,10 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('materiel', {
     IdMat: {
+      autoIncrement: true,
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
+      primaryKey: true
     },
     qteMat: {
       type: DataTypes.INTEGER(11),
@@ -34,7 +34,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "MATERIEL_TYPE_FK"
     },
     IdEtatMat: {
       type: DataTypes.INTEGER(11),
@@ -42,13 +43,15 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "MATERIEL_ETAT_FK"
     },
     obs: {
       type: DataTypes.STRING(255),
       allowNull: false
     }
   }, {
+    sequelize,
     tableName: 'materiel'
-  });
+    });
 };

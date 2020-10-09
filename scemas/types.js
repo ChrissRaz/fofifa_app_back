@@ -195,5 +195,50 @@ module.exports = gql`
     }
 
 
+    type FONCIER {
+        IdFonc: ID!,
+        nbParc: Int!,
+        denom: String!,
+        surface: Float!,
+        anneAcquis: String!,
+        mode_acqui: PARAM!,
+        mntFonc: Float,
+        cultive: Boolean!,
+        type_champ: PARAM!,
+        toposequence: PARAM!,
+        mode_tenure: PARAM!,
+        statut_foncier: PARAM!,
+        observation: String,
+        location: [LOCATION],
+        metayage: [METAYAGE]
+    }
+
+    type LOCATION {
+        IdLoc: ID!,
+        mntLoc: Float!,
+        dureeLoc: Int!,
+        nbParc: Int!,
+        observation: String,
+        chargeLocataire: CHARGE_LOCATAIRE
+    }
+
+    type METAYAGE {
+        IdMet: ID!,
+        pu: Float!,
+        qte: Float!,
+        dureeMet: Float!,
+        nbParc: Int!,
+        type_culture: PARAM!,
+        observation: String,
+        chargeLocataire: CHARGE_LOCATAIRE
+    }
+
+    type CHARGE_LOCATAIRE {
+        IdChrg: ID!,
+        pu: Float!,
+        qte: Float,
+        unite: String!
+    }
+
 `;
 

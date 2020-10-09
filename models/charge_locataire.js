@@ -3,10 +3,10 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('charge_locataire', {
     IdChrg: {
+      autoIncrement: true,
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
+      primaryKey: true
     },
     pu: {
       type: DataTypes.FLOAT,
@@ -21,6 +21,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     }
   }, {
+    sequelize,
     tableName: 'charge_locataire'
-  });
+    });
 };

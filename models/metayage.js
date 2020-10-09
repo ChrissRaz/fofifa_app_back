@@ -3,10 +3,10 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('metayage', {
     IdMet: {
+      autoIncrement: true,
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
+      primaryKey: true
     },
     pu: {
       type: DataTypes.FLOAT,
@@ -34,7 +34,8 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'foncier',
         key: 'IdFonc'
-      }
+      },
+      unique: "METAYAGE_FONCIER_FK"
     },
     IdTypeCult: {
       type: DataTypes.INTEGER(11),
@@ -42,9 +43,11 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'param_divers',
         key: 'IdParam'
-      }
+      },
+      unique: "METYAGE_CULTURE_FK"
     }
   }, {
+    sequelize,
     tableName: 'metayage'
-  });
+    });
 };

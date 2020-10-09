@@ -26,9 +26,10 @@ module.exports = function(sequelize, DataTypes) {
     actif: {
       type: DataTypes.INTEGER(4),
       allowNull: false,
-      defaultValue: '1'
+      defaultValue: 1
     }
   }, {
+    sequelize,
     tableName: 'fofifapers'
-  });
+    });
 };
