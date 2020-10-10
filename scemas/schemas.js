@@ -35,6 +35,12 @@ const base = gql`
         foncier (IdFonc: ID!):FONCIER,
         fonciers (IdEA: ID!):[FONCIER],
 
+        location (IdLoc: ID!):LOCATION,
+        locations (IdFoncier: ID!):[LOCATION],
+
+        metayage (IdMet: ID!):METAYAGE,
+        metayages (IdFoncier: ID!):[METAYAGE]
+
     }
     
     type Mutation{
@@ -100,6 +106,15 @@ const base = gql`
         addFoncier(IdEA: ID!, nbParc: Int!,denom: String!,surface: Float!, anneAcquis: String!,  mntFonc: Float,cultive: Boolean!,observation: String, IdTypeTopo: ID!,IdModeAcquis: ID! IdTypeChamp: ID!,IdModeTenure: ID!,IdStatutFoncier: ID!): FONCIER,
         updateFoncier(IdFonc: ID!):FONCIER,
         deleteFoncier(IdFonc: ID!):Boolean,
+
+
+        addLocation(IdFoncier: ID!, mntLoc: Float!,dureeLoc: Int!,nbParc: Int!,observation: String):LOCATION,
+        updateLocation(IdLoc: ID!,mntLoc: Float!,dureeLoc: Int!,nbParc: Int!,observation: String):LOCATION,
+        deleteLocation(IdLoc: ID!):Boolean,
+
+        addMetayage(IdFoncier: ID!, pu: Float!, qte: Float!, dureeMet: Float!, nbParc: Int!, observation: String,IdTypeCult: ID!):METAYAGE,
+        updateMetayage(IdMet: ID!, pu: Float!, qte: Float!, dureeMet: Float!, nbParc: Int!, observation: String,IdTypeCult: ID!):METAYAGE,
+        deleteMetayage(IdMet: ID!):Boolean,
 
         # addExistingMOEToEA(IdEA: ID!, IdMOE: ID!, moisDebut: String! moisFin: String!,salaireMens: Float!, observation: String, IdTypeMOE: ID!):MOE
 

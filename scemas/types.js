@@ -180,7 +180,8 @@ module.exports = gql`
         dateEnquete: String!
         status: PARAM!,
         menages: [MENAGE],
-        moes: [MOE]
+        moes: [MOE],
+        fonciers: [FONCIER]
     }
 
     type ASSOCIATION{

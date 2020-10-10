@@ -7,6 +7,7 @@ const Crypto = require('node-crypt');
 
 const { login_hash } = require("../config/constants");
 
+let paramAttributes = ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]];
 
 module.exports = {
     DESCENTE: {
@@ -247,9 +248,18 @@ module.exports = {
         },
         moes: async (_, args, context) => {
 
-            // console.log(_);
-
             let res = await model.moe.findAll({
+                raw: true,
+                where: {
+                    IdEA: _.IdEA
+                },
+
+            });
+
+            return res;
+        },
+        fonciers: async (_, args, context) => {
+            let res = await model.foncier.findAll({
                 raw: true,
                 where: {
                     IdEA: _.IdEA
@@ -272,7 +282,7 @@ module.exports = {
                     tableParam: param_tabes.activite
                 },
                 raw: true,
-                attributes: ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]],
+                attributes: paramAttributes,
             });
 
             // console.log(res);
@@ -288,7 +298,7 @@ module.exports = {
                     tableParam: param_tabes.activite
                 },
                 raw: true,
-                attributes: ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]],
+                attributes: paramAttributes,
             });
         },
         autreSourceRevenu: async (_, args, context) => {
@@ -299,7 +309,7 @@ module.exports = {
                     tableParam: param_tabes.activite
                 },
                 raw: true,
-                attributes: ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]],
+                attributes: paramAttributes,
             });
         },
         nivScolaireAct: async (_, args, context) => {
@@ -310,7 +320,7 @@ module.exports = {
                     tableParam: param_tabes.niv_sco
                 },
                 raw: true,
-                attributes: ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]],
+                attributes: paramAttributes,
             });
         },
         nivScolaireAtteint: async (_, args, context) => {
@@ -321,7 +331,7 @@ module.exports = {
                     tableParam: param_tabes.niv_sco
                 },
                 raw: true,
-                attributes: ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]],
+                attributes: paramAttributes,
             });
         },
         relatioAvecCE: async (_, args, context) => {
@@ -390,7 +400,7 @@ module.exports = {
                     IdParam: _.IdType,
                     tableParam: param_tabes.type_op
                 },
-                attributes: ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]],
+                attributes: paramAttributes,
             });
         },
     },
@@ -413,7 +423,7 @@ module.exports = {
 
             return await model.param_divers.findByPk(_.IdActPcpl, {
                 raw: true,
-                attributes: ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]],
+                attributes: paramAttributes,
             });
 
         },
@@ -452,6 +462,7 @@ module.exports = {
             });
         },
     },
+
     ANVANTAGE_NAT: {
         type: async (_, args, context) => {
 
@@ -461,10 +472,81 @@ module.exports = {
                     // tableParam: param_tabes.type_av_nat
                 },
                 raw: true,
-                attributes: ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]],
+                attributes: paramAttributes,
             });
         },
 
+    },
+
+    FONCIER: {
+
+
+
+        // location: [LOCATION],
+        // metayage: [METAYAGE]
+
+        mode_acqui: async (_, args, context) => {
+
+            return await model.param_divers.findByPk(_.IdModeAcquis, {
+                raw: true,
+                attributes: paramAttributes,
+            });
+
+        },
+        type_champ: async (_, args, context) => {
+
+            return await model.param_divers.findByPk(_.IdTypeChamp, {
+                raw: true,
+                attributes: paramAttributes,
+            });
+
+        },
+        toposequence: async (_, args, context) => {
+
+            return await model.param_divers.findByPk(_.IdTypeTopo, {
+                raw: true,
+                attributes: paramAttributes,
+            });
+
+        },
+        mode_tenure: async (_, args, context) => {
+
+            return await model.param_divers.findByPk(_.IdModeTenure, {
+                raw: true,
+                attributes: paramAttributes,
+            });
+
+        },
+
+        statut_foncier: async (_, args, context) => {
+
+            return await model.param_divers.findByPk(_.IdStatutFoncier, {
+                raw: true,
+                attributes: paramAttributes,
+            });
+
+        },
+
+        metayage: async (_, args, context) => {
+
+            // return await model.param_divers.findByPk(_.IdModeAcquis, {
+            //     raw: true,
+            //     attributes: ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]],
+            // });
+
+            return [];
+
+        },
+
+        location: async (_, args, context) => {
+
+            // return await model.param_divers.findByPk(_.IdModeAcquis, {
+            //     raw: true,
+            //     attributes: ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]],
+            // });
+            return [];
+
+        },
     }
 
 };

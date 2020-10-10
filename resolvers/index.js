@@ -11,6 +11,8 @@ const ea = require("./ea");
 const menage = require("./menage");
 const moe = require("./moe");
 const foncier = require("./foncier");
+const location = require('./location');
+const metayage = require("./metayage");
 
 
 module.exports = {
@@ -26,7 +28,9 @@ module.exports = {
         ...ea.Query,
         ...menage.Query,
         ...moe.Query,
-        ...foncier.Query
+        ...foncier.Query,
+        ...location.Query,
+        ...metayage.Query
     },
     Mutation: {
         ...user.Mutation,
@@ -36,7 +40,9 @@ module.exports = {
         ...ea.Mutation,
         ...menage.Mutation,
         ...moe.Mutation,
-        ...foncier.Mutation
+        ...foncier.Mutation,
+        ...location.Mutation,
+        ...metayage.Mutation
     },
 };
 

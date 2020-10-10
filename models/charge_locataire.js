@@ -19,6 +19,15 @@ module.exports = function(sequelize, DataTypes) {
     unite: {
       type: DataTypes.STRING(10),
       allowNull: false
+    },
+    IdAaction: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        model: 'metayage',
+        key: 'IdMet'
+      },
+      unique: "MATAYAGE_CHARGE_FK"
     }
   }, {
     sequelize,
