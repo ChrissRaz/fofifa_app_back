@@ -11,7 +11,9 @@ const sequelize = new Sequelize(connexion.database, connexion.user, connexion.pa
   define: {
     createdAt: false,
     updatedAt: false
-  }
+  },
+  logging: false
+
 });
 
 sequelize

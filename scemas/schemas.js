@@ -25,6 +25,7 @@ const base = gql`
 
         EAs(IdMission: ID, IdEnqueteur: ID): [EA],
         EA(IdEA: ID):EA,
+        EAOfConnectedUser:[String],
 
         menages(IdEA: ID!):[MENAGE],
         menage(IdMenage: ID!,IdEA: ID!): MENAGE,
@@ -40,6 +41,9 @@ const base = gql`
 
         metayage (IdMet: ID!):METAYAGE,
         metayages (IdFoncier: ID!):[METAYAGE]
+
+
+
 
     }
     

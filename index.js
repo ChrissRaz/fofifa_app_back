@@ -10,6 +10,8 @@ const cors = require('cors');
 
 const cntts = require('./config/constants');
 
+const RestAPIROutes = require("./router/restAPI")
+
 //
 const db = require("./helpers/db");
 
@@ -48,6 +50,8 @@ app.use(apiRoute, graphqlHTTP((request, response, graphQLParams) =>
 
 ));
 
+//routes installation
+app.use("/rest", RestAPIROutes);
 
 //server instantiation
 let http = require('http').Server(app);

@@ -241,5 +241,27 @@ module.exports = gql`
         unite: String!
     }
 
+
+    # type STATS {
+    #     renteFoncier: 
+    # }
+
+    # type RENTE_FONCIER {
+    #     Num_EA: ID!
+    #     S_Rente_Loc: Float
+    #     S_Rente_Loc_Tanety
+    #     S_Rente_Loc_Baiboho
+    #     S_Rente_Loc_RMME
+    #     S_Rente_Loc_RI
+    #     S_Rente_Met
+    #     S_Rente_Met_Tanety
+    #     S_Rente_Met_Baiboho
+    #     S_Rente_Met_RMME
+    #     S_Rente_Met_RI
+    #     V_Foncier_Rente_Loc
+    #     V_Foncier_Rente_Met
+
+    # }
+
 `;
 

@@ -25,7 +25,7 @@ module.exports = {
                 expiration: expiration_login
             };
 
-            console.log(args);
+            // console.log(args);
 
             let groupe = null;
 
@@ -150,7 +150,7 @@ module.exports = {
                 delete crypto;
             });
 
-            console.log(res);
+            // console.log(res);
 
 
             return res;
@@ -302,7 +302,7 @@ module.exports = {
                         actif: args.actif
                     };
                 }
-                console.log(userInfoToUp);
+                // console.log(userInfoToUp);
 
 
                 await model.fofifapers.update(userInfoToUp, {

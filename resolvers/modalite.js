@@ -102,9 +102,9 @@ module.exports = {
                 throw new Error(msg.notConnectedUser);
             }
 
-            if (context.req.auth.userInfo.groupe != "CHERCHEUR" && context.req.auth.userInfo.groupe != "ENQUETEUR") {
-                throw new Error(msg.notAllowedApi);
-            }
+            // if (context.req.auth.userInfo.groupe != "CHERCHEUR" && context.req.auth.userInfo.groupe != "ENQUETEUR") {
+            //     throw new Error(msg.notAllowedApi);
+            // }
 
             let status = true;
 
@@ -129,9 +129,9 @@ module.exports = {
                 throw new Error(msg.notConnectedUser);
             }
 
-            if (context.req.auth.userInfo.groupe != "CHERCHEUR" && context.req.auth.userInfo.groupe != "ENQUETEUR") {
-                throw new Error(msg.notAllowedApi);
-            }
+            // if (context.req.auth.userInfo.groupe != "CHERCHEUR" && context.req.auth.userInfo.groupe != "ENQUETEUR") {
+            //     throw new Error(msg.notAllowedApi);
+            // }
 
             return await model.param_divers.findOne({
                 raw: true,

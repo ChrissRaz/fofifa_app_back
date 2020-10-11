@@ -529,24 +529,45 @@ module.exports = {
 
         metayage: async (_, args, context) => {
 
-            // return await model.param_divers.findByPk(_.IdModeAcquis, {
-            //     raw: true,
-            //     attributes: ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]],
-            // });
+            let res = await model.metayage.findAll(
+                {
+                    raw: true,
+                    where: {
+                        IdFoncier: _.IdFonc
+                    }
+                }
+            );
 
-            return [];
+            return res;
 
         },
 
         location: async (_, args, context) => {
 
-            // return await model.param_divers.findByPk(_.IdModeAcquis, {
-            //     raw: true,
-            //     attributes: ["IdParam", ["tableParam", "table"], ["codeParam", "code"], ["val_param", "val"], ["status_param", "status"]],
-            // });
-            return [];
+            let res = await model.location.findAll(
+                {
+                    raw: true,
+                    where: {
+                        IdFoncier: _.IdFonc
+                    }
+                }
+            );
+
+            return res;
 
         },
+    },
+
+    METAYAGE: {
+        type_culture: async (_, args, context) => {
+            return await model.param_divers.findOne({
+                where: {
+                    IdParam: _.IdTypeCult,
+                },
+                raw: true,
+                attributes: paramAttributes,
+            });
+        }
     }
 
 };

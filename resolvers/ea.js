@@ -67,7 +67,27 @@ module.exports = {
                 }
             });
         },
+
+        EAOfConnectedUser: async (_, args, context) => {
+            if (!context.req.auth.connected) {
+                throw new Error(msg.notConnectedUser);
+            }
+
+            let IdUser = context.req.auth.userInfo.IdPersonne;
+
+            let res = await model.saisir.findAll({
+                raw: true,
+                where: {
+                    IdPersonne: IdUser,
+                    is_creator: true
+                }
+            });
+
+            return res.map(el => el.IdEA);
+        },
     },
+
+
 
     Mutation: {
 
@@ -76,6 +96,8 @@ module.exports = {
             if (!context.req.auth.connected) {
                 throw new Error(msg.notConnectedUser);
             }
+
+            let IdUser = context.req.auth.userInfo.IdPersonne;
 
             let charger = await model.charger.findOne({
                 raw: true,
@@ -108,6 +130,14 @@ module.exports = {
             });
 
             // helpers.saisir(context.req.auth.userInfo.IdPersonne, added.dataValues.IdEA);
+
+            //ajout dans histrorique
+
+            await model.saisir.create({
+                IdPersonne: IdUser,
+                IdEA: added.IdEA,
+                is_creator: true
+            })
 
             return added.dataValues;
         },

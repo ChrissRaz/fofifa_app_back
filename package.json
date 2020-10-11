@@ -37,6 +37,8 @@
     "mysql2": "^2.1.0",
     "node-crypt": "^2.0.0",
     "sequelize": "^5.21.3",
-    "socket.io": "^2.3.0"
+    "snake-case": "^3.0.3",
+    "socket.io": "^2.3.0",
+    "to-snake-case": "^1.0.0"
   }
 }

@@ -2,6 +2,9 @@ const msg = require("../config/messages");
 
 const model = require("../models/models");
 
+const seq = require('sequelize');
+
+
 module.exports = {
   Query: {
     descentes: async (_, args, context) => {
@@ -9,12 +12,31 @@ module.exports = {
         throw new Error(msg.notConnectedUser);
       }
 
+      let res = [];
 
       if (!context.req.auth.connected) {
         throw new Error(msg.notConnectedUser);
       }
 
-      let res = await model.descente.findAll();
+      console.log(context.req.auth.userInfo);
+
+      if (context.req.auth.userInfo.groupe == "SAISISSEUR") {
+        console.log('Id saisisseur ', context.req.auth.userInfo.IdPersonne);
+
+        res = await context.database.query(`
+          SELECT descente.* FROM descente INNER JOIN affecter as af ON af.IdDescente = descente.IdDescente WHERE af.IdPersonne =:idp`,
+          {
+            replacements: {
+              idp: context.req.auth.userInfo.IdPersonne
+            }, type: seq.QueryTypes.SELECT
+          });
+
+        console.log(res);
+
+      } else {
+        console.log("bbbbbbbbbbbbbbbbbbbb");
+        res = await model.descente.findAll();
+      }
 
       return res;
     },
